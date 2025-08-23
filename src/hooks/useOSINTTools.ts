@@ -7,22 +7,22 @@ export function useOSINTTools() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadTools() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await fetchOSINTTools();
-        setTools(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Ukjent feil');
-      } finally {
-        setLoading(false);
-      }
+  const loadTools = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await fetchOSINTTools();
+      setTools(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ukjent feil');
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     loadTools();
   }, []);
 
-  return { tools, loading, error, refetch: () => loadTools() };
+  return { tools, loading, error, refetch: loadTools };
 }
