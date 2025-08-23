@@ -2,7 +2,7 @@
   "name": "Sporjeger",
   "short_name": "Sporjeger",
   "description": "Verktøykasse for digital skattejakt",
-  "theme_color": "#2563eb",
+  "theme_color": "#1B4332",
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
