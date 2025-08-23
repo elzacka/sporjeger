@@ -1,7 +1,7 @@
 {
   "name": "Sporjeger",
   "short_name": "Sporjeger",
-  "description": "En samling av OSINT-verktøy for norske sporjegere",
+  "description": "Verktøykasse for digital skattejakt",
   "theme_color": "#2563eb",
   "background_color": "#ffffff",
   "display": "standalone",
