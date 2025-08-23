@@ -1,4 +1,4 @@
-# OSINT Verktøy
+# Sporjeger
 
 En modern norsk webapp for OSINT-verktøy og ressurser. Bygget med React 19, TypeScript og Vite.
 

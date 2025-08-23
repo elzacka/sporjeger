@@ -1,4 +1,4 @@
-const CACHE_NAME = 'osint-verktoy-v1';
+const CACHE_NAME = 'sporjeger-v1';
 const STATIC_CACHE_URLS = [
   '/',
   '/static/js/bundle.js',

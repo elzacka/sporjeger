@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/osint-verktoy/',
+  base: '/sporjeger/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

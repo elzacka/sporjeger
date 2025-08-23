@@ -1,7 +1,7 @@
 {
-  "name": "OSINT Verktøy",
-  "short_name": "OSINT Tools",
-  "description": "En samling av OSINT-verktøy for norske brukere",
+  "name": "Sporjeger",
+  "short_name": "Sporjeger",
+  "description": "En samling av OSINT-verktøy for norske sporjegere",
   "theme_color": "#2563eb",
   "background_color": "#ffffff",
   "display": "standalone",

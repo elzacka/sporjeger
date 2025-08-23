@@ -114,7 +114,7 @@ function App() {
         <div className="header-content">
           <h1 className="app-title">
             <span className="material-symbols-outlined">search</span>
-            OSINT Verktøy
+            Sporjeger
           </h1>
           
           <div className="header-actions">
