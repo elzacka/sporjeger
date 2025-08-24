@@ -90,7 +90,7 @@ function App() {
       <div className="app loading-state">
         <div className="loading-spinner">
           <span className="material-symbols-outlined">sync</span>
-          <p>Laster OSINT-verktøy...</p>
+          <p>Laster Sporjeger...</p>
         </div>
       </div>
     );
