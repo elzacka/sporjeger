@@ -112,10 +112,13 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <h1 className="app-title">
-            <span className="material-symbols-outlined">search</span>
-            Sporjeger
-          </h1>
+          <div className="app-title">
+            <h1 className="app-name">
+              <span className="material-symbols-outlined">network_intel_node</span>
+              Sporjeger
+            </h1>
+            <p className="app-tagline">Verktøykasse for digital skattejakt</p>
+          </div>
           
           <div className="header-actions">
             <button

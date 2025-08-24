@@ -91,6 +91,13 @@ body {
 
 .app-title {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.app-name {
+  display: flex;
   align-items: center;
   gap: 0.75rem;
   font-size: 1.5rem;
@@ -99,9 +106,17 @@ body {
   color: var(--text);
 }
 
-.app-title .material-symbols-outlined {
+.app-name .material-symbols-outlined {
   font-size: 1.75rem;
   color: var(--primary);
+}
+
+.app-tagline {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  font-style: italic;
 }
 
 .header-actions {
@@ -584,8 +599,12 @@ body {
     gap: 1rem;
   }
   
-  .app-title {
+  .app-name {
     font-size: 1.25rem;
+  }
+  
+  .app-tagline {
+    font-size: 0.8rem;
   }
   
   .main-content {
