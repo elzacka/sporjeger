@@ -6,9 +6,23 @@ interface ToolCardProps {
 }
 
 export function ToolCard({ tool, onCopyUrl }: ToolCardProps) {
-  const isGratis = tool.kostnad.toLowerCase().includes('gratis') || 
-                  tool.kostnad.toLowerCase().includes('free') ||
+  const kostnadLower = tool.kostnad.toLowerCase();
+  const isGratis = kostnadLower.includes('gratis') || 
+                  kostnadLower.includes('free') ||
                   tool.kostnad === '';
+  const isGratisMedKjop = kostnadLower.includes('gratis med kjøp');
+  
+  const getCostType = () => {
+    if (isGratisMedKjop) return 'gratis_med_kjop';
+    if (isGratis) return 'free';
+    return 'paid';
+  };
+  
+  const getCostText = () => {
+    if (isGratisMedKjop) return 'Gratis med kjøp';
+    if (isGratis) return 'Gratis';
+    return 'Betalt';
+  };
 
   const handleCopyUrl = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,8 +52,8 @@ export function ToolCard({ tool, onCopyUrl }: ToolCardProps) {
       <div className="tool-card-header">
         <h3 className="tool-name">{tool.navn}</h3>
         <div className="tool-actions">
-          <span className={`cost-badge ${isGratis ? 'free' : 'paid'}`}>
-            {isGratis ? 'Gratis' : 'Betalt'}
+          <span className={`cost-badge ${getCostType()}`}>
+            {getCostText()}
           </span>
           <button
             className="copy-button"

@@ -13,7 +13,7 @@ export interface SheetData {
 
 export interface FilterState {
   category: string;
-  costType: 'all' | 'gratis' | 'betalt';
+  costType: 'all' | 'gratis' | 'betalt' | 'gratis_med_kjop';
   searchQuery: string;
 }
 

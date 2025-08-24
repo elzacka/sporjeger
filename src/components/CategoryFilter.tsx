@@ -2,8 +2,8 @@ interface CategoryFilterProps {
   categories: string[];
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
-  selectedCostType: 'all' | 'gratis' | 'betalt';
-  onCostTypeChange: (costType: 'all' | 'gratis' | 'betalt') => void;
+  selectedCostType: 'all' | 'gratis' | 'betalt' | 'gratis_med_kjop';
+  onCostTypeChange: (costType: 'all' | 'gratis' | 'betalt' | 'gratis_med_kjop') => void;
 }
 
 export function CategoryFilter({ 
@@ -35,12 +35,13 @@ export function CategoryFilter({
         <label className="filter-label">Kostnad:</label>
         <select 
           value={selectedCostType} 
-          onChange={(e) => onCostTypeChange(e.target.value as 'all' | 'gratis' | 'betalt')}
+          onChange={(e) => onCostTypeChange(e.target.value as 'all' | 'gratis' | 'betalt' | 'gratis_med_kjop')}
           className="filter-select"
         >
           <option value="all">Alle</option>
           <option value="gratis">Gratis</option>
           <option value="betalt">Betalt</option>
+          <option value="gratis_med_kjop">Gratis med kjøp</option>
         </select>
       </div>
     </div>

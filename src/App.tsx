@@ -32,14 +32,20 @@ function App() {
 
     // Cost filter
     if (filters.costType !== 'all') {
-      const isGratis = tool.kostnad.toLowerCase().includes('gratis') || 
-                      tool.kostnad.toLowerCase().includes('free') ||
+      const kostnadLower = tool.kostnad.toLowerCase();
+      const isGratis = kostnadLower.includes('gratis') || 
+                      kostnadLower.includes('free') ||
                       tool.kostnad === '';
+      const isGratisMedKjop = kostnadLower.includes('gratis med kjøp');
+      const isBetalt = !isGratis && !isGratisMedKjop;
       
       if (filters.costType === 'gratis' && !isGratis) {
         return false;
       }
-      if (filters.costType === 'betalt' && isGratis) {
+      if (filters.costType === 'betalt' && !isBetalt) {
+        return false;
+      }
+      if (filters.costType === 'gratis_med_kjop' && !isGratisMedKjop) {
         return false;
       }
     }
