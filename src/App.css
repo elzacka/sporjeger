@@ -515,7 +515,8 @@ body {
 /* Loading & Error States */
 .loading-state,
 .error-state {
-  display: flex;
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
