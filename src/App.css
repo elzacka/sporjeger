@@ -527,10 +527,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   max-width: 400px;
   margin: 0 auto;
   padding: 2rem;
+  text-align: center;
 }
 
 .loading-spinner .material-symbols-outlined {
