@@ -67,7 +67,7 @@ export function CommandPalette({ isOpen, onClose, tools, onSelectTool }: Command
           <input
             ref={inputRef}
             type="text"
-            placeholder="Søk etter OSINT-verktøy..."
+            placeholder="Søk etter verktøy..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
