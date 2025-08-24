@@ -1,9 +1,7 @@
 const CACHE_NAME = 'sporjeger-v1';
 const STATIC_CACHE_URLS = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
+  '/sporjeger/',
+  '/sporjeger/manifest.json'
 ];
 
 const SHEETS_API_CACHE = 'sheets-api-cache';
@@ -81,7 +79,7 @@ self.addEventListener('fetch', event => {
         .catch(() => {
           // Return offline page or cached content
           if (request.destination === 'document') {
-            return caches.match('/');
+            return caches.match('/sporjeger/');
           }
           return new Response('Offline', { status: 503 });
         })
