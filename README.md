@@ -1,6 +1,6 @@
 # Sporjeger
 
-🔍 A modern Norwegian web application for OSINT (Open Source Intelligence) tools and resources. Built with React 19, TypeScript, and Vite.
+🔍 A Norwegian web application for OSINT (Open Source Intelligence) tools and resources. Built with React 19, TypeScript, and Vite.
 
 **Live Demo**: [sporjeger.elzacka.github.io](https://elzacka.github.io/sporjeger/)
 
