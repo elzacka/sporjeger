@@ -5,6 +5,7 @@ export interface OSINTTool {
   beskrivelse: string;
   kostnad: string;
   detaljer: string;
+  språk: string;
 }
 
 export interface SheetData {
@@ -12,8 +13,8 @@ export interface SheetData {
 }
 
 export interface FilterState {
-  category: string;
-  costType: 'all' | 'gratis' | 'betalt' | 'gratis_med_kjop';
+  categories: string[];
+  costTypes: string[];
   searchQuery: string;
 }
 

@@ -3,12 +3,12 @@ import type { Theme } from '../types';
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'light';
-    
+    if (typeof window === 'undefined') return 'dark';
+
     const stored = localStorage.getItem('theme');
     if (stored === 'light' || stored === 'dark') return stored;
-    
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+    return 'dark';
   });
 
   useEffect(() => {

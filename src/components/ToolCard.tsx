@@ -2,10 +2,9 @@ import type { OSINTTool } from '../types';
 
 interface ToolCardProps {
   tool: OSINTTool;
-  onCopyUrl: (url: string) => void;
 }
 
-export function ToolCard({ tool, onCopyUrl }: ToolCardProps) {
+export function ToolCard({ tool }: ToolCardProps) {
   const kostnadLower = tool.kostnad.toLowerCase();
   const isGratis = kostnadLower.includes('gratis') || 
                   kostnadLower.includes('free') ||
@@ -22,12 +21,6 @@ export function ToolCard({ tool, onCopyUrl }: ToolCardProps) {
     if (isGratisMedKjop) return 'Gratis med kjøp';
     if (isGratis) return 'Gratis';
     return 'Betalt';
-  };
-
-  const handleCopyUrl = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onCopyUrl(tool.url);
   };
 
   const handleOpenUrl = () => {
@@ -51,31 +44,26 @@ export function ToolCard({ tool, onCopyUrl }: ToolCardProps) {
     >
       <div className="tool-card-header">
         <h3 className="tool-name">{tool.navn}</h3>
-        <div className="tool-actions">
-          <span className={`cost-badge ${getCostType()}`}>
-            {getCostText()}
-          </span>
-          <button
-            className="copy-button"
-            onClick={handleCopyUrl}
-            title="Kopier URL"
-            aria-label="Kopier URL til utklippstavle"
-          >
-            <span className="material-symbols-outlined">content_copy</span>
-          </button>
-        </div>
       </div>
       
       {tool.beskrivelse && (
         <p className="tool-description">{tool.beskrivelse}</p>
       )}
       
-      {tool.detaljer && (
+      {tool.detaljer && tool.detaljer !== '🇳🇴 Norsk' && (
         <p className="tool-details">{tool.detaljer}</p>
       )}
-      
+
       <div className="tool-footer">
-        <span className="tool-category">{tool.kategori}</span>
+        <div className="tool-tags">
+          <span className="tool-category">{tool.kategori}</span>
+          <span className={`tool-cost-tag ${getCostType()}`}>
+            {getCostText()}
+          </span>
+          {(tool.språk === 'Norsk' || tool.detaljer === '🇳🇴 Norsk') && (
+            <span className="norwegian-flag" title="Norsk">🇳🇴</span>
+          )}
+        </div>
         {tool.url && (
           <span className="tool-url">
             {new URL(tool.url).hostname}

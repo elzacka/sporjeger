@@ -1,8 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#2563eb">
-  <circle cx="6" cy="6" r="2"/>
-  <circle cx="18" cy="6" r="2"/>
-  <circle cx="6" cy="18" r="2"/>
-  <circle cx="18" cy="18" r="2"/>
-  <circle cx="12" cy="12" r="3"/>
-  <path d="M323-160q-11 0-20.5-5.5T288-181l-78-139h58l40 80h92v-40h-68l-40-80H188l-57-100q-2-5-3.5-10t-1.5-10q0-4 5-20l57-100h104l40-80h68v-40h-92l-40 80h-58l78-139q5-10 14.5-15.5T323-800h97q17 0 28.5 11.5T460-760v160h-60l-40 40h100v120h-88l-40-80h-92l-40 40h108l40 80h112v200q0 17-11.5 28.5T420-160h-97Zm237 0q-33 0-56.5-23.5T480-240q0-23 11-40.5t29-28.5v-342q-18-11-29-28.5T480-720q0-33 23.5-56.5T560-800q33 0 56.5 23.5T640-720q0 23-11 40.5T600-651v101l80-48q0-34 23.5-58t56.5-24q33 0 56.5 23.5T840-600q0 33-23.5 56.5T760-520q-11 0-20.5-2.5T721-530l-91 55 101 80q7-3 14-4t15-1q33 0 56.5 23.5T840-320q0 33-23.5 56.5T760-240q-37 0-60.5-28T681-332l-81-65v89q18 11 28.5 28.5T639-240q0 33-23 56.5T560-160Z" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- Connections -->
+  <line x1="12" y1="12" x2="24" y2="24" stroke="#00ff41" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.6"/>
+  <line x1="12" y1="36" x2="24" y2="24" stroke="#00ff41" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.6"/>
+  <line x1="24" y1="24" x2="36" y2="12" stroke="#00ff41" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.6"/>
+  <line x1="24" y1="24" x2="36" y2="36" stroke="#00ff41" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.6"/>
+  <line x1="12" y1="12" x2="36" y2="12" stroke="#00ff41" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.6"/>
+  <line x1="12" y1="36" x2="36" y2="36" stroke="#00ff41" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.6"/>
+
+  <!-- Nodes -->
+  <circle cx="12" cy="12" r="4" fill="none" stroke="#00ff41" stroke-width="2"/>
+  <circle cx="12" cy="36" r="4" fill="none" stroke="#00ff41" stroke-width="2"/>
+  <circle cx="24" cy="24" r="5" fill="#00ff41" fill-opacity="0.2" stroke="#00ff41" stroke-width="2"/>
+  <circle cx="36" cy="12" r="4" fill="none" stroke="#00ff41" stroke-width="2"/>
+  <circle cx="36" cy="36" r="4" fill="none" stroke="#00ff41" stroke-width="2"/>
 </svg>
