@@ -170,8 +170,8 @@ body::before {
 
 
 .neural-icon {
-  width: 2rem;
-  height: 2rem;
+  width: 1.875rem;
+  height: 1.875rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -1032,10 +1032,11 @@ body::before {
 .error-state {
   display: flex !important;
   flex-direction: column !important;
-  align-items: center;
-  justify-content: center;
+  align-items: center !important;
+  justify-content: center !important;
   min-height: 100vh;
   text-align: center;
+  width: 100%;
 }
 
 .loading-spinner,

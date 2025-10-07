@@ -2,24 +2,26 @@
 
 🔍 A Norwegian web application for OSINT (Open Source Intelligence) tools and resources. Built with React 19, TypeScript, and Vite.
 
-**Live Demo**: [sporjeger.elzacka.github.io](https://elzacka.github.io/sporjeger/)
+**Live Demo**: [elzacka.github.io/sporjeger](https://elzacka.github.io/sporjeger/)
 
 ## Features
 
-- 🔍 **Text-first search** - CMD+K command palette for quick navigation
-- 📱 **Responsive design** - Optimized for mobile and desktop
-- 🌙 **Dark/light mode** - Automatic theme detection with manual toggle
+- 🔍 **Text-first search** - CMD+K command palette for quick navigation and searching
+- 📱 **Responsive design** - Optimized for mobile and desktop with collapsible filters
+- 🌙 **Dark mode** - Persistent dark theme stored in localStorage
 - 📊 **Google Sheets integration** - Live data from Google Sheets
 - ⚡ **PWA support** - Offline functionality with service workers
-- 🏷️ **Category and filtering** - Filter by category and cost type
-- 📋 **Copy URL** - Easy copying of tool URLs
-- 🚀 **Fast performance** - Modern build tools and optimizations
+- 🏷️ **Multi-select filtering** - Filter by multiple categories and cost types (Gratis, Betalt, Gratis med kjøp)
+- 🇳🇴 **Norwegian tools indicator** - Visual flag indicators for Norwegian-specific tools
+- 🚀 **Fast performance** - Modern build tools with code splitting and optimizations
+- 🎨 **Matrix-inspired design** - Neural network themed interface with custom animations
 
 ## Tech Stack
 
-- **Frontend**: React 19 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Custom CSS
+- **Frontend**: React 19.1.1 + TypeScript 5.8.3
+- **Build Tool**: Vite 7.1.2
+- **Styling**: Custom CSS with Matrix-inspired theme
+- **Icons**: Google Material Symbols
 - **Data Source**: Google Sheets API
 - **PWA**: Service Worker for offline support
 - **Deployment**: GitHub Pages
@@ -80,10 +82,18 @@ npm run preview
 
 The application fetches data from a Google Sheet with the following structure:
 
-| Column A | Column B | Column C | Column D | Column E | Column F |
-|----------|----------|----------|----------|----------|----------|
-| Kategori | Navn     | URL      | Beskrivelse | Kostnad | Detaljer |
-| Category | Name     | URL      | Description | Cost    | Details  |
+| Column A | Column B | Column C | Column D | Column E | Column F | Column G |
+|----------|----------|----------|----------|----------|----------|----------|
+| Kategori | Navn     | URL      | Beskrivelse | Kostnad | Detaljer | Språk |
+| Category | Name     | URL      | Description | Cost    | Details  | Language |
+
+**Cost Types:**
+- `Gratis` or `Free` - Free tools
+- `Betalt` - Paid tools
+- `Gratis med kjøp` - Free with purchase/upgrade options
+
+**Language:**
+- Set to `Norsk` to display the Norwegian flag (🇳🇴) indicator
 
 ### Required Setup:
 
@@ -97,20 +107,21 @@ The application fetches data from a Google Sheet with the following structure:
 ```
 src/
 ├── components/          # React components
-│   ├── CommandPalette.tsx
-│   ├── CategoryFilter.tsx
-│   ├── ToolCard.tsx
-│   └── Toast.tsx
+│   ├── CommandPalette.tsx   # CMD+K search interface
+│   ├── CategoryFilter.tsx   # Main filter controls
+│   ├── FilterModal.tsx      # Multi-select filter modal
+│   ├── ToolCard.tsx         # Individual tool display card
+│   └── Toast.tsx            # Toast notifications
 ├── hooks/              # Custom React hooks
-│   ├── useOSINTTools.ts
-│   └── useTheme.ts
+│   ├── useOSINTTools.ts     # Google Sheets data fetching
+│   └── useTheme.ts          # Theme management (localStorage)
 ├── services/           # API and external services
-│   └── googleSheets.ts
+│   └── googleSheets.ts      # Google Sheets API integration
 ├── types/              # TypeScript type definitions
 │   └── index.ts
 ├── App.tsx             # Main application component
 ├── main.tsx           # Application entry point
-└── App.css            # Styles
+└── App.css            # Styles and animations
 ```
 
 ## Contributing
