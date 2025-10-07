@@ -8,9 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sync-bellingcat": "node scripts/sync-bellingcat.js"
+    "sync-bellingcat": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/sync-bellingcat.js"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

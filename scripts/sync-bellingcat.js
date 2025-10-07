@@ -8,14 +8,40 @@
  * 4. Updates Google Sheet with new/updated tools
  */
 
+import dotenv from 'dotenv';
 import { google } from 'googleapis';
 import fetch from 'node-fetch';
 import { parse } from 'csv-parse/sync';
 import Anthropic from '@anthropic-ai/sdk';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { readFileSync, existsSync } from 'fs';
+
+// Load environment variables from .env.local
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: join(__dirname, '../.env.local') });
 
 const BELLINGCAT_CSV_URL = 'https://github.com/bellingcat/toolkit/releases/download/csv/all-tools.csv';
 const SHEET_ID = process.env.VITE_GOOGLE_SHEET_ID;
-const GOOGLE_SERVICE_ACCOUNT_KEY = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
+
+// Load service account key from JSON file or environment variable
+let SERVICE_ACCOUNT_KEY;
+const serviceAccountPaths = [
+  join(__dirname, '../osint-verktoydatabase-d1d26dc983b4.json'),
+  join(__dirname, '../../osint-verktoydatabase-d1d26dc983b4.json'),
+];
+
+const serviceAccountPath = serviceAccountPaths.find(path => existsSync(path));
+if (serviceAccountPath) {
+  console.log('Loading service account from file:', serviceAccountPath);
+  SERVICE_ACCOUNT_KEY = JSON.parse(readFileSync(serviceAccountPath, 'utf8'));
+} else if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+  console.log('Loading service account from environment variable');
+  SERVICE_ACCOUNT_KEY = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+} else {
+  SERVICE_ACCOUNT_KEY = null;
+}
 
 let anthropic = null;
 
@@ -169,7 +195,25 @@ async function fetchBellingcatTools() {
   const records = parse(csvText, {
     columns: true,
     skip_empty_lines: true,
-    trim: true
+    trim: true,
+    relax_column_count: true, // Allow inconsistent column counts
+    relax_quotes: true, // Allow malformed quotes
+    skip_records_with_error: true, // Skip problematic rows
+    escape: '"',
+    quote: '"',
+    on_record: (record) => {
+      // Merge extra columns into Details field if present
+      const keys = Object.keys(record);
+      if (keys.length > 6) {
+        const extraFields = keys.slice(6);
+        const extraValues = extraFields.map(k => record[k]).filter(Boolean);
+        if (extraValues.length > 0) {
+          record.Details = [record.Details, ...extraValues].filter(Boolean).join(', ');
+        }
+        extraFields.forEach(k => delete record[k]);
+      }
+      return record;
+    }
   });
 
   console.log(`Found ${records.length} tools in Bellingcat CSV`);
@@ -216,7 +260,7 @@ async function syncToGoogleSheet(tools, translateDescriptions = false) {
   console.log('Authenticating with Google Sheets...');
 
   const auth = new google.auth.GoogleAuth({
-    credentials: JSON.parse(GOOGLE_SERVICE_ACCOUNT_KEY),
+    credentials: SERVICE_ACCOUNT_KEY,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
 
@@ -279,19 +323,23 @@ async function syncToGoogleSheet(tools, translateDescriptions = false) {
     console.log(`✓ Added ${newTools.length} new tools`);
   }
 
-  // Update existing tools
-  for (const update of updatedTools) {
-    await sheets.spreadsheets.values.update({
-      spreadsheetId: SHEET_ID,
+  // Update existing tools in batches to avoid rate limits
+  if (updatedTools.length > 0) {
+    console.log(`Updating ${updatedTools.length} tools in batch...`);
+
+    const batchUpdateData = updatedTools.map(update => ({
       range: `A${update.rowIndex}:G${update.rowIndex}`,
-      valueInputOption: 'RAW',
+      values: [update.data]
+    }));
+
+    await sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: SHEET_ID,
       resource: {
-        values: [update.data]
+        valueInputOption: 'RAW',
+        data: batchUpdateData
       }
     });
-  }
 
-  if (updatedTools.length > 0) {
     console.log(`✓ Updated ${updatedTools.length} tools`);
   }
 
@@ -309,8 +357,8 @@ async function main() {
     if (!SHEET_ID) {
       throw new Error('VITE_GOOGLE_SHEET_ID environment variable is required');
     }
-    if (!GOOGLE_SERVICE_ACCOUNT_KEY) {
-      throw new Error('GOOGLE_SERVICE_ACCOUNT_KEY environment variable is required');
+    if (!SERVICE_ACCOUNT_KEY) {
+      throw new Error('GOOGLE_SERVICE_ACCOUNT_KEY or service account JSON file is required');
     }
 
     const translateDescriptions = process.env.TRANSLATE_DESCRIPTIONS === 'true';
