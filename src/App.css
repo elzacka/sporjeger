@@ -1028,15 +1028,21 @@ body::before {
 }
 
 /* Loading & Error States */
-.loading-state,
-.error-state {
+.app.loading-state,
+.app.error-state {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   min-height: 100vh;
+  height: 100vh;
   text-align: center;
-  width: 100%;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .loading-spinner,
@@ -1047,7 +1053,7 @@ body::before {
   justify-content: center;
   gap: 1rem;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 0;
   padding: 2rem;
   text-align: center;
 }
