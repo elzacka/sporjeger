@@ -104,10 +104,27 @@ Text to translate: "${text}"`
 }
 
 /**
- * Batch translate multiple texts efficiently
+ * Load the complete translation style guide for caching
+ */
+function loadStyleGuide() {
+  const styleGuidePath = join(__dirname, '../docs/not_public/TRANSLATION_STYLE_GUIDE.md');
+
+  if (existsSync(styleGuidePath)) {
+    return readFileSync(styleGuidePath, 'utf8');
+  }
+
+  console.warn('Translation style guide not found, using basic instructions');
+  return null;
+}
+
+/**
+ * Batch translate multiple texts efficiently with prompt caching
  * Reduces API calls by translating in batches
  *
- * Uses Claude API for context-aware translations optimized for OSINT tools.
+ * Uses Claude API with prompt caching for 90% cost reduction on repeated calls.
+ * The complete style guide is cached, so after the first translation batch,
+ * subsequent translations cost only 10% of the base input token price.
+ *
  * Processes 20 descriptions per API call to minimize costs while maintaining quality.
  */
 async function batchTranslate(texts) {
@@ -126,7 +143,11 @@ async function batchTranslate(texts) {
   const BATCH_SIZE = 20; // Translate 20 descriptions at once
   const results = [];
 
+  // Load the complete style guide for caching
+  const styleGuide = loadStyleGuide();
+
   console.log(`Using Claude model: ${model}`);
+  console.log(`Prompt caching: ${styleGuide ? 'ENABLED (90% cost reduction)' : 'disabled'}`);
   console.log(`Processing ${texts.length} descriptions in batches of ${BATCH_SIZE}`);
 
   for (let i = 0; i < texts.length; i += BATCH_SIZE) {
@@ -135,18 +156,52 @@ async function batchTranslate(texts) {
     try {
       const numbered = batch.map((text, idx) => `${idx + 1}. ${text}`).join('\n\n');
 
-      const message = await claude.messages.create({
-        model: model,
-        max_tokens: 4096,
-        messages: [{
-          role: 'user',
-          content: `Translate these OSINT tool descriptions from English to Norwegian (bokmål).
+      // Build system message with caching
+      const systemMessages = [];
+
+      if (styleGuide) {
+        // Cache the complete style guide (this will be reused across all batches)
+        systemMessages.push({
+          type: 'text',
+          text: styleGuide,
+          cache_control: { type: 'ephemeral' }
+        });
+
+        // Add translation-specific instructions (also cached)
+        systemMessages.push({
+          type: 'text',
+          text: `You are translating OSINT tool descriptions from English to Norwegian (bokmål).
+
+CRITICAL INSTRUCTIONS:
+1. Follow ALL klarspråk principles from the style guide above
+2. Use the OSINT terminology glossary (keep technical terms in English when specified)
+3. Apply Arneson's tone of voice for descriptions (warm, conversational, professional)
+4. Preserve ALL technical nuances and capabilities
+5. Use modern, correct Norwegian spelling and grammar
+6. Return ONLY the numbered translations, nothing else
+
+The descriptions should be engaging but professional, technically accurate but accessible.`,
+          cache_control: { type: 'ephemeral' }
+        });
+      } else {
+        // Fallback if style guide not available
+        systemMessages.push({
+          type: 'text',
+          text: `Translate OSINT tool descriptions from English to Norwegian (bokmål).
 
 Keep technical terms and proper nouns in English when appropriate.
 Use natural, concise Norwegian that would be clear to security researchers and investigators.
-Return ONLY the numbered translations in the same format, nothing else.
+Return ONLY the numbered translations in the same format, nothing else.`
+        });
+      }
 
-${numbered}`
+      const message = await claude.messages.create({
+        model: model,
+        max_tokens: 4096,
+        system: systemMessages,
+        messages: [{
+          role: 'user',
+          content: numbered
         }]
       });
 
@@ -158,7 +213,14 @@ ${numbered}`
       });
 
       results.push(...batchResults);
-      console.log(`✓ Batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(texts.length / BATCH_SIZE)}: ${batchResults.length} items translated`);
+
+      // Show cache performance
+      const usage = message.usage;
+      const cacheInfo = usage.cache_read_input_tokens
+        ? ` (cache read: ${usage.cache_read_input_tokens} tokens, saved ~${Math.round((usage.cache_read_input_tokens * 0.9) / 1000)}¢)`
+        : ' (cache write: warming cache for next batch)';
+
+      console.log(`✓ Batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(texts.length / BATCH_SIZE)}: ${batchResults.length} items translated${cacheInfo}`);
 
       // Small delay to avoid rate limits
       if (i + BATCH_SIZE < texts.length) {
