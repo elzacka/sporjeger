@@ -102,6 +102,17 @@ The application fetches data from a Google Sheet with the following structure:
 3. Enable Google Sheets API and get an API key
 4. Add the Sheet ID and API key to your `.env` file
 
+### Automated Sync with Bellingcat
+
+The project includes an automated sync system that keeps your Google Sheet updated with the latest tools from [Bellingcat's OSINT Toolkit](https://github.com/bellingcat/toolkit):
+
+- **Automatic sync**: Runs weekly via GitHub Actions
+- **Manual sync**: Can be triggered anytime from GitHub Actions
+- **Smart updates**: Only adds new tools and updates changed ones
+- **AI-powered translation**: Optional Norwegian translation using Claude AI for context-aware, high-quality translations
+
+For setup instructions, see [Bellingcat Sync Documentation](docs/BELLINGCAT_SYNC.md).
+
 ## Project Structure
 
 ```
