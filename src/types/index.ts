@@ -6,6 +6,9 @@ export interface OSINTTool {
   kostnad: string;
   detaljer: string;
   språk: string;
+  vanskelighetsgrad?: string;  // 1-5 difficulty rating
+  veiledning?: string;          // Tutorial/guide URL or custom text
+  sistOppdatert?: string;       // Last updated date
 }
 
 export interface SheetData {

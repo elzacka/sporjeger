@@ -170,17 +170,29 @@ async function batchTranslate(texts) {
         // Add translation-specific instructions (also cached)
         systemMessages.push({
           type: 'text',
-          text: `You are translating OSINT tool descriptions from English to Norwegian (bokmål).
+          text: `Du oversetter OSINT-verktøybeskrivelser fra engelsk til norsk (bokmål).
 
-CRITICAL INSTRUCTIONS:
-1. Follow ALL klarspråk principles from the style guide above
-2. Use the OSINT terminology glossary (keep technical terms in English when specified)
-3. Apply Arneson's tone of voice for descriptions (warm, conversational, professional)
-4. Preserve ALL technical nuances and capabilities
-5. Use modern, correct Norwegian spelling and grammar
-6. Return ONLY the numbered translations, nothing else
+KRITISKE INSTRUKSJONER:
+1. OVERSETT ALT TIL NORSK - beskrivelsene skal være på norsk bokmål
+2. Følg ALLE klarspråk-prinsipper fra stilguiden over
+3. Bruk OSINT-terminologiglossaret (behold tekniske termer på engelsk når spesifisert)
+4. Bruk Arnesons tone of voice for beskrivelser (varm, samtalepreget, profesjonell)
+5. Bevar ALLE tekniske nyanser og funksjoner
+6. Bruk moderne, korrekt norsk stavemåte og grammatikk
+7. Returner KUN de nummererte oversettelsene på NORSK, ingenting annet
 
-The descriptions should be engaging but professional, technically accurate but accessible.`,
+EKSEMPLER PÅ RIKTIG OUTPUT (på norsk med Arneson-tone):
+
+INPUT: "A reverse image search tool for finding similar images across the web"
+OUTPUT: "Et verktøy for omvendt bildesøk som finner lignende bilder på nettet. Som å spørre internett: 'Har du sett dette før?'"
+
+INPUT: "Tool for analyzing Twitter profiles and posts"
+OUTPUT: "Analyserer Twitter-profiler og innlegg. Ideelt for å kartlegge hvem som sier hva, og når."
+
+INPUT: "Facial recognition API for developers"
+OUTPUT: "Ansiktsgjenkjennings-API for utviklere. Byggesteiner for å lære maskiner å huske ansikter."
+
+Beskrivelsene skal være engasjerende men profesjonelle, teknisk presise men tilgjengelige, og ALLTID på norsk bokmål.`,
           cache_control: { type: 'ephemeral' }
         });
       } else {
@@ -284,6 +296,7 @@ async function fetchBellingcatTools() {
 
 /**
  * Get existing tools from Google Sheet
+ * Uses URL as unique identifier to prevent duplicates
  */
 async function getExistingTools(sheets) {
   try {
@@ -295,12 +308,12 @@ async function getExistingTools(sheets) {
     const rows = response.data.values || [];
     if (rows.length <= 1) return new Map(); // Empty or header only
 
-    // Skip header row and create a map of Name -> row data
+    // Skip header row and create a map of URL -> row data
     const toolsMap = new Map();
     rows.slice(1).forEach((row, index) => {
-      const name = row[1]; // Column B (Navn)
-      if (name) {
-        toolsMap.set(name, {
+      const url = row[2]; // Column C (URL) - unique identifier
+      if (url) {
+        toolsMap.set(url, {
           rowIndex: index + 2, // +2 because: 1 for 0-index, 1 for header
           data: row
         });
@@ -351,21 +364,22 @@ async function syncToGoogleSheet(tools, translateDescriptions = false) {
       tool.URL,               // URL
       description,            // Beskrivelse
       mapCostType(tool.Cost), // Kostnad
-      tool.Details || '',     // Detaljer
+      '',                     // Detaljer (reserved for manual "🇳🇴 Norsk" entries only)
       ''                      // Språk (empty for international tools)
     ];
 
-    if (existingTools.has(tool.Name)) {
-      // Tool exists, check if it needs updating
-      const existing = existingTools.get(tool.Name);
+    // Check by URL to prevent duplicates
+    if (existingTools.has(tool.URL)) {
+      // Tool exists (same URL), check if it needs updating
+      const existing = existingTools.get(tool.URL);
       const existingData = existing.data;
 
-      // Compare URL and Description (main fields that might change)
-      if (existingData[2] !== tool.URL || existingData[3] !== description) {
+      // Compare Name, Description, or other fields that might change
+      if (existingData[1] !== tool.Name || existingData[3] !== description) {
         updatedTools.push({ rowIndex: existing.rowIndex, data: toolData });
       }
     } else {
-      // New tool
+      // New tool (URL not found in existing tools)
       newTools.push(toolData);
     }
   });

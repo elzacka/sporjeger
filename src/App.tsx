@@ -111,7 +111,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <div className="header-content">
+        <div className="header-top">
           <div className="app-title">
             <h1 className="app-name">
               <div className="neural-icon">
@@ -132,40 +132,54 @@ function App() {
                   <circle className="node" cx="36" cy="36" r="4" />
                 </svg>
               </div>
-              SPORJEGER
+              <span>SPORJEGER</span>
             </h1>
             <p className="app-tagline">Verktøykasse for digital skattejakt</p>
           </div>
-          
-          <div className="header-actions">
-            <button
-              className="search-button"
-              onClick={() => setIsCommandPaletteOpen(true)}
-              title="Søk (⌘K)"
-            >
-              <span className="material-symbols-outlined">search</span>
-              <span className="search-hint">⌘K</span>
-            </button>
-          </div>
+        </div>
+
+        <div className="header-search">
+          <button
+            className="search-bar"
+            onClick={() => setIsCommandPaletteOpen(true)}
+            title="Søk i verktøy (⌘K)"
+          >
+            <span className="material-symbols-outlined">search</span>
+            <span className="search-placeholder">Søk i verktøy...</span>
+            <kbd className="search-kbd">⌘K</kbd>
+          </button>
         </div>
       </header>
 
       <main className="main-content">
         <div className="filters-section">
-          <CategoryFilter
-            categories={categories}
-            selectedCategories={filters.categories}
-            onCategoriesChange={(categories) =>
-              setFilters(prev => ({ ...prev, categories }))
-            }
-            selectedCostTypes={filters.costTypes}
-            onCostTypesChange={(costTypes) =>
-              setFilters(prev => ({ ...prev, costTypes }))
-            }
-          />
-          
+          <div className="filters-container">
+            <CategoryFilter
+              categories={categories}
+              selectedCategories={filters.categories}
+              onCategoriesChange={(categories) =>
+                setFilters(prev => ({ ...prev, categories }))
+              }
+              selectedCostTypes={filters.costTypes}
+              onCostTypesChange={(costTypes) =>
+                setFilters(prev => ({ ...prev, costTypes }))
+              }
+            />
+
+            {(filters.categories.length > 0 || filters.costTypes.length > 0) && (
+              <button
+                className="clear-filters-button"
+                onClick={() => setFilters(prev => ({ ...prev, categories: [], costTypes: [] }))}
+                title="Nullstill filtre"
+              >
+                <span className="material-symbols-outlined">close</span>
+                <span>Nullstill</span>
+              </button>
+            )}
+          </div>
+
           <div className="results-info">
-            <span>{filteredTools.length} verktøy funnet</span>
+            <span>{filteredTools.length} verktøy</span>
           </div>
         </div>
 

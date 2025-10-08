@@ -7,8 +7,20 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "sync-bellingcat": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/sync-bellingcat.js"
+    "preview": "vite preview"
+  },
+  "_disabled_scripts": {
+    "_comment": "Automation scripts temporarily disabled - uncomment to re-enable",
+    "sync-bellingcat": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/sync-bellingcat.js",
+    "remove-duplicates": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/remove-duplicates.js",
+    "improve-all": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/improve-all-content.js",
+    "improve-ba-style": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/improve-with-ba-style.js",
+    "improve-ba-safe": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/improve-ba-safe.js",
+    "clean-detaljer": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/clean-detaljer-column.js",
+    "add-metadata": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/add-metadata-columns.js",
+    "fetch-difficulty": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/fetch-bellingcat-difficulty.js",
+    "remove-plattform": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/remove-plattform-column.js",
+    "check-dead-links": "NODE_OPTIONS='--openssl-legacy-provider' node scripts/remove-dead-links.js"
   },
   "dependencies": {
     "dotenv": "^17.2.3",

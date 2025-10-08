@@ -34,7 +34,14 @@ service-account*.json
 *.sln
 *.sw?
 
+# Reference files for translation agent
+not_public/*
+
 # Temporary files for troubleshooting and adjustments
-s1.png
+screenshots/*
 console errors.md
 osint-verktoydatabase-d1d26dc983b4.json
+Console log in localhost.md
+
+# Private documentation
+docs/not_public/
