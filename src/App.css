@@ -1407,7 +1407,7 @@ body::before {
   }
 
   .tool-card {
-    padding: 1.25rem;
+    padding: 1rem;
     max-width: 100%;
     width: 100%;
     margin: 0;
@@ -1499,7 +1499,7 @@ body::before {
   }
 
   .main-content {
-    padding: 1rem;
+    padding: 1rem 0.75rem;
     max-width: 100%;
     overflow-x: hidden;
   }
