@@ -174,45 +174,11 @@ function App() {
               onCostTypesChange={(costTypes) =>
                 setFilters(prev => ({ ...prev, costTypes }))
               }
+              selectedDifficulties={filters.difficulties}
+              onDifficultiesChange={(difficulties) =>
+                setFilters(prev => ({ ...prev, difficulties }))
+              }
             />
-
-            {/* Difficulty filter */}
-            <div className="difficulty-filter-section">
-              <span className="filter-label">Vanskelighetsgrad:</span>
-              <div className="difficulty-buttons">
-                {[1, 2, 3, 4, 5].map(level => (
-                  <button
-                    key={level}
-                    className={`difficulty-filter-btn ${filters.difficulties.includes(level) ? 'active' : ''}`}
-                    onClick={() => {
-                      setFilters(prev => ({
-                        ...prev,
-                        difficulties: prev.difficulties.includes(level)
-                          ? prev.difficulties.filter(d => d !== level)
-                          : [...prev.difficulties, level]
-                      }));
-                    }}
-                    title={`Vanskelighetsgrad ${level}`}
-                  >
-                    {[...Array(level)].map((_, i) => (
-                      <svg
-                        key={i}
-                        width="14"
-                        height="14"
-                        viewBox="0 0 16 16"
-                        xmlns="http://www.w3.org/2000/svg"
-                        style={{ display: 'inline-block' }}
-                      >
-                        <path
-                          d="M8 1.5l1.545 4.757h5.005l-4.045 2.986 1.545 4.757L8 11.014 3.95 14l1.545-4.757L1.45 6.257h5.005z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    ))}
-                  </button>
-                ))}
-              </div>
-            </div>
 
             {(filters.categories.length > 0 || filters.costTypes.length > 0 || filters.difficulties.length > 0) && (
               <button

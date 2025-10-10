@@ -7,6 +7,8 @@ interface CategoryFilterProps {
   onCategoriesChange: (categories: string[]) => void;
   selectedCostTypes: string[];
   onCostTypesChange: (costTypes: string[]) => void;
+  selectedDifficulties: number[];
+  onDifficultiesChange: (difficulties: number[]) => void;
 }
 
 export function CategoryFilter({
@@ -14,7 +16,9 @@ export function CategoryFilter({
   selectedCategories,
   onCategoriesChange,
   selectedCostTypes,
-  onCostTypesChange
+  onCostTypesChange,
+  selectedDifficulties,
+  onDifficultiesChange
 }: CategoryFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
@@ -94,6 +98,42 @@ export function CategoryFilter({
               <span>{getSelectedCostLabel()}</span>
               <span className="material-symbols-outlined">expand_more</span>
             </button>
+          </div>
+
+          <div className="difficulty-filter-section">
+            <span className="filter-label">Vanskelighetsgrad:</span>
+            <div className="difficulty-buttons">
+              {[1, 2, 3, 4, 5].map(level => (
+                <button
+                  key={level}
+                  className={`difficulty-filter-btn ${selectedDifficulties.includes(level) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedDifficulties.includes(level)) {
+                      onDifficultiesChange(selectedDifficulties.filter(d => d !== level));
+                    } else {
+                      onDifficultiesChange([...selectedDifficulties, level]);
+                    }
+                  }}
+                  title={`Vanskelighetsgrad ${level}`}
+                >
+                  {[...Array(level)].map((_, i) => (
+                    <svg
+                      key={i}
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{ display: 'inline-block' }}
+                    >
+                      <path
+                        d="M8 1.5l1.545 4.757h5.005l-4.045 2.986 1.545 4.757L8 11.014 3.95 14l1.545-4.757L1.45 6.257h5.005z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
