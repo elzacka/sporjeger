@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:sheet": "node scripts/test-sheet-integrity.js",
+    "sync:github": "node scripts/sync-from-github.js",
+    "sync:github:dry-run": "node scripts/sync-from-github.js --dry-run",
+    "sync:csv": "node scripts/bidirectional-sync.js",
+    "sync:csv:dry-run": "node scripts/bidirectional-sync.js --dry-run",
+    "clean:data": "node scripts/clean-sheet-data.js",
+    "clean:data:dry-run": "node scripts/clean-sheet-data.js --dry-run"
   },
   "_disabled_scripts": {
     "_comment": "Automation scripts temporarily disabled - uncomment to re-enable",

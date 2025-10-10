@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import type { OSINTTool } from '../types';
 import { GuideModal } from './GuideModal';
 
@@ -6,7 +6,7 @@ interface ToolCardProps {
   tool: OSINTTool;
 }
 
-export function ToolCard({ tool }: ToolCardProps) {
+export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
   const kostnadLower = tool.kostnad.toLowerCase();
@@ -83,10 +83,22 @@ export function ToolCard({ tool }: ToolCardProps) {
       )}
 
       {getDifficultyLevel() && (
-        <div className="tool-meta-row">
-          <span className={`difficulty-badge difficulty-${getDifficultyLevel()}`}>
-            {getDifficultyLabel()}
-          </span>
+        <div className="difficulty-stars" title={`Vanskelighetsgrad: ${getDifficultyLabel()}`}>
+          {[...Array(5)].map((_, i) => (
+            <svg
+              key={i}
+              className={`star ${i < getDifficultyLevel()! ? 'filled' : 'empty'}`}
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8 1.5l1.545 4.757h5.005l-4.045 2.986 1.545 4.757L8 11.014 3.95 14l1.545-4.757L1.45 6.257h5.005z"
+                fill="currentColor"
+              />
+            </svg>
+          ))}
         </div>
       )}
 
@@ -96,8 +108,10 @@ export function ToolCard({ tool }: ToolCardProps) {
           <span className={`tool-cost-tag ${getCostType()}`}>
             {getCostText()}
           </span>
-          {(tool.språk === 'Norsk' || tool.detaljer === '🇳🇴 Norsk') && (
-            <span className="norwegian-flag" title="Norsk">🇳🇴</span>
+          {tool.språk && (
+            <span className="language-tag" title={tool.språk}>
+              {tool.språk.split(' ')[0]}
+            </span>
           )}
         </div>
         <div className="tool-footer-row">
@@ -132,4 +146,4 @@ export function ToolCard({ tool }: ToolCardProps) {
       )}
     </div>
   );
-}
+});

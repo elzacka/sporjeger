@@ -2,7 +2,7 @@ import type { OSINTTool, SheetData } from '../types';
 
 const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
 const API_KEY = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY;
-const RANGE = 'A:I'; // Columns A-I (Plattform column removed)
+const RANGE = 'A:I'; // Columns A-I (9 columns)
 
 export async function fetchOSINTTools(): Promise<OSINTTool[]> {
   try {
@@ -21,17 +21,18 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
     }
     
     // Skip header row and map to OSINTTool objects
+    // Column mapping: A=Kategori, B=Navn, C=URL, D=Beskrivelse, E=Kostnad, F=Språk,
+    //                 G=Vanskelighetsgrad, H=Veiledning, I=Endre eller slette
     const tools = data.values.slice(1).map((row): OSINTTool => ({
       kategori: row[0] || '',
       navn: row[1] || '',
       url: row[2] || '',
       beskrivelse: row[3] || '',
       kostnad: row[4] || '',
-      detaljer: row[5] || '',
-      språk: '', // Språk column was removed when metadata columns were added
+      språk: row[5] || '',
       vanskelighetsgrad: row[6] || '',
       veiledning: row[7] || '',
-      sistOppdatert: row[8] || ''
+      endreEllerSlette: row[8] || ''
     }));
     
     return tools.filter(tool => tool.navn.trim() !== '');

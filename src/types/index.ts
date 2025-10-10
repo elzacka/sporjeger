@@ -1,14 +1,13 @@
 export interface OSINTTool {
-  kategori: string;
-  navn: string;
-  url: string;
-  beskrivelse: string;
-  kostnad: string;
-  detaljer: string;
-  språk: string;
-  vanskelighetsgrad?: string;  // 1-5 difficulty rating
-  veiledning?: string;          // Tutorial/guide URL or custom text
-  sistOppdatert?: string;       // Last updated date
+  kategori: string;            // A: Category
+  navn: string;                // B: Tool name
+  url: string;                 // C: Tool URL
+  beskrivelse: string;         // D: Description
+  kostnad: string;             // E: Cost (Gratis/Betalt/Gratis med kjøp)
+  språk?: string;              // F: Language (manual only - flag emoji + language)
+  vanskelighetsgrad?: string;  // G: Difficulty 1-5
+  veiledning?: string;         // H: Guide URL (Bellingcat GitBook or manual)
+  endreEllerSlette?: string;   // I: Protection flag ("Nei" = protected)
 }
 
 export interface SheetData {
@@ -18,6 +17,7 @@ export interface SheetData {
 export interface FilterState {
   categories: string[];
   costTypes: string[];
+  difficulties: number[];      // NEW: 1-5 star difficulty filter
   searchQuery: string;
 }
 

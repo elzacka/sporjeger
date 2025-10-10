@@ -2,9 +2,13 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import { validateEnvironment } from './utils/validateEnv'
 
-// Register service worker for PWA functionality
-if ('serviceWorker' in navigator) {
+// Validate environment variables before app starts
+validateEnvironment()
+
+// Register service worker for PWA functionality (production only)
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then(registration => {
