@@ -16,7 +16,7 @@ export function CategoryFilter({
   selectedCostTypes,
   onCostTypesChange
 }: CategoryFilterProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isCostModalOpen, setIsCostModalOpen] = useState(false);
 
