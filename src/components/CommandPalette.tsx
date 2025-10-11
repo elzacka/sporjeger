@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import type { OSINTTool } from '../types';
 
 interface CommandPaletteProps {
@@ -14,11 +14,13 @@ export function CommandPalette({ isOpen, onClose, tools, onSelectTool }: Command
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const filteredTools = tools.filter(tool =>
-    tool.navn.toLowerCase().includes(query.toLowerCase()) ||
-    tool.beskrivelse.toLowerCase().includes(query.toLowerCase()) ||
-    tool.kategori.toLowerCase().includes(query.toLowerCase())
-  ).slice(0, 8); // Limit to 8 results for better UX
+  const filteredTools = useMemo(() =>
+    tools.filter(tool =>
+      tool.navn.toLowerCase().includes(query.toLowerCase()) ||
+      tool.beskrivelse.toLowerCase().includes(query.toLowerCase()) ||
+      tool.kategori.toLowerCase().includes(query.toLowerCase())
+    ).slice(0, 8) // Limit to 8 results for better UX
+  , [tools, query]);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {

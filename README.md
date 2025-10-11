@@ -1,36 +1,40 @@
 # Sporjeger
 
-🔍 A Norwegian web application for OSINT (Open Source Intelligence) tools and resources. Built with React 19, TypeScript, and Vite.
+🔍 A Norwegian web application for browsing and discovering OSINT (Open Source Intelligence) tools and resources.
 
 **Live Demo**: [elzacka.github.io/sporjeger](https://elzacka.github.io/sporjeger/)
 
+## About
+
+Sporjeger (Norwegian for "Tracker") is a curated directory of OSINT tools designed for digital investigators, researchers, and journalists. The application provides an intuitive interface for discovering and filtering tools based on category, cost, difficulty level, and language.
+
 ## Features
 
-- 🔍 **Text-first search** - CMD+K command palette for quick navigation and searching
-- 📱 **Responsive design** - Optimized for mobile and desktop with collapsible filters
-- 🌙 **Dark mode** - Persistent dark theme stored in localStorage
-- 📊 **Google Sheets integration** - Live data from Google Sheets
-- ⚡ **PWA support** - Offline functionality with service workers
-- 🏷️ **Multi-select filtering** - Filter by multiple categories and cost types (Gratis, Betalt, Gratis med kjøp)
-- 🇳🇴 **Norwegian tools indicator** - Visual flag indicators for Norwegian-specific tools
-- 🚀 **Fast performance** - Modern build tools with code splitting and optimizations
-- 🎨 **Matrix-inspired design** - Neural network themed interface with custom animations
+- 🔍 **Quick Search** - CMD+K command palette for instant tool discovery
+- 📱 **Responsive Design** - Optimized experience on mobile and desktop
+- 🎯 **Smart Filtering** - Filter by category, cost type, and difficulty level
+- ⭐ **Difficulty Ratings** - Visual 1-5 star system for tool complexity
+- 🌐 **Language Support** - Flag indicators for tool language availability
+- 📖 **Integrated Guides** - Direct links to Bellingcat toolkit documentation
+- 🎨 **Matrix Theme** - Neural network-inspired dark interface
+- ⚡ **Performance** - Fast loading with code splitting and optimization
+- 💾 **Offline Ready** - PWA support for offline access
 
 ## Tech Stack
 
-- **Frontend**: React 19.1.1 + TypeScript 5.8.3
+- **Frontend**: React 19.1.1 with TypeScript 5.8.3
 - **Build Tool**: Vite 7.1.2
-- **Styling**: Custom CSS with Matrix-inspired theme
+- **Styling**: Custom CSS with matrix-inspired theme
 - **Icons**: Google Material Symbols
 - **Data Source**: Google Sheets API
-- **PWA**: Service Worker for offline support
+- **PWA**: Service Worker for offline functionality
 - **Deployment**: GitHub Pages
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 18 or higher
 - npm or yarn
 
 ### Installation
@@ -46,96 +50,93 @@ cd sporjeger
 npm install
 ```
 
-3. Create environment file:
-```bash
-cp .env.example .env
-```
-
-4. Add your Google Sheets configuration to `.env`:
+3. Create a `.env.local` file with your Google Sheets configuration:
 ```env
 VITE_GOOGLE_SHEET_ID=your_sheet_id_here
 VITE_GOOGLE_SHEETS_API_KEY=your_api_key_here
 ```
 
-### Development
-
-Start the development server:
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
+The application will be available at `http://localhost:5173`
 
-### Building
+### Building for Production
 
-Build for production:
 ```bash
 npm run build
-```
-
-Preview the build:
-```bash
-npm run preview
+npm run preview  # Preview the production build locally
 ```
 
 ## Google Sheets Setup
 
-The application fetches data from a Google Sheet with the following structure:
+The application reads data from a Google Sheet with the following structure:
 
-| Column A | Column B | Column C | Column D | Column E | Column F | Column G |
-|----------|----------|----------|----------|----------|----------|----------|
-| Kategori | Navn     | URL      | Beskrivelse | Kostnad | Detaljer | Språk |
-| Category | Name     | URL      | Description | Cost    | Details  | Language |
+| Column | Header | Description |
+|--------|--------|-------------|
+| A | Kategori | Tool category (e.g., "Social Media", "Geolocation") |
+| B | Navn | Tool name |
+| C | URL | Tool website URL |
+| D | Beskrivelse | Brief description of the tool |
+| E | Kostnad | Cost type: "Gratis", "Betalt", or "Gratis med kjøp" |
+| F | Språk | Language with flag emoji (e.g., "🇳🇴 Norsk") |
+| G | Vanskelighetsgrad | Difficulty level (1-5) |
+| H | Veiledning | URL to guide/documentation |
+| I | Endre eller slette | Protection flag ("Nei" = protected from edits) |
 
-**Cost Types:**
-- `Gratis` or `Free` - Free tools
-- `Betalt` - Paid tools
-- `Gratis med kjøp` - Free with purchase/upgrade options
+### Setting up Google Sheets API:
 
-**Language:**
-- Set to `Norsk` to display the Norwegian flag (🇳🇴) indicator
+1. Create a new Google Sheet with the structure above
+2. Go to [Google Cloud Console](https://console.cloud.google.com/)
+3. Create a new project or select an existing one
+4. Enable the Google Sheets API
+5. Create credentials (API Key)
+6. Make your sheet publicly readable:
+   - Share > Change to "Anyone with the link"
+   - Set permission to "Viewer"
+7. Add the Sheet ID and API key to your `.env.local` file
 
-### Required Setup:
-
-1. Create a Google Sheet with the above structure
-2. Make the sheet publicly readable
-3. Enable Google Sheets API and get an API key
-4. Add the Sheet ID and API key to your `.env` file
-
-### Automated Sync with Bellingcat
-
-The project includes an automated sync system that keeps your Google Sheet updated with the latest tools from [Bellingcat's OSINT Toolkit](https://github.com/bellingcat/toolkit):
-
-- **Automatic sync**: Runs weekly via GitHub Actions
-- **Manual sync**: Can be triggered anytime from GitHub Actions
-- **Smart updates**: Only adds new tools and updates changed ones
-- **AI-powered translation**: Optional Norwegian translation using Claude AI for context-aware, high-quality translations
-
-For setup instructions, see [Bellingcat Sync Documentation](docs/BELLINGCAT_SYNC.md).
+**Sheet ID**: Found in the URL: `https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit`
 
 ## Project Structure
 
 ```
-src/
-├── components/          # React components
-│   ├── CommandPalette.tsx   # CMD+K search interface
-│   ├── CategoryFilter.tsx   # Main filter controls
-│   ├── FilterModal.tsx      # Multi-select filter modal
-│   ├── ToolCard.tsx         # Individual tool display card
-│   └── Toast.tsx            # Toast notifications
-├── hooks/              # Custom React hooks
-│   ├── useOSINTTools.ts     # Google Sheets data fetching
-│   └── useTheme.ts          # Theme management (localStorage)
-├── services/           # API and external services
-│   └── googleSheets.ts      # Google Sheets API integration
-├── types/              # TypeScript type definitions
-│   └── index.ts
-├── App.tsx             # Main application component
-├── main.tsx           # Application entry point
-└── App.css            # Styles and animations
+sporjeger/
+├── src/
+│   ├── components/          # React components
+│   │   ├── CategoryFilter.tsx   # Collapsible filter controls
+│   │   ├── CommandPalette.tsx   # CMD+K search interface
+│   │   ├── FilterModal.tsx      # Multi-select filter modal
+│   │   ├── GuideModal.tsx       # Guide content display
+│   │   ├── ToolCard.tsx         # Tool display card
+│   │   └── Toast.tsx            # Toast notifications
+│   ├── hooks/               # Custom React hooks
+│   │   ├── useOSINTTools.ts     # Data fetching hook
+│   │   └── useTheme.ts          # Theme management
+│   ├── services/            # External services
+│   │   └── googleSheets.ts      # Google Sheets API
+│   ├── types/               # TypeScript definitions
+│   │   └── index.ts
+│   ├── utils/               # Utility functions
+│   │   └── validateEnv.ts       # Environment validation
+│   ├── App.tsx              # Main application
+│   ├── App.css              # Styles and animations
+│   └── main.tsx             # Entry point
+├── public/                  # Static assets
+├── .github/workflows/       # GitHub Actions
+│   └── deploy.yml           # Deployment workflow
+└── package.json
 ```
 
+## Keyboard Shortcuts
+
+- `Cmd/Ctrl + K` - Open command palette for quick search
+
 ## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -147,9 +148,10 @@ src/
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## Contact
+## Acknowledgments
 
-For questions or suggestions, please open an issue on GitHub.
+- Tool data inspired by [Bellingcat's OSINT Toolkit](https://github.com/bellingcat/toolkit)
+- Matrix theme design inspired by classic terminal interfaces
 
 ---
 
