@@ -29,7 +29,7 @@ npm run lint
 ### Data Flow
 
 1. **Google Sheets as Database**: The app fetches data from a read-only Google Sheets API
-2. **9-Column Structure**: Data is mapped to the `OSINTTool` interface (see `src/types/index.ts`)
+2. **11-Column Structure**: Data is mapped to the `OSINTTool` interface (see `src/types/index.ts`)
 3. **Single API Call**: All data is fetched once on load via `useOSINTTools` hook
 4. **Client-Side Filtering**: All filtering/search happens in-memory in React
 
@@ -41,9 +41,11 @@ C: URL (Tool website)
 D: Beskrivelse (Description)
 E: Kostnad (Cost: "Gratis"/"Betalt"/"Gratis med kjøp")
 F: Språk (Language with flag emoji, e.g., "🇳🇴 Norsk")
-G: Vanskelighetsgrad (Difficulty 1-5)
-H: Veiledning (Guide URL)
-I: Endre eller slette (Protection flag: "Nei" = protected)
+G: Krever registrering (Registration required: "Ja"/"Delvis"/"Nei")
+H: Designkvalitet (Design quality 1-3: 1=Poor, 2=Medium, 3=Good)
+I: Vanskelighetsgrad (Difficulty 1-5)
+J: Veiledning (Guide URL)
+K: Endre eller slette (Protection flag: "Nei" = protected)
 ```
 
 ### State Management
@@ -58,19 +60,25 @@ I: Endre eller slette (Protection flag: "Nei" = protected)
 The `CategoryFilter` component contains ALL filters in a collapsible section (default: collapsed):
 1. **Category filter**: Multi-select modal
 2. **Cost filter**: Multi-select modal (Gratis/Betalt/Gratis med kjøp)
-3. **Difficulty filter**: 1-5 star buttons (inline)
+3. **Registration filter**: Multi-select modal (Ja/Delvis/Nei)
+4. **Difficulty filter**: 1-5 star buttons (inline)
+5. **Design quality filter**: 1-3 quality buttons with color indicators (inline)
+   - 🔴 1 = Dårlig grensesnitt (Poor interface)
+   - 🟡 2 = Middels grensesnitt (Medium interface)
+   - 🟢 3 = God grensesnitt (Good interface)
 
 All filters work together with AND logic in `App.tsx` via `useMemo`.
 
 ### Component Architecture
 
 **Main Components**:
-- `App.tsx`: Root component, filter state, tool grid rendering
-- `CategoryFilter.tsx`: Collapsible filter section (contains all 3 filter types)
-- `ToolCard.tsx`: Individual tool display with stars, language tags, guide modal
+- `App.tsx`: Root component, filter state, tool grid rendering, attribution modal
+- `CategoryFilter.tsx`: Collapsible filter section (contains all 5 filter types)
+- `ToolCard.tsx`: Individual tool display with stars, registration badges, language tags, guide modal
 - `CommandPalette.tsx`: CMD+K search interface (fuzzy search)
 - `GuideModal.tsx`: Displays Bellingcat guide content in modal
-- `FilterModal.tsx`: Generic multi-select modal (reused for category & cost)
+- `AttributionModal.tsx`: Displays credits and data source information
+- `FilterModal.tsx`: Generic multi-select modal (reused for category, cost, & registration)
 - `Toast.tsx`: Toast notifications
 
 **Custom Hooks**:
@@ -153,7 +161,23 @@ const filteredTools = useMemo(() => tools.filter(tool => {
     }
   }
 
-  // 4. Search query (if provided)
+  // 4. Design quality filter (if any selected)
+  if (filters.designQualities.length > 0) {
+    const designQuality = parseInt(tool.designkvalitet || '0');
+    if (!filters.designQualities.includes(designQuality)) {
+      return false;
+    }
+  }
+
+  // 5. Registration requirement filter (if any selected)
+  if (filters.registrationRequirements.length > 0) {
+    const requirement = tool.kreverRegistrering || 'Nei';
+    if (!filters.registrationRequirements.includes(requirement)) {
+      return false;
+    }
+  }
+
+  // 6. Search query (if provided)
   if (filters.searchQuery) {
     // Search across navn, beskrivelse, kategori, språk, veiledning
   }

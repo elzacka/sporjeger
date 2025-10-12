@@ -98,7 +98,18 @@ export function CommandPalette({ isOpen, onClose, tools, onSelectTool }: Command
                   <span className="command-item-name">{tool.navn}</span>
                   <span className="command-item-category">{tool.kategori}</span>
                 </div>
-                <span className="material-symbols-outlined">arrow_outward</span>
+                <span
+                  className="material-symbols-outlined command-palette-open-link"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (tool.url) {
+                      window.open(tool.url, '_blank', 'noopener,noreferrer');
+                    }
+                  }}
+                  title="Åpne verktøy i ny fane"
+                >
+                  arrow_outward
+                </span>
               </div>
             ))
           )}

@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useOSINTTools } from './hooks/useOSINTTools';
 import { getUniqueCategories } from './services/googleSheets';
 import { ToolCard } from './components/ToolCard';
 import { CommandPalette } from './components/CommandPalette';
 import { CategoryFilter } from './components/CategoryFilter';
+import { AttributionModal } from './components/AttributionModal';
 import { Toast } from './components/Toast';
 import type { OSINTTool, FilterState } from './types';
 import './App.css';
@@ -15,11 +16,16 @@ function App() {
     categories: [],
     costTypes: [],
     difficulties: [],
+    designQualities: [],
+    registrationRequirements: [],
     searchQuery: ''
   });
 
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isAttributionModalOpen, setIsAttributionModalOpen] = useState(false);
   const [toast, setToast] = useState({ message: '', isVisible: false });
+  const [highlightedToolId, setHighlightedToolId] = useState<string | null>(null);
+  const toolRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const categories = useMemo(() => getUniqueCategories(tools), [tools]);
 
@@ -62,6 +68,22 @@ function App() {
       }
     }
 
+    // Design quality filter - if design qualities are selected, tool must match one of them
+    if (filters.designQualities.length > 0) {
+      const designQuality = parseInt(tool.designkvalitet || '0');
+      if (!filters.designQualities.includes(designQuality)) {
+        return false;
+      }
+    }
+
+    // Registration requirement filter - if registration requirements are selected, tool must match one of them
+    if (filters.registrationRequirements.length > 0) {
+      const requirement = tool.kreverRegistrering || 'Nei';
+      if (!filters.registrationRequirements.includes(requirement)) {
+        return false;
+      }
+    }
+
     // Search query filter
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase();
@@ -77,11 +99,23 @@ function App() {
     return true;
   }), [tools, filters]);
 
-  const handleSelectTool = (tool: OSINTTool) => {
-    if (tool.url) {
-      window.open(tool.url, '_blank', 'noopener,noreferrer');
+  const handleSelectTool = useCallback((tool: OSINTTool) => {
+    const toolId = `${tool.navn}-${tool.kategori}`;
+    const toolElement = toolRefs.current.get(toolId);
+
+    if (toolElement) {
+      // Scroll to the tool card
+      toolElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Highlight the tool card
+      setHighlightedToolId(toolId);
+
+      // Remove highlight after animation
+      setTimeout(() => {
+        setHighlightedToolId(null);
+      }, 2000);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -146,6 +180,15 @@ function App() {
             </h1>
             <p className="app-tagline">Verktøykasse for digital skattejakt</p>
           </div>
+
+          <button
+            className="attribution-icon-button"
+            onClick={() => setIsAttributionModalOpen(true)}
+            title="Om Sporjeger og krediteringer"
+            aria-label="Vis krediteringer og tillatelser"
+          >
+            <span className="material-symbols-outlined">info</span>
+          </button>
         </div>
 
         <div className="header-search">
@@ -163,47 +206,72 @@ function App() {
 
       <main className="main-content">
         <div className="filters-section">
-          <div className="filters-container">
-            <CategoryFilter
-              categories={categories}
-              selectedCategories={filters.categories}
-              onCategoriesChange={(categories) =>
-                setFilters(prev => ({ ...prev, categories }))
-              }
-              selectedCostTypes={filters.costTypes}
-              onCostTypesChange={(costTypes) =>
-                setFilters(prev => ({ ...prev, costTypes }))
-              }
-              selectedDifficulties={filters.difficulties}
-              onDifficultiesChange={(difficulties) =>
-                setFilters(prev => ({ ...prev, difficulties }))
-              }
-            />
-
-            {(filters.categories.length > 0 || filters.costTypes.length > 0 || filters.difficulties.length > 0) && (
-              <button
-                className="clear-filters-button"
-                onClick={() => setFilters(prev => ({ ...prev, categories: [], costTypes: [], difficulties: [] }))}
-                title="Nullstill filtre"
-              >
-                <span className="material-symbols-outlined">close</span>
-                <span>Nullstill</span>
-              </button>
-            )}
+          <div className="filters-section-top">
+            <div className="filters-container">
+              <CategoryFilter
+                categories={categories}
+                selectedCategories={filters.categories}
+                onCategoriesChange={(categories) =>
+                  setFilters(prev => ({ ...prev, categories }))
+                }
+                selectedCostTypes={filters.costTypes}
+                onCostTypesChange={(costTypes) =>
+                  setFilters(prev => ({ ...prev, costTypes }))
+                }
+                selectedDifficulties={filters.difficulties}
+                onDifficultiesChange={(difficulties) =>
+                  setFilters(prev => ({ ...prev, difficulties }))
+                }
+                selectedDesignQualities={filters.designQualities}
+                onDesignQualitiesChange={(designQualities) =>
+                  setFilters(prev => ({ ...prev, designQualities }))
+                }
+                selectedRegistrationRequirements={filters.registrationRequirements}
+                onRegistrationRequirementsChange={(registrationRequirements) =>
+                  setFilters(prev => ({ ...prev, registrationRequirements }))
+                }
+              />
+            </div>
           </div>
 
-          <div className="results-info">
-            <span>{filteredTools.length} verktøy</span>
+          <div className="filters-section-bottom">
+            <div className="results-info">
+              <span className="material-symbols-outlined">database</span>
+              <span>{filteredTools.length} {filteredTools.length === 1 ? 'verktøy' : 'verktøy'}</span>
+            </div>
+
+            {(filters.categories.length > 0 || filters.costTypes.length > 0 || filters.difficulties.length > 0 || filters.designQualities.length > 0 || filters.registrationRequirements.length > 0) && (
+              <button
+                className="clear-filters-button"
+                onClick={() => setFilters(prev => ({ ...prev, categories: [], costTypes: [], difficulties: [], designQualities: [], registrationRequirements: [] }))}
+                title="Nullstill alle filtre"
+              >
+                <span className="material-symbols-outlined">filter_alt_off</span>
+                <span>Nullstill filtre</span>
+              </button>
+            )}
           </div>
         </div>
 
         <div className="tools-grid">
-          {filteredTools.map((tool, index) => (
-            <ToolCard
-              key={`${tool.navn}-${index}`}
-              tool={tool}
-            />
-          ))}
+          {filteredTools.map((tool, index) => {
+            const toolId = `${tool.navn}-${tool.kategori}`;
+            return (
+              <div
+                key={`${tool.navn}-${index}`}
+                ref={(el) => {
+                  if (el) {
+                    toolRefs.current.set(toolId, el);
+                  } else {
+                    toolRefs.current.delete(toolId);
+                  }
+                }}
+                className={highlightedToolId === toolId ? 'tool-card-wrapper highlighted' : 'tool-card-wrapper'}
+              >
+                <ToolCard tool={tool} />
+              </div>
+            );
+          })}
         </div>
 
         {filteredTools.length === 0 && (
@@ -220,6 +288,11 @@ function App() {
         onClose={() => setIsCommandPaletteOpen(false)}
         tools={tools}
         onSelectTool={handleSelectTool}
+      />
+
+      <AttributionModal
+        isOpen={isAttributionModalOpen}
+        onClose={() => setIsAttributionModalOpen(false)}
       />
 
       <Toast

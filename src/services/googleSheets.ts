@@ -2,7 +2,7 @@ import type { OSINTTool, SheetData } from '../types';
 
 const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
 const API_KEY = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY;
-const RANGE = 'A:I'; // Columns A-I (9 columns)
+const RANGE = 'A:K'; // Columns A-K (11 columns)
 
 export async function fetchOSINTTools(): Promise<OSINTTool[]> {
   try {
@@ -22,7 +22,8 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
     
     // Skip header row and map to OSINTTool objects
     // Column mapping: A=Kategori, B=Navn, C=URL, D=Beskrivelse, E=Kostnad, F=Språk,
-    //                 G=Vanskelighetsgrad, H=Veiledning, I=Endre eller slette
+    //                 G=Krever registrering, H=Designkvalitet, I=Vanskelighetsgrad,
+    //                 J=Veiledning, K=Endre eller slette
     const tools = data.values.slice(1).map((row): OSINTTool => ({
       kategori: row[0] || '',
       navn: row[1] || '',
@@ -30,9 +31,11 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
       beskrivelse: row[3] || '',
       kostnad: row[4] || '',
       språk: row[5] || '',
-      vanskelighetsgrad: row[6] || '',
-      veiledning: row[7] || '',
-      endreEllerSlette: row[8] || ''
+      kreverRegistrering: row[6] || '',
+      designkvalitet: row[7] || '',
+      vanskelighetsgrad: row[8] || '',
+      veiledning: row[9] || '',
+      endreEllerSlette: row[10] || ''
     }));
     
     return tools.filter(tool => tool.navn.trim() !== '');

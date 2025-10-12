@@ -50,6 +50,38 @@ export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
     return labels[level - 1];
   };
 
+  const getDesignQuality = () => {
+    if (!tool.designkvalitet) return null;
+    const quality = parseInt(tool.designkvalitet);
+    if (isNaN(quality) || quality < 1 || quality > 3) return null;
+    return quality;
+  };
+
+  const getDesignQualityConfig = () => {
+    const quality = getDesignQuality();
+    if (!quality) return null;
+
+    const configs = {
+      1: { icon: '🔴', label: 'Dårlig grensesnitt', color: 'red' },
+      2: { icon: '🟡', label: 'Middels grensesnitt', color: 'yellow' },
+      3: { icon: '🟢', label: 'God grensesnitt', color: 'green' }
+    };
+
+    return configs[quality as keyof typeof configs];
+  };
+
+  const getRegistrationConfig = () => {
+    const requirement = tool.kreverRegistrering || 'Nei';
+
+    const configs = {
+      'Ja': { icon: 'account_circle', label: 'Krever brukerkonto', class: 'reg-required' },
+      'Delvis': { icon: 'account_circle', label: 'Delvis tilgjengelig uten konto', class: 'reg-partial' },
+      'Nei': { icon: 'no_accounts', label: 'Ingen registrering nødvendig', class: 'reg-none' }
+    };
+
+    return configs[requirement as keyof typeof configs] || null;
+  };
+
   const handleOpenUrl = () => {
     if (tool.url) {
       window.open(tool.url, '_blank', 'noopener,noreferrer');
@@ -108,6 +140,25 @@ export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
           <span className={`tool-cost-tag ${getCostType()}`}>
             {getCostText()}
           </span>
+          {getRegistrationConfig() && (
+            <span
+              className={`registration-badge ${getRegistrationConfig()!.class}`}
+              title={getRegistrationConfig()!.label}
+            >
+              <span className="material-symbols-outlined registration-icon">
+                {getRegistrationConfig()!.icon}
+              </span>
+            </span>
+          )}
+          {getDesignQualityConfig() && (
+            <span
+              className={`design-quality-badge quality-${getDesignQuality()}`}
+              title={getDesignQualityConfig()!.label}
+            >
+              <span className="quality-icon">{getDesignQualityConfig()!.icon}</span>
+              <span className="quality-text">Design</span>
+            </span>
+          )}
           {tool.språk && (
             <span className="language-tag" title={tool.språk}>
               {tool.språk.split(' ')[0]}

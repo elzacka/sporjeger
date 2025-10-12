@@ -9,6 +9,10 @@ interface CategoryFilterProps {
   onCostTypesChange: (costTypes: string[]) => void;
   selectedDifficulties: number[];
   onDifficultiesChange: (difficulties: number[]) => void;
+  selectedDesignQualities: number[];
+  onDesignQualitiesChange: (designQualities: number[]) => void;
+  selectedRegistrationRequirements: string[];
+  onRegistrationRequirementsChange: (registrationRequirements: string[]) => void;
 }
 
 export function CategoryFilter({
@@ -18,11 +22,16 @@ export function CategoryFilter({
   selectedCostTypes,
   onCostTypesChange,
   selectedDifficulties,
-  onDifficultiesChange
+  onDifficultiesChange,
+  selectedDesignQualities,
+  onDesignQualitiesChange,
+  selectedRegistrationRequirements,
+  onRegistrationRequirementsChange
 }: CategoryFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isCostModalOpen, setIsCostModalOpen] = useState(false);
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
 
   const categoryOptions = categories.map(cat => ({ value: cat, label: cat }));
 
@@ -48,6 +57,14 @@ export function CategoryFilter({
     }
   };
 
+  const handleRegistrationRequirementToggle = (requirement: string) => {
+    if (selectedRegistrationRequirements.includes(requirement)) {
+      onRegistrationRequirementsChange(selectedRegistrationRequirements.filter(r => r !== requirement));
+    } else {
+      onRegistrationRequirementsChange([...selectedRegistrationRequirements, requirement]);
+    }
+  };
+
   const getSelectedCategoryLabel = () => {
     if (selectedCategories.length === 0) return 'Alle';
     if (selectedCategories.length === 1) return selectedCategories[0];
@@ -61,6 +78,21 @@ export function CategoryFilter({
       return option?.label || 'Alle';
     }
     return `${selectedCostTypes.length} valgt`;
+  };
+
+  const registrationOptions = [
+    { value: 'Ja', label: 'Krever bruker' },
+    { value: 'Delvis', label: 'Delvis tilgjengelig' },
+    { value: 'Nei', label: 'Ingen registrering' }
+  ];
+
+  const getSelectedRegistrationLabel = () => {
+    if (selectedRegistrationRequirements.length === 0) return 'Alle';
+    if (selectedRegistrationRequirements.length === 1) {
+      const option = registrationOptions.find(opt => opt.value === selectedRegistrationRequirements[0]);
+      return option?.label || 'Alle';
+    }
+    return `${selectedRegistrationRequirements.length} valgt`;
   };
 
   return (
@@ -100,6 +132,17 @@ export function CategoryFilter({
             </button>
           </div>
 
+          <div className="filter-section">
+            <label className="filter-label">Registrering:</label>
+            <button
+              className="filter-button"
+              onClick={() => setIsRegistrationModalOpen(true)}
+            >
+              <span>{getSelectedRegistrationLabel()}</span>
+              <span className="material-symbols-outlined">expand_more</span>
+            </button>
+          </div>
+
           <div className="difficulty-filter-section">
             <span className="filter-label">Vanskelighetsgrad:</span>
             <div className="difficulty-buttons">
@@ -135,6 +178,33 @@ export function CategoryFilter({
               ))}
             </div>
           </div>
+
+          <div className="design-quality-filter-section">
+            <span className="filter-label">Designkvalitet:</span>
+            <div className="design-quality-buttons">
+              {[
+                { value: 1, label: 'Dårlig', icon: '🔴' },
+                { value: 2, label: 'Middels', icon: '🟡' },
+                { value: 3, label: 'God', icon: '🟢' }
+              ].map(({ value, label, icon }) => (
+                <button
+                  key={value}
+                  className={`design-quality-filter-btn quality-${value} ${selectedDesignQualities.includes(value) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedDesignQualities.includes(value)) {
+                      onDesignQualitiesChange(selectedDesignQualities.filter(q => q !== value));
+                    } else {
+                      onDesignQualitiesChange([...selectedDesignQualities, value]);
+                    }
+                  }}
+                  title={`${label} grensesnitt`}
+                >
+                  <span className="quality-icon">{icon}</span>
+                  <span className="quality-label">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -154,6 +224,15 @@ export function CategoryFilter({
         options={costOptions}
         selectedValues={selectedCostTypes}
         onToggle={handleCostTypeToggle}
+      />
+
+      <FilterModal
+        isOpen={isRegistrationModalOpen}
+        onClose={() => setIsRegistrationModalOpen(false)}
+        title="Velg registreringskrav"
+        options={registrationOptions}
+        selectedValues={selectedRegistrationRequirements}
+        onToggle={handleRegistrationRequirementToggle}
       />
     </>
   );

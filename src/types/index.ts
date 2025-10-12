@@ -5,9 +5,11 @@ export interface OSINTTool {
   beskrivelse: string;         // D: Description
   kostnad: string;             // E: Cost (Gratis/Betalt/Gratis med kjøp)
   språk?: string;              // F: Language (manual only - flag emoji + language)
-  vanskelighetsgrad?: string;  // G: Difficulty 1-5
-  veiledning?: string;         // H: Guide URL (Bellingcat GitBook or manual)
-  endreEllerSlette?: string;   // I: Protection flag ("Nei" = protected)
+  kreverRegistrering?: string; // G: Registration required (Ja/Delvis/Nei)
+  designkvalitet?: string;     // H: Design quality 1-3
+  vanskelighetsgrad?: string;  // I: Difficulty 1-5
+  veiledning?: string;         // J: Guide URL (Bellingcat GitBook or manual)
+  endreEllerSlette?: string;   // K: Protection flag ("Nei" = protected)
 }
 
 export interface SheetData {
@@ -17,7 +19,9 @@ export interface SheetData {
 export interface FilterState {
   categories: string[];
   costTypes: string[];
-  difficulties: number[];      // NEW: 1-5 star difficulty filter
+  difficulties: number[];           // 1-5 star difficulty filter
+  designQualities: number[];        // 1-3 design quality filter
+  registrationRequirements: string[]; // Ja/Delvis/Nei filter
   searchQuery: string;
 }
 
