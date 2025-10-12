@@ -1117,7 +1117,7 @@ body::before {
 }
 
 .tool-cost-tag.gratis_med_kjop {
-  color: rgba(0, 255, 255, 0.9);
+  color: rgba(255, 215, 0, 0.9);
 }
 
 .norwegian-flag,
@@ -1142,7 +1142,7 @@ body::before {
 }
 
 .tool-card:hover .tool-cost-tag.gratis_med_kjop {
-  color: rgba(0, 255, 255, 1);
+  color: rgba(255, 215, 0, 1);
 }
 
 .tool-url {
@@ -2069,21 +2069,21 @@ body::before {
 
 .design-quality-filter-btn.active.quality-poor {
   background: rgba(255, 23, 68, 0.15);
-  border-color: var(--error);
+  border-color: rgba(0, 255, 65, 0.3);
   color: var(--error);
   box-shadow: 0 0 12px rgba(255, 23, 68, 0.3);
 }
 
 .design-quality-filter-btn.active.quality-medium {
   background: rgba(255, 215, 0, 0.15);
-  border-color: #ffd700;
+  border-color: rgba(0, 255, 65, 0.3);
   color: #ffd700;
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
 }
 
 .design-quality-filter-btn.active.quality-good {
   background: rgba(0, 255, 65, 0.15);
-  border-color: var(--matrix-green-bright);
+  border-color: rgba(0, 255, 65, 0.3);
   color: var(--matrix-green-bright);
   box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
 }
@@ -2169,6 +2169,172 @@ body::before {
   color: rgba(0, 255, 65, 1);
 }
 
+/* Cost Filter Section */
+.cost-filter-section {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+.cost-filter-section .filter-label {
+  white-space: nowrap;
+}
+
+.cost-buttons {
+  display: flex;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.cost-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  min-height: 38px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8125rem;
+  font-family: 'Share Tech Mono', monospace;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cost-filter-btn .cost-label {
+  font-size: 0.75rem;
+}
+
+.cost-filter-btn.cost-free {
+  color: rgba(0, 255, 65, 0.9);
+}
+
+.cost-filter-btn.cost-paid {
+  color: rgba(255, 23, 68, 0.9);
+}
+
+.cost-filter-btn.cost-partial {
+  color: rgba(255, 215, 0, 0.9);
+}
+
+.cost-filter-btn:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: rgba(0, 255, 65, 0.5);
+  transform: translateY(-1px);
+}
+
+.cost-filter-btn.cost-free.active {
+  background: rgba(0, 255, 65, 0.15);
+  border-color: rgba(0, 255, 65, 0.3);
+  color: var(--matrix-green-bright);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
+}
+
+.cost-filter-btn.cost-paid.active {
+  background: rgba(255, 23, 68, 0.15);
+  border-color: rgba(0, 255, 65, 0.3);
+  color: var(--error);
+  box-shadow: 0 0 12px rgba(255, 23, 68, 0.3);
+}
+
+.cost-filter-btn.cost-partial.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(0, 255, 65, 0.3);
+  color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+}
+
+/* Registration Filter Section */
+.registration-filter-section {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+.registration-filter-section .filter-label {
+  white-space: nowrap;
+}
+
+.registration-buttons {
+  display: flex;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.registration-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  min-height: 38px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8125rem;
+  font-family: 'Share Tech Mono', monospace;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.registration-filter-btn .reg-icon {
+  font-size: 0.875rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  font-variation-settings: 'FILL' 0, 'wght' 400;
+}
+
+.registration-filter-btn .reg-label {
+  font-size: 0.75rem;
+}
+
+.registration-filter-btn.reg-required {
+  color: rgba(255, 23, 68, 0.9);
+}
+
+.registration-filter-btn.reg-partial {
+  color: rgba(255, 215, 0, 0.9);
+}
+
+.registration-filter-btn.reg-none {
+  color: rgba(0, 255, 65, 0.9);
+}
+
+.registration-filter-btn:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: rgba(0, 255, 65, 0.5);
+  transform: translateY(-1px);
+}
+
+.registration-filter-btn.reg-required.active {
+  background: rgba(255, 23, 68, 0.15);
+  border-color: rgba(0, 255, 65, 0.3);
+  color: var(--error);
+  box-shadow: 0 0 12px rgba(255, 23, 68, 0.3);
+}
+
+.registration-filter-btn.reg-partial.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(0, 255, 65, 0.3);
+  color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+}
+
+.registration-filter-btn.reg-none.active {
+  background: rgba(0, 255, 65, 0.15);
+  border-color: rgba(0, 255, 65, 0.3);
+  color: var(--matrix-green-bright);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
+}
+
 /* Mobile responsive for filters */
 @media (max-width: 768px) {
   .difficulty-filter-section {
@@ -2186,6 +2352,46 @@ body::before {
     flex: 1;
     padding: 0.625rem 0.5rem;
     font-size: 0.75rem;
+  }
+
+  .cost-filter-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .cost-buttons {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .cost-filter-btn {
+    flex: 1;
+    padding: 0.625rem 0.5rem;
+  }
+
+  .cost-filter-btn .cost-label {
+    font-size: 0.7rem;
+  }
+
+  .registration-filter-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .registration-buttons {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .registration-filter-btn {
+    flex: 1;
+    padding: 0.625rem 0.5rem;
+  }
+
+  .registration-filter-btn .reg-label {
+    font-size: 0.7rem;
   }
 
   .design-quality-filter-section {
@@ -2325,7 +2531,7 @@ body::before {
 }
 
 .registration-badge.reg-required {
-  color: rgba(255, 165, 0, 0.9);
+  color: rgba(255, 23, 68, 0.9);
 }
 
 .registration-badge.reg-partial {
@@ -2337,7 +2543,7 @@ body::before {
 }
 
 .tool-card:hover .registration-badge.reg-required {
-  color: rgba(255, 165, 0, 1);
+  color: rgba(255, 23, 68, 1);
 }
 
 .tool-card:hover .registration-badge.reg-partial {

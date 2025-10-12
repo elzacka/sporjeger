@@ -32,16 +32,8 @@ export function CategoryFilter({
 }: CategoryFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-  const [isCostModalOpen, setIsCostModalOpen] = useState(false);
-  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
 
   const categoryOptions = categories.map(cat => ({ value: cat, label: cat }));
-
-  const costOptions = [
-    { value: 'gratis', label: 'Gratis' },
-    { value: 'betalt', label: 'Betalt' },
-    { value: 'gratis_med_kjop', label: 'Gratis med kjøp' }
-  ];
 
   const handleCategoryToggle = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -51,50 +43,10 @@ export function CategoryFilter({
     }
   };
 
-  const handleCostTypeToggle = (costType: string) => {
-    if (selectedCostTypes.includes(costType)) {
-      onCostTypesChange(selectedCostTypes.filter(c => c !== costType));
-    } else {
-      onCostTypesChange([...selectedCostTypes, costType]);
-    }
-  };
-
-  const handleRegistrationRequirementToggle = (requirement: string) => {
-    if (selectedRegistrationRequirements.includes(requirement)) {
-      onRegistrationRequirementsChange(selectedRegistrationRequirements.filter(r => r !== requirement));
-    } else {
-      onRegistrationRequirementsChange([...selectedRegistrationRequirements, requirement]);
-    }
-  };
-
   const getSelectedCategoryLabel = () => {
     if (selectedCategories.length === 0) return 'Alle';
     if (selectedCategories.length === 1) return selectedCategories[0];
     return `${selectedCategories.length} valgt`;
-  };
-
-  const getSelectedCostLabel = () => {
-    if (selectedCostTypes.length === 0) return 'Alle';
-    if (selectedCostTypes.length === 1) {
-      const option = costOptions.find(opt => opt.value === selectedCostTypes[0]);
-      return option?.label || 'Alle';
-    }
-    return `${selectedCostTypes.length} valgt`;
-  };
-
-  const registrationOptions = [
-    { value: 'Ja', label: 'Krever bruker' },
-    { value: 'Delvis', label: 'Delvis tilgjengelig' },
-    { value: 'Nei', label: 'Ingen registrering' }
-  ];
-
-  const getSelectedRegistrationLabel = () => {
-    if (selectedRegistrationRequirements.length === 0) return 'Alle';
-    if (selectedRegistrationRequirements.length === 1) {
-      const option = registrationOptions.find(opt => opt.value === selectedRegistrationRequirements[0]);
-      return option?.label || 'Alle';
-    }
-    return `${selectedRegistrationRequirements.length} valgt`;
   };
 
   return (
@@ -120,28 +72,6 @@ export function CategoryFilter({
               onClick={() => setIsCategoryModalOpen(true)}
             >
               <span>{getSelectedCategoryLabel()}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-          </div>
-
-          <div className="filter-section">
-            <label className="filter-label">Kostnad:</label>
-            <button
-              className="filter-button"
-              onClick={() => setIsCostModalOpen(true)}
-            >
-              <span>{getSelectedCostLabel()}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-          </div>
-
-          <div className="filter-section">
-            <label className="filter-label">Registrering:</label>
-            <button
-              className="filter-button"
-              onClick={() => setIsRegistrationModalOpen(true)}
-            >
-              <span>{getSelectedRegistrationLabel()}</span>
               <span className="material-symbols-outlined">expand_more</span>
             </button>
           </div>
@@ -177,6 +107,59 @@ export function CategoryFilter({
                       />
                     </svg>
                   ))}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="cost-filter-section">
+            <span className="filter-label">Kostnad:</span>
+            <div className="cost-buttons">
+              {[
+                { value: 'gratis', label: 'Gratis', class: 'cost-free' },
+                { value: 'gratis_med_kjop', label: 'Gratis m. kjøp', class: 'cost-partial' },
+                { value: 'betalt', label: 'Betalt', class: 'cost-paid' }
+              ].map(({ value, label, class: costClass }) => (
+                <button
+                  key={value}
+                  className={`cost-filter-btn ${costClass} ${selectedCostTypes.includes(value) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedCostTypes.includes(value)) {
+                      onCostTypesChange(selectedCostTypes.filter(c => c !== value));
+                    } else {
+                      onCostTypesChange([...selectedCostTypes, value]);
+                    }
+                  }}
+                  title={label}
+                >
+                  <span className="cost-label">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="registration-filter-section">
+            <span className="filter-label">Registrering:</span>
+            <div className="registration-buttons">
+              {[
+                { value: 'Nei', label: 'Nei', class: 'reg-none', icon: 'no_accounts' },
+                { value: 'Delvis', label: 'Delvis', class: 'reg-partial', icon: 'account_circle' },
+                { value: 'Ja', label: 'Ja', class: 'reg-required', icon: 'account_circle' }
+              ].map(({ value, label, class: regClass, icon }) => (
+                <button
+                  key={value}
+                  className={`registration-filter-btn ${regClass} ${selectedRegistrationRequirements.includes(value) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedRegistrationRequirements.includes(value)) {
+                      onRegistrationRequirementsChange(selectedRegistrationRequirements.filter(r => r !== value));
+                    } else {
+                      onRegistrationRequirementsChange([...selectedRegistrationRequirements, value]);
+                    }
+                  }}
+                  title={`${label} registrering`}
+                >
+                  <span className="material-symbols-outlined reg-icon">{icon}</span>
+                  <span className="reg-label">{label}</span>
                 </button>
               ))}
             </div>
@@ -218,24 +201,6 @@ export function CategoryFilter({
         options={categoryOptions}
         selectedValues={selectedCategories}
         onToggle={handleCategoryToggle}
-      />
-
-      <FilterModal
-        isOpen={isCostModalOpen}
-        onClose={() => setIsCostModalOpen(false)}
-        title="Velg kostnad"
-        options={costOptions}
-        selectedValues={selectedCostTypes}
-        onToggle={handleCostTypeToggle}
-      />
-
-      <FilterModal
-        isOpen={isRegistrationModalOpen}
-        onClose={() => setIsRegistrationModalOpen(false)}
-        title="Velg registreringskrav"
-        options={registrationOptions}
-        selectedValues={selectedRegistrationRequirements}
-        onToggle={handleRegistrationRequirementToggle}
       />
     </>
   );

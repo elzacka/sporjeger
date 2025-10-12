@@ -22,7 +22,7 @@ export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
   };
 
   const getCostText = () => {
-    if (isGratisMedKjop) return 'Gratis med kjøp';
+    if (isGratisMedKjop) return 'Gratis m. kjøp';
     if (isGratis) return 'Gratis';
     return 'Betalt';
   };
@@ -176,7 +176,6 @@ export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
             <button
               className="guide-link"
               onClick={handleOpenGuide}
-              title="Åpne Bellingcat-veiledning"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2 2h8v8H2V2z" stroke="currentColor" strokeWidth="1"/>
