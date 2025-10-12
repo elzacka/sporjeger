@@ -195,63 +195,40 @@ function App() {
           <button
             className="search-bar"
             onClick={() => setIsCommandPaletteOpen(true)}
-            title="Søk i verktøy (⌘K)"
+            title="Søk etter verktøy (⌘K)"
           >
             <span className="material-symbols-outlined">search</span>
-            <span className="search-placeholder">Søk i verktøy...</span>
+            <span className="search-placeholder">Søk etter verktøy...</span>
             <kbd className="search-kbd">⌘K</kbd>
           </button>
         </div>
       </header>
 
       <main className="main-content">
-        <div className="filters-section">
-          <div className="filters-section-top">
-            <div className="filters-container">
-              <CategoryFilter
-                categories={categories}
-                selectedCategories={filters.categories}
-                onCategoriesChange={(categories) =>
-                  setFilters(prev => ({ ...prev, categories }))
-                }
-                selectedCostTypes={filters.costTypes}
-                onCostTypesChange={(costTypes) =>
-                  setFilters(prev => ({ ...prev, costTypes }))
-                }
-                selectedDifficulties={filters.difficulties}
-                onDifficultiesChange={(difficulties) =>
-                  setFilters(prev => ({ ...prev, difficulties }))
-                }
-                selectedDesignQualities={filters.designQualities}
-                onDesignQualitiesChange={(designQualities) =>
-                  setFilters(prev => ({ ...prev, designQualities }))
-                }
-                selectedRegistrationRequirements={filters.registrationRequirements}
-                onRegistrationRequirementsChange={(registrationRequirements) =>
-                  setFilters(prev => ({ ...prev, registrationRequirements }))
-                }
-              />
-            </div>
-          </div>
-
-          <div className="filters-section-bottom">
-            <div className="results-info">
-              <span className="material-symbols-outlined">database</span>
-              <span>{filteredTools.length} {filteredTools.length === 1 ? 'verktøy' : 'verktøy'}</span>
-            </div>
-
-            {(filters.categories.length > 0 || filters.costTypes.length > 0 || filters.difficulties.length > 0 || filters.designQualities.length > 0 || filters.registrationRequirements.length > 0) && (
-              <button
-                className="clear-filters-button"
-                onClick={() => setFilters(prev => ({ ...prev, categories: [], costTypes: [], difficulties: [], designQualities: [], registrationRequirements: [] }))}
-                title="Nullstill alle filtre"
-              >
-                <span className="material-symbols-outlined">filter_alt_off</span>
-                <span>Nullstill filtre</span>
-              </button>
-            )}
-          </div>
-        </div>
+        <CategoryFilter
+          categories={categories}
+          selectedCategories={filters.categories}
+          onCategoriesChange={(categories) =>
+            setFilters(prev => ({ ...prev, categories }))
+          }
+          selectedCostTypes={filters.costTypes}
+          onCostTypesChange={(costTypes) =>
+            setFilters(prev => ({ ...prev, costTypes }))
+          }
+          selectedDifficulties={filters.difficulties}
+          onDifficultiesChange={(difficulties) =>
+            setFilters(prev => ({ ...prev, difficulties }))
+          }
+          selectedDesignQualities={filters.designQualities}
+          onDesignQualitiesChange={(designQualities) =>
+            setFilters(prev => ({ ...prev, designQualities }))
+          }
+          selectedRegistrationRequirements={filters.registrationRequirements}
+          onRegistrationRequirementsChange={(registrationRequirements) =>
+            setFilters(prev => ({ ...prev, registrationRequirements }))
+          }
+          toolCount={filteredTools.length}
+        />
 
         <div className="tools-grid">
           {filteredTools.map((tool, index) => {

@@ -13,6 +13,7 @@ interface CategoryFilterProps {
   onDesignQualitiesChange: (designQualities: number[]) => void;
   selectedRegistrationRequirements: string[];
   onRegistrationRequirementsChange: (registrationRequirements: string[]) => void;
+  toolCount: number;
 }
 
 export function CategoryFilter({
@@ -26,7 +27,8 @@ export function CategoryFilter({
   selectedDesignQualities,
   onDesignQualitiesChange,
   selectedRegistrationRequirements,
-  onRegistrationRequirementsChange
+  onRegistrationRequirementsChange,
+  toolCount
 }: CategoryFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
@@ -107,6 +109,7 @@ export function CategoryFilter({
             {isExpanded ? 'expand_less' : 'expand_more'}
           </span>
           <span>Filtrer</span>
+          <span className="tool-count-badge">{toolCount} verktøy</span>
         </button>
 
         <div className={`filter-content ${isExpanded ? 'expanded' : 'collapsed'}`}>
@@ -180,16 +183,16 @@ export function CategoryFilter({
           </div>
 
           <div className="design-quality-filter-section">
-            <span className="filter-label">Designkvalitet:</span>
+            <span className="filter-label">Design:</span>
             <div className="design-quality-buttons">
               {[
-                { value: 1, label: 'Dårlig', icon: '🔴' },
-                { value: 2, label: 'Middels', icon: '🟡' },
-                { value: 3, label: 'God', icon: '🟢' }
-              ].map(({ value, label, icon }) => (
+                { value: 3, label: 'Godt', class: 'quality-good' },
+                { value: 2, label: 'Middels', class: 'quality-medium' },
+                { value: 1, label: 'Dårlig', class: 'quality-poor' }
+              ].map(({ value, label, class: qualityClass }) => (
                 <button
                   key={value}
-                  className={`design-quality-filter-btn quality-${value} ${selectedDesignQualities.includes(value) ? 'active' : ''}`}
+                  className={`design-quality-filter-btn ${qualityClass} ${selectedDesignQualities.includes(value) ? 'active' : ''}`}
                   onClick={() => {
                     if (selectedDesignQualities.includes(value)) {
                       onDesignQualitiesChange(selectedDesignQualities.filter(q => q !== value));
@@ -199,7 +202,7 @@ export function CategoryFilter({
                   }}
                   title={`${label} grensesnitt`}
                 >
-                  <span className="quality-icon">{icon}</span>
+                  <span className="material-symbols-outlined quality-icon">circle</span>
                   <span className="quality-label">{label}</span>
                 </button>
               ))}

@@ -62,9 +62,9 @@ export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
     if (!quality) return null;
 
     const configs = {
-      1: { icon: '🔴', label: 'Dårlig grensesnitt', color: 'red' },
-      2: { icon: '🟡', label: 'Middels grensesnitt', color: 'yellow' },
-      3: { icon: '🟢', label: 'God grensesnitt', color: 'green' }
+      1: { icon: 'circle', label: 'Dårlig design', class: 'quality-poor' },
+      2: { icon: 'circle', label: 'Middels design', class: 'quality-medium' },
+      3: { icon: 'circle', label: 'Godt design', class: 'quality-good' }
     };
 
     return configs[quality as keyof typeof configs];
@@ -152,11 +152,12 @@ export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
           )}
           {getDesignQualityConfig() && (
             <span
-              className={`design-quality-badge quality-${getDesignQuality()}`}
+              className={`design-quality-badge ${getDesignQualityConfig()!.class}`}
               title={getDesignQualityConfig()!.label}
             >
-              <span className="quality-icon">{getDesignQualityConfig()!.icon}</span>
-              <span className="quality-text">Design</span>
+              <span className="material-symbols-outlined quality-icon">
+                {getDesignQualityConfig()!.icon}
+              </span>
             </span>
           )}
           {tool.språk && (
