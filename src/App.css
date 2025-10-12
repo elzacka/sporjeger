@@ -2086,8 +2086,10 @@ body::before {
 }
 
 .design-quality-filter-btn .quality-icon {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .design-quality-filter-btn .quality-label {
@@ -2141,8 +2143,10 @@ body::before {
 }
 
 .design-quality-badge .quality-icon {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .design-quality-badge .quality-text {
@@ -2323,8 +2327,10 @@ body::before {
 }
 
 .registration-badge .registration-icon {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .registration-badge.reg-required {
