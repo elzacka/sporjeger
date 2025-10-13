@@ -2543,7 +2543,7 @@ body::before {
   gap: 0.5rem;
   padding: 1rem 1.5rem;
   background: rgba(0, 255, 65, 0.08);
-  border: 1.5px solid rgba(0, 255, 65, 0.3);
+  border: none;
   border-radius: 8px;
   color: var(--matrix-green-bright);
   text-decoration: none;
