@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { formatMarkdownText } from '../utils/formatText';
 
 interface GuideModalProps {
   isOpen: boolean;
@@ -54,10 +55,8 @@ export function GuideModal({ isOpen, onClose, guideContent }: GuideModalProps) {
               </a>
             </div>
           ) : (
-            <div className="guide-text-content">
-              {guideContent.split('\n').map((line, i) => (
-                <p key={i}>{line}</p>
-              ))}
+            <div className="guide-text-content formatted">
+              {formatMarkdownText(guideContent)}
             </div>
           )}
         </div>
