@@ -51,9 +51,6 @@ export function GuideModal({ isOpen, onClose, guideContent }: GuideModalProps) {
                 className="guide-external-link"
               >
                 {guideContent}
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 6.5v3.5H2V2h3.5M6.5 2H10v3.5M10 2L5 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
               </a>
             </div>
           ) : (
