@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { RefObject } from 'react';
 import { FilterModal } from './FilterModal';
 
 interface CategoryFilterProps {
@@ -15,8 +16,10 @@ interface CategoryFilterProps {
   onRegistrationRequirementsChange: (registrationRequirements: string[]) => void;
   searchQuery: string;
   onSearchQueryChange: (query: string) => void;
-  toolCount: number;
   onOpenInfo: () => void;
+  isExpanded: boolean;
+  onToggleExpanded: () => void;
+  searchInputRef: RefObject<HTMLInputElement | null>;
 }
 
 export function CategoryFilter({
@@ -33,10 +36,11 @@ export function CategoryFilter({
   onRegistrationRequirementsChange,
   searchQuery,
   onSearchQueryChange,
-  toolCount: _toolCount,
-  onOpenInfo
+  onOpenInfo,
+  isExpanded,
+  onToggleExpanded,
+  searchInputRef
 }: CategoryFilterProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [openModal, setOpenModal] = useState<string | null>(null);
 
   const hasActiveFilters =
@@ -114,6 +118,7 @@ export function CategoryFilter({
             <label className="side-panel-label">Søk</label>
             <div className="search-input-wrapper">
               <input
+                ref={searchInputRef}
                 type="text"
                 className="side-panel-search"
                 placeholder="Søk etter verktøy..."
@@ -205,9 +210,9 @@ export function CategoryFilter({
       {!openModal && (
         <button
           className="side-panel-toggle"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={onToggleExpanded}
           aria-expanded={isExpanded}
-          title={isExpanded ? 'Lukk filterpanel' : 'Åpne filterpanel'}
+          title={isExpanded ? 'Lukk filterpanel (⌘B)' : 'Åpne filterpanel (⌘B)'}
         >
           <span className="material-symbols-outlined">
             {isExpanded ? 'chevron_left' : 'chevron_right'}

@@ -54,10 +54,17 @@ export function validateEnvironment(): void {
       '\n\nPlease check your .env.local file and ensure all required variables are set.\n' +
       'See .env.development for an example configuration.';
 
+    // In production, only log errors but don't throw (allow app to try loading anyway)
+    if (import.meta.env.PROD) {
+      console.error(errorMessage);
+      return;
+    }
+
+    // In development, throw the error
     throw new Error(errorMessage);
   }
 
-  // Success message in development
+  // Success message in development only
   if (import.meta.env.DEV) {
     const envType = env.VITE_GOOGLE_SHEET_ID === productionSheetId
       ? 'PRODUCTION (⚠️  not recommended)'

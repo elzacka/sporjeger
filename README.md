@@ -11,14 +11,17 @@ Sporjeger (Norwegian for "Tracker") is a curated directory of OSINT tools design
 ## Features
 
 - 🔍 **Quick Search** - CMD+K command palette for instant tool discovery
-- 📱 **Responsive Design** - Optimized experience on mobile and desktop
-- 🎯 **Smart Filtering** - Filter by category, cost type, and difficulty level
+- ⌨️ **Keyboard Shortcuts** - Navigate efficiently with CMD+B to toggle filters, CMD+K for search
+- 📱 **Mobile Optimized** - Full iOS Safari support with PWA capabilities
+- 🎯 **Advanced Filtering** - Filter by category, cost, difficulty, design quality, and registration requirements
 - ⭐ **Difficulty Ratings** - Visual 1-5 star system for tool complexity
-- 🌐 **Language Support** - Flag indicators for tool language availability
-- 📖 **Integrated Guides** - Direct links to Bellingcat toolkit documentation
+- 🎨 **Design Quality Indicators** - Visual quality ratings for tool interfaces
+- 🌐 **Language Support** - Flag emoji indicators for tool language availability
+- 📖 **Integrated Guides** - Direct links to tool documentation and guides
 - 🎨 **Matrix Theme** - Neural network-inspired dark interface
 - ⚡ **Performance** - Fast loading with code splitting and optimization
-- 💾 **Offline Ready** - PWA support for offline access
+- 💾 **Offline Ready** - PWA support with service worker for offline access
+- 🛡️ **Error Boundaries** - Graceful error handling prevents crashes
 
 ## Tech Stack
 
@@ -82,9 +85,11 @@ The application reads data from a Google Sheet with the following structure:
 | D | Beskrivelse | Brief description of the tool |
 | E | Kostnad | Cost type: "Gratis", "Betalt", or "Gratis med kjøp" |
 | F | Språk | Language with flag emoji (e.g., "🇳🇴 Norsk") |
-| G | Vanskelighetsgrad | Difficulty level (1-5) |
-| H | Veiledning | URL to guide/documentation |
-| I | Endre eller slette | Protection flag ("Nei" = protected from edits) |
+| G | Krever registrering | Registration requirement: "Ja", "Delvis", or "Nei" |
+| H | Designkvalitet | Design quality rating (1-3: Poor, Medium, Good) |
+| I | Vanskelighetsgrad | Difficulty level (1-5) |
+| J | Veiledning | URL to guide/documentation |
+| K | Endre eller slette | Protection flag ("Nei" = protected from edits) |
 
 ### Setting up Google Sheets API:
 
@@ -106,17 +111,18 @@ The application reads data from a Google Sheet with the following structure:
 sporjeger/
 ├── src/
 │   ├── components/          # React components
-│   │   ├── CategoryFilter.tsx   # Collapsible filter controls
+│   │   ├── AttributionModal.tsx # Credits and attribution
+│   │   ├── CategoryFilter.tsx   # Filter panel with all controls
 │   │   ├── CommandPalette.tsx   # CMD+K search interface
+│   │   ├── ErrorBoundary.tsx    # Error handling boundary
 │   │   ├── FilterModal.tsx      # Multi-select filter modal
 │   │   ├── GuideModal.tsx       # Guide content display
 │   │   ├── ToolCard.tsx         # Tool display card
 │   │   └── Toast.tsx            # Toast notifications
 │   ├── hooks/               # Custom React hooks
-│   │   ├── useOSINTTools.ts     # Data fetching hook
-│   │   └── useTheme.ts          # Theme management
+│   │   └── useOSINTTools.ts     # Data fetching hook
 │   ├── services/            # External services
-│   │   └── googleSheets.ts      # Google Sheets API
+│   │   └── googleSheets.ts      # Google Sheets API client
 │   ├── types/               # TypeScript definitions
 │   │   └── index.ts
 │   ├── utils/               # Utility functions
@@ -125,6 +131,9 @@ sporjeger/
 │   ├── App.css              # Styles and animations
 │   └── main.tsx             # Entry point
 ├── public/                  # Static assets
+│   ├── manifest.json        # PWA manifest
+│   └── icon-*.png           # PWA icons
+├── sw.js                    # Service worker for offline support
 ├── .github/workflows/       # GitHub Actions
 │   └── deploy.yml           # Deployment workflow
 └── package.json
@@ -132,7 +141,9 @@ sporjeger/
 
 ## Keyboard Shortcuts
 
-- `Cmd/Ctrl + K` - Open command palette for quick search
+- **`Cmd/Ctrl + K`** - Focus search bar (if side panel open) or open command palette
+- **`Cmd/Ctrl + B`** - Toggle filter side panel open/closed
+- **`ESC`** - Close modals and command palette
 
 ## Contributing
 

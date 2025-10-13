@@ -9,7 +9,7 @@ interface ToolCardProps {
 export const ToolCard = memo(function ToolCard({ tool }: ToolCardProps) {
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
-  const kostnadLower = tool.kostnad.toLowerCase();
+  const kostnadLower = (tool.kostnad || '').toLowerCase();
   const isGratis = kostnadLower.includes('gratis') ||
                   kostnadLower.includes('free') ||
                   tool.kostnad === '';
