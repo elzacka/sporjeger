@@ -33,7 +33,7 @@ export function CategoryFilter({
   onRegistrationRequirementsChange,
   searchQuery,
   onSearchQueryChange,
-  toolCount,
+  toolCount: _toolCount,
   onOpenInfo
 }: CategoryFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
