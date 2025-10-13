@@ -34,23 +34,13 @@ export function GuideModal({ isOpen, onClose, guideContent }: GuideModalProps) {
   return createPortal(
     <div className="guide-modal-overlay" onClick={onClose}>
       <div className="guide-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="guide-modal-header">
-          <h2 className="guide-modal-title">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 2h12v12H2V2z" stroke="currentColor" strokeWidth="1.5"/>
-              <path d="M5 6h6M5 9h5" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
-            Guide
-          </h2>
-          <button
-            className="guide-modal-close"
-            onClick={onClose}
-            title="Lukk (Esc)"
-          >
-            ×
-          </button>
-        </div>
-
+        <button
+          className="guide-modal-close"
+          onClick={onClose}
+          title="Lukk (Esc)"
+        >
+          ×
+        </button>
         <div className="guide-modal-content">
           {isUrl ? (
             <div className="guide-url-content">

@@ -4,7 +4,7 @@ interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  options: { value: string; label: string }[];
+  options: { value: string; label: string; icon?: string }[];
   selectedValues: string[];
   onToggle: (value: string) => void;
 }
@@ -54,8 +54,14 @@ export function FilterModal({
               className={`filter-modal-option ${
                 selectedValues.includes(option.value) ? 'selected' : ''
               }`}
+              data-value={option.value}
               onClick={() => handleToggle(option.value)}
             >
+              {option.icon && (
+                <span className="material-symbols-outlined filter-option-icon">
+                  {option.icon}
+                </span>
+              )}
               <span className="filter-option-label">{option.label}</span>
               {selectedValues.includes(option.value) && (
                 <span className="material-symbols-outlined filter-option-check">

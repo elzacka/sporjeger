@@ -181,26 +181,6 @@ function App() {
             <p className="app-tagline">Verktøykasse for digital skattejakt</p>
           </div>
 
-          <button
-            className="attribution-icon-button"
-            onClick={() => setIsAttributionModalOpen(true)}
-            title="Om Sporjeger og krediteringer"
-            aria-label="Vis krediteringer og tillatelser"
-          >
-            <span className="material-symbols-outlined">info</span>
-          </button>
-        </div>
-
-        <div className="header-search">
-          <button
-            className="search-bar"
-            onClick={() => setIsCommandPaletteOpen(true)}
-            title="Søk etter verktøy (⌘K)"
-          >
-            <span className="material-symbols-outlined">search</span>
-            <span className="search-placeholder">Søk etter verktøy...</span>
-            <kbd className="search-kbd">⌘K</kbd>
-          </button>
         </div>
       </header>
 
@@ -227,7 +207,12 @@ function App() {
           onRegistrationRequirementsChange={(registrationRequirements) =>
             setFilters(prev => ({ ...prev, registrationRequirements }))
           }
+          searchQuery={filters.searchQuery}
+          onSearchQueryChange={(searchQuery) =>
+            setFilters(prev => ({ ...prev, searchQuery }))
+          }
           toolCount={filteredTools.length}
+          onOpenInfo={() => setIsAttributionModalOpen(true)}
         />
 
         <div className="tools-grid">

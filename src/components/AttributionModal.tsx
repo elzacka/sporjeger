@@ -30,22 +30,13 @@ export function AttributionModal({ isOpen, onClose }: AttributionModalProps) {
   return createPortal(
     <div className="guide-modal-overlay" onClick={onClose}>
       <div className="guide-modal attribution-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="guide-modal-header">
-          <h2 className="guide-modal-title">
-            <span className="material-symbols-outlined">
-              info
-            </span>
-            Info
-          </h2>
-          <button
-            className="guide-modal-close"
-            onClick={onClose}
-            title="Lukk (Esc)"
-          >
-            ×
-          </button>
-        </div>
-
+        <button
+          className="guide-modal-close"
+          onClick={onClose}
+          title="Lukk (Esc)"
+        >
+          ×
+        </button>
         <div className="guide-modal-content attribution-content">
           {/*
             USER NOTE: You can edit the attribution text below.

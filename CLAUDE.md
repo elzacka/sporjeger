@@ -211,6 +211,29 @@ Use SVG stars (NOT emoji ⭐) for CSS color control:
 ))}
 ```
 
+## Common CSS Troubleshooting
+
+### Adjusting Spacing in Tool Cards
+
+**IMPORTANT**: When asked to adjust vertical spacing between difficulty stars and the footer border/badges in tool cards:
+
+1. **DO NOT** modify `.tool-footer` `margin-top` or `padding-top` - these are for card alignment
+2. **DO** look for and modify `.difficulty-stars` bottom margin in `App.css` (around line 2566)
+3. The correct property is: `margin: 0 0 [value] 0;` where the third value controls space below stars
+4. There may be duplicate `.difficulty-stars` rules in the CSS file - look for the one with the full margin declaration
+5. Use negative margins to reduce space (e.g., `margin: 0 0 -2.75rem 0;` to pull footer up by ~44px)
+
+**Location**: `src/App.css` line ~2562-2568
+```css
+.difficulty-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  margin: 0 0 [ADJUST THIS VALUE] 0;  /* Bottom margin controls space before footer */
+  padding: 0;
+}
+```
+
 ## Testing Notes
 
 No automated tests currently. Test manually:
