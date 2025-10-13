@@ -2541,10 +2541,10 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  background: rgba(0, 255, 65, 0.08);
+  padding: 0;
+  background: none;
   border: none;
-  border-radius: 8px;
+  border-radius: 0;
   color: var(--matrix-green-bright);
   text-decoration: none;
   font-family: 'Share Tech Mono', monospace;
