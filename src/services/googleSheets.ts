@@ -14,7 +14,7 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout for slower connections
 
     const response = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`,
@@ -23,6 +23,8 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
         headers: {
           'Accept': 'application/json',
         },
+        // Disable caching for iOS Safari
+        cache: 'no-store',
       }
     );
 
