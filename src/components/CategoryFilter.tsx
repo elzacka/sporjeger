@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { RefObject } from 'react';
 import { FilterModal } from './FilterModal';
 
 interface CategoryFilterProps {
@@ -14,12 +13,7 @@ interface CategoryFilterProps {
   onDesignQualitiesChange: (designQualities: number[]) => void;
   selectedRegistrationRequirements: string[];
   onRegistrationRequirementsChange: (registrationRequirements: string[]) => void;
-  searchQuery: string;
-  onSearchQueryChange: (query: string) => void;
-  onOpenInfo: () => void;
-  isExpanded: boolean;
-  onToggleExpanded: () => void;
-  searchInputRef: RefObject<HTMLInputElement | null>;
+  toolCount: number;
 }
 
 export function CategoryFilter({
@@ -34,258 +28,179 @@ export function CategoryFilter({
   onDesignQualitiesChange,
   selectedRegistrationRequirements,
   onRegistrationRequirementsChange,
-  searchQuery,
-  onSearchQueryChange,
-  onOpenInfo,
-  isExpanded,
-  onToggleExpanded,
-  searchInputRef
+  toolCount
 }: CategoryFilterProps) {
-  const [openModal, setOpenModal] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
-  const hasActiveFilters =
-    selectedCategories.length > 0 ||
-    selectedCostTypes.length > 0 ||
-    selectedDifficulties.length > 0 ||
-    selectedDesignQualities.length > 0 ||
-    selectedRegistrationRequirements.length > 0;
+  const categoryOptions = categories.map(cat => ({ value: cat, label: cat }));
 
-  const handleClearAllFilters = () => {
-    onCategoriesChange([]);
-    onCostTypesChange([]);
-    onDifficultiesChange([]);
-    onDesignQualitiesChange([]);
-    onRegistrationRequirementsChange([]);
-  };
-
-  const getDisplayText = (selected: string[] | number[], allLabel: string = 'Alle') => {
-    if (selected.length === 0) return allLabel;
-    return `${selected.length} valgt`;
-  };
-
-  // Category handlers
-  const handleToggleCategory = (value: string) => {
-    if (selectedCategories.includes(value)) {
-      onCategoriesChange(selectedCategories.filter(v => v !== value));
+  const handleCategoryToggle = (category: string) => {
+    if (selectedCategories.includes(category)) {
+      onCategoriesChange(selectedCategories.filter(c => c !== category));
     } else {
-      onCategoriesChange([...selectedCategories, value]);
+      onCategoriesChange([...selectedCategories, category]);
     }
   };
 
-  // Difficulty handlers
-  const handleToggleDifficulty = (value: string) => {
-    const numValue = parseInt(value);
-    if (selectedDifficulties.includes(numValue)) {
-      onDifficultiesChange(selectedDifficulties.filter(v => v !== numValue));
-    } else {
-      onDifficultiesChange([...selectedDifficulties, numValue]);
-    }
-  };
-
-  // Cost handlers
-  const handleToggleCost = (value: string) => {
-    if (selectedCostTypes.includes(value)) {
-      onCostTypesChange(selectedCostTypes.filter(v => v !== value));
-    } else {
-      onCostTypesChange([...selectedCostTypes, value]);
-    }
-  };
-
-  // Registration handlers
-  const handleToggleRegistration = (value: string) => {
-    if (selectedRegistrationRequirements.includes(value)) {
-      onRegistrationRequirementsChange(selectedRegistrationRequirements.filter(v => v !== value));
-    } else {
-      onRegistrationRequirementsChange([...selectedRegistrationRequirements, value]);
-    }
-  };
-
-  // Design quality handlers
-  const handleToggleDesignQuality = (value: string) => {
-    const numValue = parseInt(value);
-    if (selectedDesignQualities.includes(numValue)) {
-      onDesignQualitiesChange(selectedDesignQualities.filter(v => v !== numValue));
-    } else {
-      onDesignQualitiesChange([...selectedDesignQualities, numValue]);
-    }
+  const getSelectedCategoryLabel = () => {
+    if (selectedCategories.length === 0) return 'Alle';
+    if (selectedCategories.length === 1) return selectedCategories[0];
+    return `${selectedCategories.length} valgt`;
   };
 
   return (
     <>
-      <div className={`side-panel ${isExpanded ? 'open' : 'closed'}`}>
-        <div className="side-panel-content">
-          <div className="side-panel-section">
-            <label className="side-panel-label">Søk</label>
-            <div className="search-input-wrapper">
-              <input
-                ref={searchInputRef}
-                type="text"
-                className="side-panel-search"
-                placeholder="Søk etter verktøy..."
-                value={searchQuery}
-                onChange={(e) => onSearchQueryChange(e.target.value)}
-              />
-              <kbd className="search-shortcut">⌘K</kbd>
+      <div className="category-filter">
+        <button
+          className="filter-toggle-mobile"
+          onClick={() => setIsExpanded(!isExpanded)}
+          aria-expanded={isExpanded}
+        >
+          <span className="material-symbols-outlined">
+            {isExpanded ? 'expand_less' : 'expand_more'}
+          </span>
+          <span>Filtrer</span>
+          <span className="tool-count-badge">{toolCount} verktøy</span>
+        </button>
+
+        <div className={`filter-content ${isExpanded ? 'expanded' : 'collapsed'}`}>
+          <div className="filter-section">
+            <label className="filter-label">Kategori:</label>
+            <button
+              className="filter-button"
+              onClick={() => setIsCategoryModalOpen(true)}
+            >
+              <span>{getSelectedCategoryLabel()}</span>
+              <span className="material-symbols-outlined">expand_more</span>
+            </button>
+          </div>
+
+          <div className="difficulty-filter-section">
+            <span className="filter-label">Vanskelighetsgrad:</span>
+            <div className="difficulty-buttons">
+              {[1, 2, 3, 4, 5].map(level => (
+                <button
+                  key={level}
+                  className={`difficulty-filter-btn ${selectedDifficulties.includes(level) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedDifficulties.includes(level)) {
+                      onDifficultiesChange(selectedDifficulties.filter(d => d !== level));
+                    } else {
+                      onDifficultiesChange([...selectedDifficulties, level]);
+                    }
+                  }}
+                  title={`Vanskelighetsgrad ${level}`}
+                >
+                  {[...Array(level)].map((_, i) => (
+                    <svg
+                      key={i}
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{ display: 'inline-block' }}
+                    >
+                      <path
+                        d="M8 1.5l1.545 4.757h5.005l-4.045 2.986 1.545 4.757L8 11.014 3.95 14l1.545-4.757L1.45 6.257h5.005z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  ))}
+                </button>
+              ))}
             </div>
-            {hasActiveFilters && (
-              <button
-                className="clear-filters-btn"
-                onClick={handleClearAllFilters}
-                title="Nullstill alle filtre"
-              >
-                <span className="material-symbols-outlined">filter_alt_off</span>
-                <span>Nullstill filtre</span>
-              </button>
-            )}
           </div>
 
-          <div className="side-panel-section">
-            <label className="side-panel-label">Kategori</label>
-            <button
-              className="filter-dropdown-btn"
-              onClick={() => setOpenModal('category')}
-            >
-              <span>{getDisplayText(selectedCategories)}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
+          <div className="cost-filter-section">
+            <span className="filter-label">Kostnad:</span>
+            <div className="cost-buttons">
+              {[
+                { value: 'gratis', label: 'Gratis', class: 'cost-free' },
+                { value: 'gratis_med_kjop', label: 'Gratis m. kjøp', class: 'cost-partial' },
+                { value: 'betalt', label: 'Betalt', class: 'cost-paid' }
+              ].map(({ value, label, class: costClass }) => (
+                <button
+                  key={value}
+                  className={`cost-filter-btn ${costClass} ${selectedCostTypes.includes(value) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedCostTypes.includes(value)) {
+                      onCostTypesChange(selectedCostTypes.filter(c => c !== value));
+                    } else {
+                      onCostTypesChange([...selectedCostTypes, value]);
+                    }
+                  }}
+                  title={label}
+                >
+                  <span className="cost-label">{label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="side-panel-section">
-            <label className="side-panel-label">Vanskelighetsgrad</label>
-            <button
-              className="filter-dropdown-btn"
-              onClick={() => setOpenModal('difficulty')}
-            >
-              <span>{getDisplayText(selectedDifficulties)}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
+          <div className="registration-filter-section">
+            <span className="filter-label">Registrering:</span>
+            <div className="registration-buttons">
+              {[
+                { value: 'Nei', label: 'Nei', class: 'reg-none', icon: 'no_accounts' },
+                { value: 'Delvis', label: 'Delvis', class: 'reg-partial', icon: 'account_circle' },
+                { value: 'Ja', label: 'Ja', class: 'reg-required', icon: 'account_circle' }
+              ].map(({ value, label, class: regClass, icon }) => (
+                <button
+                  key={value}
+                  className={`registration-filter-btn ${regClass} ${selectedRegistrationRequirements.includes(value) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedRegistrationRequirements.includes(value)) {
+                      onRegistrationRequirementsChange(selectedRegistrationRequirements.filter(r => r !== value));
+                    } else {
+                      onRegistrationRequirementsChange([...selectedRegistrationRequirements, value]);
+                    }
+                  }}
+                  title={`${label} registrering`}
+                >
+                  <span className="material-symbols-outlined reg-icon">{icon}</span>
+                  <span className="reg-label">{label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="side-panel-section">
-            <label className="side-panel-label">Kostnad</label>
-            <button
-              className="filter-dropdown-btn"
-              onClick={() => setOpenModal('cost')}
-            >
-              <span>{getDisplayText(selectedCostTypes)}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-          </div>
-
-          <div className="side-panel-section">
-            <label className="side-panel-label">Registrering</label>
-            <button
-              className="filter-dropdown-btn"
-              onClick={() => setOpenModal('registration')}
-            >
-              <span>{getDisplayText(selectedRegistrationRequirements)}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-          </div>
-
-          <div className="side-panel-section">
-            <label className="side-panel-label">Designkvalitet</label>
-            <button
-              className="filter-dropdown-btn"
-              onClick={() => setOpenModal('design')}
-            >
-              <span>{getDisplayText(selectedDesignQualities)}</span>
-              <span className="material-symbols-outlined">expand_more</span>
-            </button>
-          </div>
-
-          <div className="side-panel-footer">
-            <button
-              className="info-button"
-              onClick={onOpenInfo}
-              title="Om Sporjeger"
-            >
-              <span className="material-symbols-outlined">info</span>
-              <span>Info</span>
-            </button>
+          <div className="design-quality-filter-section">
+            <span className="filter-label">Design:</span>
+            <div className="design-quality-buttons">
+              {[
+                { value: 3, label: 'Godt', class: 'quality-good' },
+                { value: 2, label: 'Middels', class: 'quality-medium' },
+                { value: 1, label: 'Dårlig', class: 'quality-poor' }
+              ].map(({ value, label, class: qualityClass }) => (
+                <button
+                  key={value}
+                  className={`design-quality-filter-btn ${qualityClass} ${selectedDesignQualities.includes(value) ? 'active' : ''}`}
+                  onClick={() => {
+                    if (selectedDesignQualities.includes(value)) {
+                      onDesignQualitiesChange(selectedDesignQualities.filter(q => q !== value));
+                    } else {
+                      onDesignQualitiesChange([...selectedDesignQualities, value]);
+                    }
+                  }}
+                  title={`${label} grensesnitt`}
+                >
+                  <span className="material-symbols-outlined quality-icon">circle</span>
+                  <span className="quality-label">{label}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {!openModal && (
-        <button
-          className="side-panel-toggle"
-          onClick={onToggleExpanded}
-          aria-expanded={isExpanded}
-          title={isExpanded ? 'Lukk filterpanel (⌘B)' : 'Åpne filterpanel (⌘B)'}
-        >
-          <span className="material-symbols-outlined">
-            {isExpanded ? 'chevron_left' : 'chevron_right'}
-          </span>
-        </button>
-      )}
-
-      {/* Category Modal */}
       <FilterModal
-        isOpen={openModal === 'category'}
-        onClose={() => setOpenModal(null)}
-        title="Kategori"
-        options={categories.map(cat => ({ value: cat, label: cat }))}
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        title="Velg kategori"
+        options={categoryOptions}
         selectedValues={selectedCategories}
-        onToggle={handleToggleCategory}
-      />
-
-      {/* Difficulty Modal */}
-      <FilterModal
-        isOpen={openModal === 'difficulty'}
-        onClose={() => setOpenModal(null)}
-        title="Vanskelighetsgrad"
-        options={[
-          { value: '1', label: '★ Veldig enkel' },
-          { value: '2', label: '★★ Enkel' },
-          { value: '3', label: '★★★ Middels' },
-          { value: '4', label: '★★★★ Avansert' },
-          { value: '5', label: '★★★★★ Ekspert' }
-        ]}
-        selectedValues={selectedDifficulties.map(String)}
-        onToggle={handleToggleDifficulty}
-      />
-
-      {/* Cost Modal */}
-      <FilterModal
-        isOpen={openModal === 'cost'}
-        onClose={() => setOpenModal(null)}
-        title="Kostnad"
-        options={[
-          { value: 'gratis', label: 'GRATIS' },
-          { value: 'gratis_med_kjop', label: 'GRATIS M. KJØP' },
-          { value: 'betalt', label: 'BETALT' }
-        ]}
-        selectedValues={selectedCostTypes}
-        onToggle={handleToggleCost}
-      />
-
-      {/* Registration Modal */}
-      <FilterModal
-        isOpen={openModal === 'registration'}
-        onClose={() => setOpenModal(null)}
-        title="Registrering"
-        options={[
-          { value: 'Nei', label: 'Nei', icon: 'no_accounts' },
-          { value: 'Delvis', label: 'Delvis', icon: 'account_circle' },
-          { value: 'Ja', label: 'Ja', icon: 'account_circle' }
-        ]}
-        selectedValues={selectedRegistrationRequirements}
-        onToggle={handleToggleRegistration}
-      />
-
-      {/* Design Quality Modal */}
-      <FilterModal
-        isOpen={openModal === 'design'}
-        onClose={() => setOpenModal(null)}
-        title="Designkvalitet"
-        options={[
-          { value: '3', label: 'God', icon: 'circle' },
-          { value: '2', label: 'Middels', icon: 'circle' },
-          { value: '1', label: 'Dårlig', icon: 'circle' }
-        ]}
-        selectedValues={selectedDesignQualities.map(String)}
-        onToggle={handleToggleDesignQuality}
+        onToggle={handleCategoryToggle}
       />
     </>
   );

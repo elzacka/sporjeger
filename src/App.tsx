@@ -23,11 +23,9 @@ function App() {
 
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAttributionModalOpen, setIsAttributionModalOpen] = useState(false);
-  const [isSidePanelExpanded, setIsSidePanelExpanded] = useState(false);
   const [toast, setToast] = useState({ message: '', isVisible: false });
   const [highlightedToolId, setHighlightedToolId] = useState<string | null>(null);
   const toolRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const categories = useMemo(() => getUniqueCategories(tools), [tools]);
 
@@ -121,27 +119,15 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Cmd/Ctrl+K: Open command palette OR focus search if side panel is open
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        if (isSidePanelExpanded && searchInputRef.current) {
-          searchInputRef.current.focus();
-          searchInputRef.current.select();
-        } else {
-          setIsCommandPaletteOpen(true);
-        }
-      }
-
-      // Cmd/Ctrl+B: Toggle side panel
-      if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
-        e.preventDefault();
-        setIsSidePanelExpanded(prev => !prev);
+        setIsCommandPaletteOpen(true);
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isSidePanelExpanded]);
+  }, []);
 
   if (loading) {
     return (
@@ -195,6 +181,26 @@ function App() {
             <p className="app-tagline">Verktøykasse for digital skattejakt</p>
           </div>
 
+          <button
+            className="attribution-icon-button"
+            onClick={() => setIsAttributionModalOpen(true)}
+            title="Om Sporjeger og krediteringer"
+            aria-label="Vis krediteringer og tillatelser"
+          >
+            <span className="material-symbols-outlined">info</span>
+          </button>
+        </div>
+
+        <div className="header-search">
+          <button
+            className="search-bar"
+            onClick={() => setIsCommandPaletteOpen(true)}
+            title="Søk etter verktøy (⌘K)"
+          >
+            <span className="material-symbols-outlined">search</span>
+            <span className="search-placeholder">Søk etter verktøy...</span>
+            <kbd className="search-kbd">⌘K</kbd>
+          </button>
         </div>
       </header>
 
@@ -221,14 +227,7 @@ function App() {
           onRegistrationRequirementsChange={(registrationRequirements) =>
             setFilters(prev => ({ ...prev, registrationRequirements }))
           }
-          searchQuery={filters.searchQuery}
-          onSearchQueryChange={(searchQuery) =>
-            setFilters(prev => ({ ...prev, searchQuery }))
-          }
-          onOpenInfo={() => setIsAttributionModalOpen(true)}
-          isExpanded={isSidePanelExpanded}
-          onToggleExpanded={() => setIsSidePanelExpanded(prev => !prev)}
-          searchInputRef={searchInputRef}
+          toolCount={filteredTools.length}
         />
 
         <div className="tools-grid">
