@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { Activity } from './Activity';
+import { useModalEscapeKey } from '../hooks/useModalEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { formatMarkdownText } from '../utils/formatText';
 
 interface GuideModalProps {
@@ -10,37 +12,28 @@ interface GuideModalProps {
 }
 
 export function GuideModal({ isOpen, onClose, guideContent }: GuideModalProps) {
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
+  // Accessibility: Escape key + scroll lock
+  useModalEscapeKey(isOpen, onClose);
 
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
+  // Accessibility: Focus trap for keyboard navigation (WCAG 2.4.3)
+  const containerRef = useFocusTrap(isOpen);
 
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
-
-  if (!isOpen || !guideContent) return null;
+  if (!guideContent) return null;
 
   const isUrl = guideContent.startsWith('http://') || guideContent.startsWith('https://');
 
+  // React 19.2: Activity component preserves modal state while hidden
   return createPortal(
-    <div className="guide-modal-overlay" onClick={onClose}>
-      <div className="guide-modal" onClick={(e) => e.stopPropagation()}>
+    <Activity mode={isOpen ? 'visible' : 'hidden'}>
+      <div className="guide-modal-overlay" onClick={onClose}>
+      <div ref={containerRef} className="guide-modal" onClick={(e) => e.stopPropagation()}>
         <button
           className="guide-modal-close"
           onClick={onClose}
+          aria-label="Lukk modal (ESC)"
           title="Lukk (Esc)"
         >
-          ×
+          <span aria-hidden="true">×</span>
         </button>
         <div className="guide-modal-content">
           {isUrl ? (
@@ -61,7 +54,8 @@ export function GuideModal({ isOpen, onClose, guideContent }: GuideModalProps) {
           )}
         </div>
       </div>
-    </div>,
+      </div>
+    </Activity>,
     document.body
   );
 }

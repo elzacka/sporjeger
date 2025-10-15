@@ -18,10 +18,6 @@ export interface SheetData {
 
 export interface FilterState {
   categories: string[];
-  costTypes: string[];
-  difficulties: number[];           // 1-5 star difficulty filter
-  designQualities: number[];        // 1-3 design quality filter
-  registrationRequirements: string[]; // Ja/Delvis/Nei filter
   searchQuery: string;
 }
 

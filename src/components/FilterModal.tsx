@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useModalEscapeKey } from '../hooks/useModalEscapeKey';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface FilterModalProps {
   isOpen: boolean;
@@ -17,16 +18,11 @@ export function FilterModal({
   selectedValues,
   onToggle
 }: FilterModalProps) {
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
+  // Accessibility: Escape key + scroll lock
+  useModalEscapeKey(isOpen, onClose);
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+  // Accessibility: Focus trap for keyboard navigation (WCAG 2.4.3)
+  const containerRef = useFocusTrap(isOpen);
 
   if (!isOpen) return null;
 
@@ -36,7 +32,7 @@ export function FilterModal({
 
   return (
     <div className="filter-modal-overlay" onClick={onClose}>
-      <div className="filter-modal" onClick={(e) => e.stopPropagation()}>
+      <div ref={containerRef} className="filter-modal" onClick={(e) => e.stopPropagation()}>
         <div className="filter-modal-header">
           <h3 className="filter-modal-title">{title}</h3>
           <button

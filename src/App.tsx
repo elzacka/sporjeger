@@ -1,103 +1,37 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { useOSINTTools } from './hooks/useOSINTTools';
+import { useState, useMemo, useRef, useCallback } from 'react';
+import { useOSINTToolsSuspense } from './hooks/useOSINTToolsSuspense';
+import { useToolFilters } from './hooks/useToolFilters';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { getUniqueCategories } from './services/googleSheets';
 import { ToolCard } from './components/ToolCard';
 import { CommandPalette } from './components/CommandPalette';
 import { CategoryFilter } from './components/CategoryFilter';
-import { AttributionModal } from './components/AttributionModal';
-import { Toast } from './components/Toast';
+import { Menu } from './components/Menu';
 import type { OSINTTool, FilterState } from './types';
 import './App.css';
 
 function App() {
-  const { tools, loading, error } = useOSINTTools();
-  
+  // React 19: use() hook with Suspense - no loading/error states needed!
+  // The Suspense boundary in main.tsx handles loading
+  // The DataErrorBoundary in main.tsx handles errors
+  const tools = useOSINTToolsSuspense();
+
   const [filters, setFilters] = useState<FilterState>({
     categories: [],
-    costTypes: [],
-    difficulties: [],
-    designQualities: [],
-    registrationRequirements: [],
-    searchQuery: ''
+    searchQuery: '',
   });
 
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [isAttributionModalOpen, setIsAttributionModalOpen] = useState(false);
-  const [toast, setToast] = useState({ message: '', isVisible: false });
   const [highlightedToolId, setHighlightedToolId] = useState<string | null>(null);
   const toolRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const categories = useMemo(() => getUniqueCategories(tools), [tools]);
 
-  const filteredTools = useMemo(() => tools.filter(tool => {
-    // Category filter - if categories are selected, tool must match one of them
-    if (filters.categories.length > 0 && !filters.categories.includes(tool.kategori)) {
-      return false;
-    }
+  // Refactored: Extracted filter logic to custom hook
+  const filteredTools = useToolFilters(tools, filters);
 
-    // Cost filter - if cost types are selected, tool must match one of them
-    if (filters.costTypes.length > 0) {
-      const kostnadLower = tool.kostnad.toLowerCase();
-      const isGratis = (kostnadLower.includes('gratis') && !kostnadLower.includes('gratis med kjøp')) ||
-                      kostnadLower.includes('free') ||
-                      tool.kostnad === '';
-      const isGratisMedKjop = kostnadLower.includes('gratis med kjøp');
-      const isBetalt = !isGratis && !isGratisMedKjop;
-
-      let matchesCostType = false;
-      if (filters.costTypes.includes('gratis') && isGratis) {
-        matchesCostType = true;
-      }
-      if (filters.costTypes.includes('betalt') && isBetalt) {
-        matchesCostType = true;
-      }
-      if (filters.costTypes.includes('gratis_med_kjop') && isGratisMedKjop) {
-        matchesCostType = true;
-      }
-
-      if (!matchesCostType) {
-        return false;
-      }
-    }
-
-    // Difficulty filter - if difficulties are selected, tool must match one of them
-    if (filters.difficulties.length > 0) {
-      const difficulty = parseInt(tool.vanskelighetsgrad || '0');
-      if (!filters.difficulties.includes(difficulty)) {
-        return false;
-      }
-    }
-
-    // Design quality filter - if design qualities are selected, tool must match one of them
-    if (filters.designQualities.length > 0) {
-      const designQuality = parseInt(tool.designkvalitet || '0');
-      if (!filters.designQualities.includes(designQuality)) {
-        return false;
-      }
-    }
-
-    // Registration requirement filter - if registration requirements are selected, tool must match one of them
-    if (filters.registrationRequirements.length > 0) {
-      const requirement = tool.kreverRegistrering || 'Nei';
-      if (!filters.registrationRequirements.includes(requirement)) {
-        return false;
-      }
-    }
-
-    // Search query filter
-    if (filters.searchQuery) {
-      const query = filters.searchQuery.toLowerCase();
-      return (
-        tool.navn.toLowerCase().includes(query) ||
-        tool.beskrivelse.toLowerCase().includes(query) ||
-        tool.kategori.toLowerCase().includes(query) ||
-        (tool.språk && tool.språk.toLowerCase().includes(query)) ||
-        (tool.veiledning && tool.veiledning.toLowerCase().includes(query))
-      );
-    }
-
-    return true;
-  }), [tools, filters]);
+  // Refactored: Extracted keyboard shortcuts to custom hook
+  useKeyboardShortcuts(() => setIsCommandPaletteOpen(true));
 
   const handleSelectTool = useCallback((tool: OSINTTool) => {
     const toolId = `${tool.navn}-${tool.kategori}`;
@@ -117,45 +51,35 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setIsCommandPaletteOpen(true);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="app loading-state">
-        <div className="loading-spinner">
-          <span className="material-symbols-outlined">sync</span>
-          <p>Laster Sporjeger...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="app error-state">
-        <div className="error-message">
-          <span className="material-symbols-outlined">error</span>
-          <h2>Kunne ikke laste verktøy</h2>
-          <p>{error}</p>
-        </div>
-      </div>
-    );
-  }
+  // React 19: No loading/error checks needed - Suspense + ErrorBoundary handle it!
+  // Loading state is handled by <Suspense fallback={<LoadingFallback />}> in main.tsx
+  // Error state is handled by <DataErrorBoundary> in main.tsx
 
   return (
-    <div className="app">
-      <header className="app-header">
+    <>
+      {/* Accessibility: Skip navigation link (WCAG 2.4.1 Bypass Blocks) */}
+      <a href="#main-content" className="skip-link">
+        Hopp til hovedinnhold
+      </a>
+
+      {/* React 19 native metadata support - automatically hoisted to <head> */}
+      <title>Sporjeger - OSINT Verktøykasse for Digital Skattejakt</title>
+      <meta name="description" content="Oppdaget og filtrer OSINT-verktøy for digital etterforskning. Søk blant hundrevis av verktøy kategorisert etter kostnad, vanskelighetsgrad og språk." />
+      <meta name="keywords" content="OSINT, verktøy, digital etterforskning, open source intelligence, sporjeger, cybersikkerhet" />
+      <meta property="og:title" content="Sporjeger - OSINT Verktøykasse" />
+      <meta property="og:description" content="Norsk database for OSINT-verktøy og ressurser" />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Sporjeger - OSINT Verktøykasse" />
+      <meta name="twitter:description" content="Oppdaget og filtrer OSINT-verktøy for digital etterforskning" />
+
+      <div className="app">
+        <header className="app-header">
         <div className="header-top">
+          <div className="header-left">
+            <Menu />
+          </div>
+
           <div className="app-title">
             <h1 className="app-name">
               <div className="neural-icon">
@@ -181,14 +105,9 @@ function App() {
             <p className="app-tagline">Verktøykasse for digital skattejakt</p>
           </div>
 
-          <button
-            className="attribution-icon-button"
-            onClick={() => setIsAttributionModalOpen(true)}
-            title="Om Sporjeger og krediteringer"
-            aria-label="Vis krediteringer og tillatelser"
-          >
-            <span className="material-symbols-outlined">info</span>
-          </button>
+          <div className="header-right">
+            {/* Spacer to keep title centered */}
+          </div>
         </div>
 
         <div className="header-search">
@@ -204,28 +123,12 @@ function App() {
         </div>
       </header>
 
-      <main className="main-content">
+      <main id="main-content" className="main-content">
         <CategoryFilter
           categories={categories}
           selectedCategories={filters.categories}
           onCategoriesChange={(categories) =>
             setFilters(prev => ({ ...prev, categories }))
-          }
-          selectedCostTypes={filters.costTypes}
-          onCostTypesChange={(costTypes) =>
-            setFilters(prev => ({ ...prev, costTypes }))
-          }
-          selectedDifficulties={filters.difficulties}
-          onDifficultiesChange={(difficulties) =>
-            setFilters(prev => ({ ...prev, difficulties }))
-          }
-          selectedDesignQualities={filters.designQualities}
-          onDesignQualitiesChange={(designQualities) =>
-            setFilters(prev => ({ ...prev, designQualities }))
-          }
-          selectedRegistrationRequirements={filters.registrationRequirements}
-          onRegistrationRequirementsChange={(registrationRequirements) =>
-            setFilters(prev => ({ ...prev, registrationRequirements }))
           }
           toolCount={filteredTools.length}
         />
@@ -253,9 +156,31 @@ function App() {
 
         {filteredTools.length === 0 && (
           <div className="empty-state">
-            <span className="material-symbols-outlined">search_off</span>
+            <span className="material-symbols-outlined" aria-hidden="true">
+              search_off
+            </span>
             <h3>Ingen verktøy funnet</h3>
-            <p>Prøv å justere filtrene eller søk etter noe annet.</p>
+            {(filters.categories.length > 0 ||
+              filters.searchQuery) ? (
+              <>
+                <p>Ingen verktøy matcher dine valgte filtre.</p>
+                <button
+                  className="clear-filters-button"
+                  onClick={() => setFilters({
+                    categories: [],
+                    searchQuery: '',
+                  })}
+                  aria-label="Fjern alle filtre"
+                >
+                  <span className="material-symbols-outlined" aria-hidden="true">
+                    filter_list_off
+                  </span>
+                  Fjern alle filtre
+                </button>
+              </>
+            ) : (
+              <p>Prøv å justere søkekriteriene dine.</p>
+            )}
           </div>
         )}
       </main>
@@ -266,18 +191,8 @@ function App() {
         tools={tools}
         onSelectTool={handleSelectTool}
       />
-
-      <AttributionModal
-        isOpen={isAttributionModalOpen}
-        onClose={() => setIsAttributionModalOpen(false)}
-      />
-
-      <Toast
-        message={toast.message}
-        isVisible={toast.isVisible}
-        onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
-      />
-    </div>
+      </div>
+    </>
   );
 }
 

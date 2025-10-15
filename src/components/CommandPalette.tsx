@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { Activity } from './Activity';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import type { OSINTTool } from '../types';
 
 interface CommandPaletteProps {
@@ -13,6 +15,9 @@ export function CommandPalette({ isOpen, onClose, tools, onSelectTool }: Command
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+
+  // Accessibility: Focus trap for keyboard navigation (WCAG 2.4.3)
+  const containerRef = useFocusTrap(isOpen);
 
   const filteredTools = useMemo(() =>
     tools.filter(tool =>
@@ -59,11 +64,11 @@ export function CommandPalette({ isOpen, onClose, tools, onSelectTool }: Command
     }
   };
 
-  if (!isOpen) return null;
-
+  // React 19.2: Activity component keeps state while hidden
   return (
-    <div className="command-palette-overlay" onClick={onClose}>
-      <div className="command-palette" onClick={(e) => e.stopPropagation()}>
+    <Activity mode={isOpen ? 'visible' : 'hidden'}>
+      <div className="command-palette-overlay" onClick={onClose}>
+      <div ref={containerRef} className="command-palette" onClick={(e) => e.stopPropagation()}>
         <div className="command-palette-header">
           <span className="material-symbols-outlined search-icon">search</span>
           <input
@@ -124,6 +129,7 @@ export function CommandPalette({ isOpen, onClose, tools, onSelectTool }: Command
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </Activity>
   );
 }
