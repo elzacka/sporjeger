@@ -107,7 +107,7 @@ export function ToolCard({ tool }: ToolCardProps) {
               tabIndex={0}
               aria-label={`Åpne guide for ${tool.navn}`}
             >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="https://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M2 2h8v8H2V2z" stroke="currentColor" strokeWidth="1"/>
                 <path d="M4 5h4M4 7h3" stroke="currentColor" strokeWidth="1"/>
               </svg>

@@ -83,7 +83,7 @@ function App() {
           <div className="app-title">
             <h1 className="app-name">
               <div className="neural-icon">
-                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 48 48" xmlns="https://www.w3.org/2000/svg">
                   {/* Connections */}
                   <line className="connection" x1="12" y1="12" x2="24" y2="24" strokeDasharray="4 2" />
                   <line className="connection" x1="12" y1="36" x2="24" y2="24" strokeDasharray="4 2" />
