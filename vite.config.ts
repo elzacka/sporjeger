@@ -9,6 +9,8 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+    target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14', 'ios14'],
+    cssTarget: ['chrome87', 'safari14', 'ios14'],
     rollupOptions: {
       output: {
         manualChunks: {

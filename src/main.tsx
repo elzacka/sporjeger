@@ -7,6 +7,15 @@ import { DataErrorBoundary } from './components/DataErrorBoundary'
 import { SkeletonLoader } from './components/SkeletonLoader'
 import { validateEnvironment } from './utils/validateEnv'
 
+// Global error handler for iOS debugging
+window.addEventListener('error', (event) => {
+  console.error('Global error:', event.error, event.message, event.filename, event.lineno)
+})
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled promise rejection:', event.reason)
+})
+
 // Validate environment variables before starting app
 try {
   validateEnvironment()
