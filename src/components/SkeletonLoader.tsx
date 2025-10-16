@@ -1,31 +1,36 @@
 /**
- * Skeleton loading screen for better perceived performance
+ * Minimalistic loading component for better user experience
  *
- * Shows content placeholders while data loads, reducing user anxiety
- * compared to blank spinner. Implements modern UX best practices.
+ * Simple, subtle spinner that doesn't overwhelm the user
+ * React 19.2 + iOS 26 optimized
  */
 export function SkeletonLoader() {
   return (
-    <div className="app loading-state">
-      <div className="skeleton-container">
-        <div className="skeleton-header">
-          <div className="skeleton-title"></div>
-          <div className="skeleton-search"></div>
-        </div>
-        <div className="main-content">
-          <div className="skeleton-filters"></div>
-          <div className="tools-grid">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="skeleton-card">
-                <div className="skeleton-card-title"></div>
-                <div className="skeleton-card-description"></div>
-                <div className="skeleton-card-description short"></div>
-                <div className="skeleton-card-footer"></div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="minimal-loading-container" role="status" aria-live="polite">
+      <div className="minimal-spinner">
+        <svg
+          className="spinner-svg"
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          xmlns="https://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <circle
+            className="spinner-circle"
+            cx="24"
+            cy="24"
+            r="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        </svg>
       </div>
+      <p className="minimal-loading-text">
+        Laster verktøy<span className="loading-dots">...</span>
+      </p>
     </div>
   );
 }

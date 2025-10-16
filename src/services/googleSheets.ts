@@ -70,13 +70,13 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
       navn: row[1] || '',
       url: row[2] || '',
       beskrivelse: row[3] || '',
-      kostnad: row[4] || '',
-      språk: row[5] || '',
-      kreverRegistrering: row[6] || '',
-      designkvalitet: row[7] || '',
-      vanskelighetsgrad: row[8] || '',
-      veiledning: row[9] || '',
-      endreEllerSlette: row[10] || ''
+      kostnad: (row[4] || 'Gratis') as OSINTTool['kostnad'],
+      språk: row[5] || undefined,
+      kreverRegistrering: (row[6] || undefined) as OSINTTool['kreverRegistrering'],
+      designkvalitet: (row[7] || undefined) as OSINTTool['designkvalitet'],
+      vanskelighetsgrad: (row[8] || undefined) as OSINTTool['vanskelighetsgrad'],
+      veiledning: row[9] || undefined,
+      endreEllerSlette: row[10] || undefined
     }));
 
     return tools.filter(tool => tool.navn && tool.navn.trim() !== '');

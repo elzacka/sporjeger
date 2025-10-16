@@ -33,7 +33,7 @@ export class DataErrorBoundary extends Component<Props, State> {
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Data fetch error:', error, errorInfo);
   }
 
@@ -45,7 +45,7 @@ export class DataErrorBoundary extends Component<Props, State> {
     }));
   };
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       const errorMessage = this.state.error?.message || '';
       const isNetworkError = errorMessage.includes('fetch') ||

@@ -1,14 +1,24 @@
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useMemo, useRef, useCallback, lazy, Suspense } from 'react';
 import { useOSINTToolsSuspense } from './hooks/useOSINTToolsSuspense';
 import { useToolFilters } from './hooks/useToolFilters';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { getUniqueCategories } from './services/googleSheets';
 import { ToolCard } from './components/ToolCard';
-import { CommandPalette } from './components/CommandPalette';
 import { CategoryFilter } from './components/CategoryFilter';
-import { Menu } from './components/Menu';
 import type { OSINTTool, FilterState } from './types';
 import './App.css';
+
+// React 19.2: Code splitting - Lazy load heavy components
+// These components are loaded on-demand to reduce initial bundle size
+const CommandPalette = lazy(() =>
+  import('./components/CommandPalette').then(module => ({ default: module.CommandPalette }))
+);
+const Menu = lazy(() =>
+  import('./components/Menu').then(module => ({ default: module.Menu }))
+);
+const InstallPrompt = lazy(() =>
+  import('./components/InstallPrompt').then(module => ({ default: module.InstallPrompt }))
+);
 
 function App() {
   // React 19: use() hook with Suspense - no loading/error states needed!
@@ -63,21 +73,23 @@ function App() {
       </a>
 
       {/* React 19 native metadata support - automatically hoisted to <head> */}
-      <title>Sporjeger - OSINT Verktøykasse for Digital Skattejakt</title>
-      <meta name="description" content="Oppdaget og filtrer OSINT-verktøy for digital etterforskning. Søk blant hundrevis av verktøy kategorisert etter kostnad, vanskelighetsgrad og språk." />
+      <title>Sporjeger - Verktøykasse for digital skattejakt</title>
+      <meta name="description" content="Oppdag og filtrer verktøy for digital skattejakt. Søk blant hundrevis av verktøy kategorisert etter kostnad, vanskelighetsgrad og språk." />
       <meta name="keywords" content="OSINT, verktøy, digital etterforskning, open source intelligence, sporjeger, cybersikkerhet" />
-      <meta property="og:title" content="Sporjeger - OSINT Verktøykasse" />
-      <meta property="og:description" content="Norsk database for OSINT-verktøy og ressurser" />
+      <meta property="og:title" content="Sporjeger - OSINT-verktøykasse" />
+      <meta property="og:description" content="Katalog med OSINT-verktøy og ressurser" />
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Sporjeger - OSINT Verktøykasse" />
-      <meta name="twitter:description" content="Oppdaget og filtrer OSINT-verktøy for digital etterforskning" />
+      <meta name="twitter:title" content="Sporjeger - OSINT-verktøykasse" />
+      <meta name="twitter:description" content="Oppdag og filtrer verktøy for digital skattejakt" />
 
       <div className="app">
         <header className="app-header">
         <div className="header-top">
           <div className="header-left">
-            <Menu />
+            <Suspense fallback={<div style={{ width: '40px', height: '40px' }} />}>
+              <Menu />
+            </Suspense>
           </div>
 
           <div className="app-title">
@@ -185,12 +197,19 @@ function App() {
         )}
       </main>
 
-      <CommandPalette
-        isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-        tools={tools}
-        onSelectTool={handleSelectTool}
-      />
+      <Suspense fallback={null}>
+        <CommandPalette
+          isOpen={isCommandPaletteOpen}
+          onClose={() => setIsCommandPaletteOpen(false)}
+          tools={tools}
+          onSelectTool={handleSelectTool}
+        />
+      </Suspense>
+
+      {/* iOS 26: Web App Install Prompt */}
+      <Suspense fallback={null}>
+        <InstallPrompt />
+      </Suspense>
       </div>
     </>
   );

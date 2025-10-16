@@ -122,7 +122,9 @@ html {
   font-family: 'Share Tech Mono', 'Courier New', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Keep overflow-x: hidden on html to prevent horizontal scroll */
   overflow-x: hidden;
+  overflow-y: auto;
   max-width: 100vw;
   /* iOS Safari: Prevent text size adjustment */
   -webkit-text-size-adjust: 100%;
@@ -177,7 +179,8 @@ body::before {
   display: flex;
   flex-direction: column;
   max-width: 100vw;
-  overflow-x: hidden;
+  /* Changed from overflow-x: hidden to overflow: visible for sticky positioning to work */
+  overflow: visible;
 }
 
 .app-header {
@@ -1515,6 +1518,14 @@ body::before {
               inset 0 0 15px rgba(0, 255, 65, 0.15);
 }
 
+.filter-modal-option:focus,
+.filter-modal-option:focus-visible {
+  outline: none;
+  border-color: var(--matrix-green-bright);
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.3),
+              inset 0 0 10px rgba(0, 255, 65, 0.1);
+}
+
 .filter-option-label {
   flex: 1;
 }
@@ -2075,9 +2086,9 @@ body::before {
   backdrop-filter: blur(4px);
   z-index: 1000;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 10vh;
+  padding: 2rem;
   /* iOS Safari fixed positioning fix */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -2343,53 +2354,101 @@ body::before {
   }
 }
 
-/* Skeleton Loading States */
-.skeleton-card {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-hover) 100%);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
+/* ========================================
+   Minimalistic Loading Component
+   React 19.2 + iOS 26 Optimized
+   ======================================== */
 
-.skeleton-card::after {
-  content: '';
-  position: absolute;
+/* Minimal loading container - centered, subtle */
+.minimal-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  gap: 1.5rem;
+  padding: 2rem;
+  position: fixed;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  animation: skeleton-shimmer 1.5s infinite;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
 }
 
-@keyframes skeleton-shimmer {
+/* Spinner SVG container */
+.minimal-spinner {
+  width: 48px;
+  height: 48px;
+  animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+/* Smooth pulsing animation */
+@keyframes gentle-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Spinner circle animation */
+.spinner-svg {
+  color: var(--matrix-green);
+  display: block;
+}
+
+.spinner-circle {
+  stroke-dasharray: 125.6; /* 2πr where r=20 */
+  stroke-dashoffset: 125.6;
+  animation: spinner-rotate 1.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes spinner-rotate {
   0% {
-    left: -100%;
+    stroke-dashoffset: 125.6;
+    transform: rotate(0deg);
+  }
+  50% {
+    stroke-dashoffset: 31.4; /* 25% of circle */
+    transform: rotate(180deg);
   }
   100% {
-    left: 100%;
+    stroke-dashoffset: 125.6;
+    transform: rotate(360deg);
   }
 }
 
-.skeleton-line {
-  height: 1rem;
-  background-color: var(--border);
-  border-radius: 0.25rem;
-  margin-bottom: 0.5rem;
+/* Loading text - subtle and minimal */
+.minimal-loading-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  margin: 0;
 }
 
-.skeleton-line.short {
-  width: 60%;
+/* Animated dots */
+.loading-dots {
+  display: inline-block;
+  animation: loading-dots 1.4s infinite;
 }
 
-.skeleton-line.medium {
-  width: 80%;
-}
-
-.skeleton-line.long {
-  width: 100%;
+@keyframes loading-dots {
+  0%, 20% {
+    content: '.';
+  }
+  40% {
+    content: '..';
+  }
+  60%, 100% {
+    content: '...';
+  }
 }
 
 .error-message .material-symbols-outlined {
@@ -3332,125 +3391,7 @@ body::before {
 }
 
 
-/* ========================================
-   Skeleton Loading Styles
-   ======================================== */
-.skeleton-container {
-  padding: 2rem;
-}
-
-.skeleton-header {
-  margin-bottom: 2rem;
-}
-
-.skeleton-title {
-  width: 200px;
-  height: 40px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 65, 0.05) 0%,
-    rgba(0, 255, 65, 0.1) 50%,
-    rgba(0, 255, 65, 0.05) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.skeleton-search {
-  width: 100%;
-  max-width: 600px;
-  height: 50px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 65, 0.05) 0%,
-    rgba(0, 255, 65, 0.1) 50%,
-    rgba(0, 255, 65, 0.05) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 12px;
-}
-
-.skeleton-filters {
-  height: 60px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 65, 0.05) 0%,
-    rgba(0, 255, 65, 0.1) 50%,
-    rgba(0, 255, 65, 0.05) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-}
-
-.skeleton-card {
-  padding: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.skeleton-card-title {
-  width: 70%;
-  height: 24px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 65, 0.05) 0%,
-    rgba(0, 255, 65, 0.1) 50%,
-    rgba(0, 255, 65, 0.05) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.skeleton-card-description {
-  width: 100%;
-  height: 16px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 65, 0.03) 0%,
-    rgba(0, 255, 65, 0.08) 50%,
-    rgba(0, 255, 65, 0.03) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-}
-
-.skeleton-card-description.short {
-  width: 80%;
-}
-
-.skeleton-card-footer {
-  width: 50%;
-  height: 20px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 65, 0.03) 0%,
-    rgba(0, 255, 65, 0.08) 50%,
-    rgba(0, 255, 65, 0.03) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 4px;
-  margin-top: 1rem;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
+/* Skeleton styles removed - replaced with minimal loading component above */
 
 
 /* ========================================
@@ -3622,3 +3563,264 @@ body::before {
   }
 }
 
+/* ========================================
+   iOS 26.0.x WebKit Bug #297779 Workaround
+   ======================================== */
+
+/*
+  iOS 26.0.1 contains a critical WebKit bug affecting position: fixed and position: sticky.
+  When Safari's address bar shrinks during scrolling, the viewport becomes vertically displaced,
+  causing fixed/sticky elements to shift 10-24 pixels. This bug remains unfixed in iOS 26.0.1
+  and requires iOS 26.1 for resolution.
+
+  Workaround: Convert fixed positioning to absolute positioning for iOS 26.0.x only.
+  This is applied via JavaScript detection in main.tsx.
+*/
+
+.ios26-workaround body::before {
+  position: absolute;
+}
+
+.ios26-workaround .app-header {
+  position: relative;
+  /* Use absolute positioning as fallback */
+}
+
+.ios26-workaround .side-panel-toggle {
+  position: absolute;
+  /* Will scroll with content - acceptable trade-off for iOS 26.0.x */
+}
+
+.ios26-workaround .side-panel {
+  position: absolute;
+  height: 100vh;
+  /* Will scroll with content */
+}
+
+.ios26-workaround .filter-modal-overlay,
+.ios26-workaround .command-palette-overlay,
+.ios26-workaround .guide-modal-overlay {
+  position: absolute;
+  min-height: 100vh;
+  /* Ensure full coverage even when scrolled */
+}
+
+.ios26-workaround .toast {
+  position: absolute;
+  /* Toast will scroll with content */
+  bottom: calc(2rem + var(--scroll-offset, 0px));
+}
+
+.ios26-workaround .app.loading-state,
+.ios26-workaround .app.error-state {
+  position: absolute;
+  /* Loading/error states will be inline */
+}
+
+/* Additional iOS 26 safe-area handling */
+@supports(padding: max(0px)) {
+  .ios26-workaround .app {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .ios26-workaround .app-header {
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+  }
+}
+
+/* ========================================
+   Install Prompt for iOS 26 Web Apps
+   ======================================== */
+
+.install-prompt-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.install-prompt-card {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-hover) 100%);
+  border: 2px solid var(--matrix-green);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0, 255, 65, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.install-prompt-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.install-prompt-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.install-prompt-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+}
+
+.install-prompt-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.install-prompt-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+.install-prompt-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.install-prompt-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.install-prompt-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--matrix-green);
+  color: var(--background);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.inline-icon {
+  font-size: 1.1em;
+  vertical-align: middle;
+  color: var(--matrix-green);
+}
+
+.install-prompt-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.install-prompt-btn-primary,
+.install-prompt-btn-secondary {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.install-prompt-btn-primary {
+  background: var(--matrix-green);
+  color: var(--background);
+}
+
+.install-prompt-btn-primary:hover {
+  background: var(--matrix-green-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 255, 65, 0.4);
+}
+
+.install-prompt-btn-secondary {
+  background: transparent;
+  color: var(--matrix-green);
+  border: 1px solid var(--matrix-green);
+}
+
+.install-prompt-btn-secondary:hover {
+  background: rgba(0, 255, 65, 0.1);
+}
+
+.install-prompt-benefit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.install-prompt-benefit .material-symbols-outlined {
+  font-size: 1rem;
+  color: var(--matrix-green);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 428px) {
+  .install-prompt-card {
+    padding: 1.25rem;
+  }
+
+  .install-prompt-title {
+    font-size: 1.1rem;
+  }
+
+  .install-prompt-steps li {
+    font-size: 0.8125rem;
+  }
+
+  .install-prompt-actions {
+    flex-direction: column;
+  }
+}
