@@ -5,13 +5,21 @@ import { fetchOSINTTools } from '../services/googleSheets';
 /**
  * Client-side cache for the tools promise
  * In React Server Components, we'd use React's cache() function
- * For client-side, we create a simple singleton cache
+ * For client-side, we create a simple singleton cache with error recovery
  */
 let cachedPromise: Promise<OSINTTool[]> | null = null;
+let lastError: Error | null = null;
 
 function getOSINTToolsPromise(): Promise<OSINTTool[]> {
-  if (!cachedPromise) {
-    cachedPromise = fetchOSINTTools();
+  // Reset cache if previous fetch failed - allows retry on error
+  if (!cachedPromise || lastError) {
+    lastError = null;
+    cachedPromise = fetchOSINTTools().catch(error => {
+      // Store error and clear cache to allow retry
+      lastError = error;
+      cachedPromise = null;
+      throw error;
+    });
   }
   return cachedPromise;
 }

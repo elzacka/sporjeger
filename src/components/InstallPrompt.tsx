@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { CACHE_CONFIG, STORAGE_KEYS } from '../constants';
 
 /**
  * iOS 26 Web App Install Prompt
@@ -23,16 +24,16 @@ export function InstallPrompt() {
     setIsStandalone(standalone);
 
     // Check if user has dismissed the prompt before
-    const dismissed = localStorage.getItem('install-prompt-dismissed');
+    const dismissed = localStorage.getItem(STORAGE_KEYS.INSTALL_PROMPT_DISMISSED);
     const dismissedTime = dismissed ? parseInt(dismissed, 10) : 0;
     const daysSinceDismissal = (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
 
     // Show prompt if: iOS device, not standalone, and (never dismissed OR dismissed >7 days ago)
     if (iOS && !standalone && (!dismissed || daysSinceDismissal > 7)) {
-      // Show prompt after 30 seconds to avoid being intrusive
+      // Show prompt after configured delay to avoid being intrusive
       const timer = setTimeout(() => {
         setShowPrompt(true);
-      }, 30000);
+      }, CACHE_CONFIG.INSTALL_PROMPT_DELAY);
 
       return () => clearTimeout(timer);
     }
@@ -40,12 +41,12 @@ export function InstallPrompt() {
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    localStorage.setItem('install-prompt-dismissed', Date.now().toString());
+    localStorage.setItem(STORAGE_KEYS.INSTALL_PROMPT_DISMISSED, Date.now().toString());
   };
 
   const handleNeverShow = () => {
     setShowPrompt(false);
-    localStorage.setItem('install-prompt-dismissed', '9999999999999'); // Far future
+    localStorage.setItem(STORAGE_KEYS.INSTALL_PROMPT_DISMISSED, '9999999999999'); // Far future
   };
 
   if (!showPrompt || !isIOS || isStandalone) {

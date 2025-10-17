@@ -68,10 +68,10 @@ export function Menu(_props: MenuProps) {
             </h3>
             <div className="menu-section-content">
               <p>
-                Sporjeger er en OSINT*-verktøykasse for å søke og finne materiale i åpne kilder på internett. Og jobbe med materialet underveis.
+                Sporjeger er en OSINT*-verktøykasse for å finne materiale i åpne kilder på internett og jobbe med materialet underveis.
               </p>
               <p>
-                Jo færre stjerner, jo enklere å bruke. Klikk Guide-knappen og lær deg smarte søkemåter. Den gamle avisartikkelen. Kildene du trenger til skolearbeidet. Eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge. Men husk: Stopp i tide hvis du er nysgjerrig på sårbarheter. Bruk for å lære, oppfør deg ordentlig.
+                Jo færre stjerner, jo enklere å bruke. Klikk Guide og lær deg smarte søkemåter. Den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge. Men husk: Stopp i tide hvis du er nysgjerrig på sårbarheter. Bruk for å lære, oppfør deg ordentlig.
               </p>
               <p className="info-note">
                 *Open Source Intelligence

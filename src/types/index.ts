@@ -32,5 +32,3 @@ export interface FilterState {
   categories: string[];
   searchQuery: string;
 }
-
-export type Theme = 'light' | 'dark';

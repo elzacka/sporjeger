@@ -67,11 +67,6 @@ function App() {
 
   return (
     <>
-      {/* Accessibility: Skip navigation link (WCAG 2.4.1 Bypass Blocks) */}
-      <a href="#main-content" className="skip-link">
-        Hopp til hovedinnhold
-      </a>
-
       {/* React 19 native metadata support - automatically hoisted to <head> */}
       <title>Sporjeger - Verktøykasse for digital skattejakt</title>
       <meta name="description" content="Oppdag og filtrer verktøy for digital skattejakt. Søk blant hundrevis av verktøy kategorisert etter kostnad, vanskelighetsgrad og språk." />
@@ -87,30 +82,18 @@ function App() {
         <header className="app-header">
         <div className="header-top">
           <div className="header-left">
-            <Suspense fallback={<div style={{ width: '40px', height: '40px' }} />}>
-              <Menu />
-            </Suspense>
+            {/* Empty - maintains grid balance */}
           </div>
 
           <div className="app-title">
             <h1 className="app-name">
               <div className="neural-icon">
-                <svg viewBox="0 0 48 48" xmlns="https://www.w3.org/2000/svg">
-                  {/* Connections */}
-                  <line className="connection" x1="12" y1="12" x2="24" y2="24" strokeDasharray="4 2" />
-                  <line className="connection" x1="12" y1="36" x2="24" y2="24" strokeDasharray="4 2" />
-                  <line className="connection" x1="24" y1="24" x2="36" y2="12" strokeDasharray="4 2" />
-                  <line className="connection" x1="24" y1="24" x2="36" y2="36" strokeDasharray="4 2" />
-                  <line className="connection" x1="12" y1="12" x2="36" y2="12" strokeDasharray="4 2" />
-                  <line className="connection" x1="12" y1="36" x2="36" y2="36" strokeDasharray="4 2" />
-
-                  {/* Nodes */}
-                  <circle className="node" cx="12" cy="12" r="4" />
-                  <circle className="node" cx="12" cy="36" r="4" />
-                  <circle className="node" cx="24" cy="24" r="5" fill="var(--matrix-green)" fillOpacity="0.2" />
-                  <circle className="node" cx="36" cy="12" r="4" />
-                  <circle className="node" cx="36" cy="36" r="4" />
-                </svg>
+                <img
+                  src="/sporjeger/Sporjeger symbol.svg"
+                  alt="Sporjeger neural network icon"
+                  width="48"
+                  height="48"
+                />
               </div>
               <span>SPORJEGER</span>
             </h1>
@@ -118,7 +101,9 @@ function App() {
           </div>
 
           <div className="header-right">
-            {/* Spacer to keep title centered */}
+            <Suspense fallback={<div style={{ width: '48px', height: '48px' }} />}>
+              <Menu />
+            </Suspense>
           </div>
         </div>
 

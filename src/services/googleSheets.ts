@@ -1,4 +1,5 @@
 import type { OSINTTool, SheetData } from '../types';
+import { API_CONFIG } from '../constants';
 
 const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
 const API_KEY = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY;
@@ -14,7 +15,7 @@ export async function fetchOSINTTools(): Promise<OSINTTool[]> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout for slower connections
+    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.REQUEST_TIMEOUT);
 
     const response = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`,
