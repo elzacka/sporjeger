@@ -184,8 +184,7 @@ sporjeger/
 │   │   ├── OptimizedImage.tsx   # Image component with WebP support
 │   │   ├── SkeletonLoader.tsx   # Minimalistic loading spinner
 │   │   ├── StarIcon.tsx         # Reusable star icon
-│   │   ├── ToolCard.tsx         # Tool display card
-│   │   └── Toast.tsx            # Toast notifications
+│   │   └── ToolCard.tsx         # Tool display card
 │   ├── constants/           # Application constants
 │   │   └── index.ts             # Centralized constants
 │   ├── hooks/               # Custom React hooks
@@ -194,7 +193,6 @@ sporjeger/
 │   │   ├── useKeyboardShortcuts.ts # Global keyboard navigation
 │   │   ├── useModalEscapeKey.ts # ESC key handling
 │   │   ├── useOSINTToolsSuspense.ts # Data fetching with React 19 use()
-│   │   ├── useTheme.ts          # Theme management
 │   │   └── useToolFilters.ts    # Memoized filter logic
 │   ├── services/            # External services
 │   │   └── googleSheets.ts      # Google Sheets API client
@@ -210,9 +208,13 @@ sporjeger/
 │   ├── App.css              # Styles and animations
 │   └── main.tsx             # Entry point with SW registration
 ├── public/                  # Static assets
+│   ├── Sporjeger symbol.svg # Neural network logo (pulsating animation)
+│   ├── favicon.svg          # Simplified hexagon favicon (1.9 KB)
+│   ├── favicon-old.svg      # Original complex favicon (62 KB) - archived
+│   ├── icon-192.png         # PWA icon 192x192
+│   ├── icon-512.png         # PWA icon 512x512
 │   ├── sw.js                # Service Worker for offline support
-│   ├── manifest.json        # PWA manifest
-│   └── icon-*.png           # PWA icons (192px, 512px)
+│   └── manifest.json        # PWA manifest
 ├── .github/workflows/       # GitHub Actions
 │   └── deploy.yml           # Automated deployment workflow
 ├── tsconfig.app.json        # TypeScript strict configuration
