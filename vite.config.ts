@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/sporjeger2/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/sporjeger/' : '/',
   plugins: [vue()],
   resolve: {
     alias: {
