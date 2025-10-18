@@ -19,7 +19,7 @@ Sporjeger (Norwegian for "Tracker") is a curated directory of OSINT tools design
 - 🌐 **Language Support** - Flag emoji indicators for tool language availability
 - 📖 **Integrated Guides** - Markdown-formatted guides with direct documentation links
 - 🍔 **Info Menu** - Hamburger menu with app info and data sources
-- 🎨 **Matrix Theme** - Neural network-inspired dark interface with animations
+- 🎨 **Matrix Terminal Theme** - Authentic terminal interface with JetBrains Mono font, scanline effects, and green phosphor glow
 
 ### Progressive Web App (PWA)
 - 💾 **Offline Ready** - Full offline functionality with Service Worker
@@ -40,7 +40,7 @@ Sporjeger (Norwegian for "Tracker") is a curated directory of OSINT tools design
 ### Frontend
 - **React**: 19.2.0 with TypeScript 5.9.3
 - **Build Tool**: Vite 7.1.10 (lightning-fast builds)
-- **Styling**: Custom CSS with matrix-inspired theme
+- **Styling**: Custom CSS with Matrix terminal theme (JetBrains Mono font)
 - **Icons**: Google Material Symbols
 - **Node.js**: 22.20.0 LTS
 
@@ -322,7 +322,7 @@ export interface OSINTTool {
 - ✅ **Color Contrast** - Matrix green theme meets 4.5:1 minimum ratio
 - ✅ **Touch Targets** - All buttons meet 48px minimum size
 - ✅ **Screen Readers** - Semantic HTML with proper ARIA attributes
-- ✅ **Focus Indicators** - Visible matrix-green focus states (no purple browser defaults)
+- ✅ **Focus Indicators** - Visible matrix-green focus states with custom styling throughout
 
 ### Performance & Privacy
 

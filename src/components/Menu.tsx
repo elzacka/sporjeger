@@ -71,7 +71,7 @@ export function Menu(_props: MenuProps) {
                 Sporjeger er en OSINT*-verktøykasse for å finne materiale i åpne kilder på internett og jobbe med materialet underveis.
               </p>
               <p>
-                Jo færre stjerner, jo enklere å bruke. Klikk Guide og lær deg smarte søkemåter. Den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge. Men husk: Stopp i tide hvis du er nysgjerrig på sårbarheter. Bruk for å lære, oppfør deg ordentlig.
+                Én stjerne = Enklest å bruke. Guidene viser deg hvordan du bruker verktøyet. Smarte søkemåter for å finne den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge. Men husk: Bruk for å lære; innenfor hva som er lov og etisk forsvarlig.
               </p>
               <p className="info-note">
                 *Open Source Intelligence

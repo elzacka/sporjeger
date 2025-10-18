@@ -376,7 +376,7 @@ body::before {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.875rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   position: relative;
   overflow: hidden;
   box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
@@ -421,7 +421,7 @@ body::before {
   padding: 0.125rem 0.375rem;
   border-radius: 2px;
   font-size: 0.75rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Terminal-Style Search Bar */
@@ -455,6 +455,10 @@ body::before {
 
 .search-bar:active {
   transform: scale(0.99);
+}
+
+.search-bar:focus-visible {
+  outline: none !important;
 }
 
 .search-prompt {
@@ -576,7 +580,7 @@ body::before {
 
 .menu-section-title {
   margin: 0 0 1rem 0;
-  font-family: 'Orbitron', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 1rem;
   font-weight: 600;
   color: var(--matrix-green-bright);
@@ -586,7 +590,7 @@ body::before {
 
 .menu-section-content {
   color: rgba(0, 255, 65, 0.85);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   line-height: 1.6;
 }
@@ -821,7 +825,7 @@ body::before {
 }
 
 .side-panel-label {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.8125rem;
   font-weight: 600;
   color: rgba(0, 255, 65, 0.7);
@@ -843,7 +847,7 @@ body::before {
   border: 1px solid rgba(0, 255, 65, 0.2);
   border-radius: 6px;
   color: var(--matrix-green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   line-height: 1;
   transition: all 0.2s ease;
@@ -860,7 +864,7 @@ body::before {
   border: 1px solid rgba(0, 255, 65, 0.3);
   border-radius: 4px;
   color: rgba(0, 255, 65, 0.7);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   font-weight: 600;
   pointer-events: none;
@@ -889,7 +893,7 @@ body::before {
   border: 1px solid rgba(255, 23, 68, 0.3);
   border-radius: 6px;
   color: rgba(255, 23, 68, 0.9);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -914,7 +918,7 @@ body::before {
   border: 1px solid rgba(0, 255, 65, 0.2);
   border-radius: 6px;
   color: var(--matrix-green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   line-height: 1;
   cursor: pointer;
@@ -948,7 +952,7 @@ body::before {
   border: 1px solid rgba(0, 255, 65, 0.2);
   border-radius: 6px;
   color: var(--matrix-green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   transition: all 0.2s ease;
   box-sizing: border-box;
@@ -1093,7 +1097,7 @@ body::before {
   border: 1px solid rgba(0, 255, 65, 0.3);
   border-radius: 6px;
   color: var(--matrix-green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   line-height: 1;
   font-weight: 600;
@@ -1136,7 +1140,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.8125rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1186,7 +1190,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.875rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -1214,7 +1218,7 @@ body::before {
   gap: 0.5rem;
   color: rgba(0, 255, 65, 0.9);
   font-size: 0.8125rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   padding: 0;
   min-height: 40px;
@@ -1245,7 +1249,7 @@ body::before {
   cursor: pointer;
   font-size: 0.9375rem;
   font-weight: 600;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.5px;
   box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.08);
@@ -1278,7 +1282,7 @@ body::before {
   color: rgba(0, 255, 65, 0.9);
   font-size: 0.8125rem;
   font-weight: 600;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .filter-content {
@@ -1328,7 +1332,7 @@ body::before {
   border: 1.5px solid rgba(0, 255, 65, 0.3);
   border-radius: 8px;
   color: var(--matrix-green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.9375rem;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.05);
@@ -1363,7 +1367,7 @@ body::before {
 
 .filter-label {
   font-weight: 600;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--text-secondary);
   font-size: 0.8125rem;
   white-space: nowrap;
@@ -1382,7 +1386,7 @@ body::before {
   border-radius: 6px;
   color: var(--matrix-green);
   font-size: 0.8125rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
@@ -1466,7 +1470,7 @@ body::before {
 
 .filter-modal-title {
   margin: 0;
-  font-family: 'Orbitron', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--matrix-green);
@@ -1520,7 +1524,7 @@ body::before {
   margin-bottom: 0.5rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--matrix-green);
   font-size: 0.875rem;
   text-align: left;
@@ -1679,7 +1683,7 @@ body::before {
 
 .results-info {
   color: var(--text-secondary);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -1826,7 +1830,7 @@ body::before {
   font-weight: 700;
   margin: 0;
   color: var(--matrix-green-bright);
-  font-family: 'Orbitron', monospace;
+  font-family: 'JetBrains Mono', monospace;
   line-height: 1.3;
   letter-spacing: 0.03em;
   word-wrap: break-word;
@@ -1904,7 +1908,7 @@ body::before {
  */
 .tool-description {
   color: rgba(0, 255, 65, 0.8);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   margin: 0;
   line-height: 1.3;
@@ -1924,7 +1928,7 @@ body::before {
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 600;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.5px;
   border: 1px solid;
   transition: all 0.2s ease;
@@ -1966,7 +1970,7 @@ body::before {
 
 .tool-details {
   color: var(--text-secondary);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   margin: 0;
   line-height: 1.6;
@@ -2023,7 +2027,7 @@ body::before {
   border-radius: 0;
   font-size: 0.65rem;
   font-weight: 500;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border: none;
@@ -2039,7 +2043,7 @@ body::before {
   border-radius: 0;
   font-size: 0.65rem;
   font-weight: 500;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -2091,7 +2095,7 @@ body::before {
 .tool-url {
   color: rgba(0, 255, 65, 0.5);
   font-size: 0.7rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2153,7 +2157,7 @@ body::before {
   outline: none !important;
   background: transparent;
   color: var(--matrix-green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 1rem;
   padding: 0;
   box-shadow: none !important;
@@ -2168,7 +2172,7 @@ body::before {
 
 .command-palette-input::placeholder {
   color: var(--text-muted);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .kbd {
@@ -2177,7 +2181,7 @@ body::before {
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-size: 0.75rem;
-  font-family: monospace;
+  font-family: 'JetBrains Mono', monospace;
   border: 1px solid var(--border);
 }
 
@@ -2226,13 +2230,13 @@ body::before {
 
 .command-item-name {
   font-weight: 500;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--matrix-green);
 }
 
 .command-item-category {
   font-size: 0.875rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--text-secondary);
 }
 
@@ -2253,7 +2257,7 @@ body::before {
 .no-results {
   padding: 2rem 1rem;
   text-align: center;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--text-secondary);
 }
 
@@ -2267,7 +2271,7 @@ body::before {
   align-items: center;
   gap: 0.75rem;
   font-size: 0.75rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--text-secondary);
 }
 
@@ -2355,7 +2359,7 @@ body::before {
 }
 
 .loading-spinner p {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--matrix-green);
   animation: pulse-text 2s ease-in-out infinite;
 }
@@ -2482,13 +2486,13 @@ body::before {
 
 .error-message h2 {
   margin: 0;
-  font-family: 'Orbitron', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--matrix-green);
 }
 
 .error-message p {
   margin: 0;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--text-secondary);
 }
 
@@ -2525,14 +2529,14 @@ body::before {
 .empty-state h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
-  font-family: 'Orbitron', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--matrix-green);
 }
 
 .empty-state p {
   margin: 0;
   font-size: 0.875rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Responsive Design */
@@ -2751,7 +2755,7 @@ body::before {
   color: var(--matrix-green-bright);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   letter-spacing: 0.3px;
   white-space: nowrap;
@@ -2841,8 +2845,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+  padding: 1.5rem 2rem 1rem;
   background: rgba(0, 255, 65, 0.03);
 }
 
@@ -2854,7 +2857,7 @@ body::before {
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--matrix-green-bright);
-  font-family: 'Orbitron', monospace;
+  font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.02em;
 }
 
@@ -2896,7 +2899,7 @@ body::before {
 }
 
 .guide-modal-content {
-  padding: 3rem 2rem 2rem 2rem;
+  padding: 1.5rem 2rem 2rem;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
@@ -2918,7 +2921,7 @@ body::before {
   border-radius: 0;
   color: var(--matrix-green-bright);
   text-decoration: none;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
   word-break: break-all;
 }
@@ -2930,7 +2933,7 @@ body::before {
 
 .guide-text-content {
   color: rgba(0, 255, 65, 0.9);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.9375rem;
   line-height: 1.5;
 }
@@ -2951,7 +2954,7 @@ body::before {
 .guide-text-content.formatted h5,
 .guide-text-content.formatted h6 {
   color: var(--matrix-green-bright);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
   margin: 1rem 0 0.75rem 0;
   line-height: 1.3;
@@ -3084,7 +3087,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.8125rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -3178,7 +3181,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.8125rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -3257,7 +3260,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.8125rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -3799,7 +3802,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s;
   border: none;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .install-prompt-btn-primary {
