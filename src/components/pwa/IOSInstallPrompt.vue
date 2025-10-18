@@ -50,14 +50,14 @@ onMounted(() => {
         ✕
       </button>
 
-      <h3 class="ios-install-prompt__title">📱 Installer Sporjeger</h3>
+      <h3 class="ios-install-prompt__title">Installer Sporjeger</h3>
 
       <p class="ios-install-prompt__text">
         Legg til Sporjeger på hjem-skjerm for rask tilgang og offline bruk.
       </p>
 
       <ol class="ios-install-prompt__steps">
-        <li>Trykk på Del-knappen <span class="ios-install-prompt__icon">⎋</span> nederst</li>
+        <li>Trykk på Del-knappen nederst</li>
         <li>Rull ned og velg "Legg til på Hjem-skjerm"</li>
 	<li>Sjekk at "Åpne som nettapp" er skrudd på</li>
         <li>Trykk "Legg til" øverst til høyre</li>
@@ -67,7 +67,7 @@ onMounted(() => {
         class="ios-install-prompt__dismiss"
         @click="dismissPrompt"
       >
-        OK, jeg forstår
+        OK
       </button>
     </div>
   </div>

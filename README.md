@@ -2,201 +2,163 @@
 
 🔍 A Norwegian Progressive Web App for browsing and discovering OSINT (Open Source Intelligence) tools and resources.
 
-**Version**: 2.0 (Vue 3 Rebuild)
-**Status**: Milestone 3 Complete ✅ - Production Ready 🚀
+**Live Demo**: [elzacka.github.io/sporjeger](https://elzacka.github.io/sporjeger/)
 
 ---
 
 ## About
 
-Sporjeger (Norwegian for "Tracker") is a curated directory of OSINT tools designed for digital investigators, researchers, and journalists. This is a complete rebuild using **Vue 3 + TypeScript** to address iOS 26.0.1 compatibility issues and leverage modern WebKit 26.0 features.
-
-### Why Vue 3?
-
-The original version (1.0) used React 19.2 but encountered critical compatibility issues on iOS 26.0.1. Version 2.0 migrates to **Vue 3** for:
-
-- **Direct WebKit 26.0 CSS access** - Use anchor positioning, `text-wrap: pretty`, `contrast-color()`, and scroll-driven animations
-- **Smaller bundle size** - ~100 kB vs 2-3 MB for Flutter Web alternatives
-- **Better iOS compatibility** - Avoids React 19.2 iOS issues
-- **Excellent PWA support** - Native Service Worker integration
-- **Great TypeScript support** - First-class type safety
+Sporjeger (Norwegian for "Tracker") is a curated directory of OSINT tools designed for digital investigators, researchers, and journalists. Built with Vue 3 + TypeScript, it provides a fast, accessible, and privacy-focused interface for discovering tools based on category, cost, difficulty, and language.
 
 ---
 
 ## Tech Stack
 
-### Core Technologies
-- **Vue 3.5+** - Progressive JavaScript framework with Composition API
-- **TypeScript 5.9+** - Type safety and compile-time validation
-- **Vite 7.1+** - Lightning-fast build tool and dev server
-- **Pinia 2.2+** - Official Vue 3 state management
-- **Vue Router 4.5+** - Official Vue 3 routing solution
-
-### Styling
-- **Custom CSS** - Matrix terminal theme with JetBrains Mono font
-- **CSS Variables** - Centralized design tokens
-- **WebKit 26.0 Features** - Modern CSS features for iOS Safari
+- **Vue 3.5** - Composition API with `<script setup>`
+- **TypeScript 5.9** - Strict mode for type safety
+- **Vite 7.1** - Lightning-fast build tool
+- **Pinia 2.2** - State management
+- **Vue Router 4.5** - Client-side routing
+- **Google Sheets API v4** - Live data source
+- **Material Symbols** - Lightweight icons
+- **Node.js 22.20.0 LTS**
 
 ---
 
 ## Features
 
-### ✅ Milestone 1 (Complete)
-- ✅ **Matrix Terminal Theme** - Authentic terminal interface with green phosphor glow
-- ✅ **Responsive Layout** - Mobile-first design (390px, 768px, 1400px breakpoints)
-- ✅ **Tool Grid Display** - Clean card-based layout with dummy data
-- ✅ **Type-Safe Data Model** - Strict TypeScript types with union type validation
-- ✅ **State Management** - Pinia stores for tools and UI state
-- ✅ **Accessibility** - WCAG 2.1 AA compliance foundations
+### Core Features
+- 🔍 **Quick Search** - CMD+K command palette with keyboard navigation
+- 📱 **Mobile Optimized** - iOS 26 Safari support with safe area insets
+- 🎯 **Category Filtering** - Real-time filtering with sticky header
+- ⭐ **Difficulty Ratings** - Visual 1-5 star system
+- 🌐 **Language Display** - Alpha-3 country codes (NOR, USA, GBR, etc.)
+- 📖 **Guide Modals** - Markdown-formatted tool documentation
+- 🎨 **Matrix Terminal Theme** - JetBrains Mono font with green phosphor glow
 
-### ✅ Milestone 2 (Complete)
-- ✅ **WebKit 26.0 CSS Features** - Anchor positioning, scroll animations, text-wrap: pretty
-- ✅ **Quick Search (CMD+K)** - Command palette with keyboard navigation
-- ✅ **Category Filtering** - Real-time filtering by tool category
-- ✅ **Keyboard Shortcuts** - Full keyboard navigation support (arrows, ESC, Enter)
-- ✅ **Focus Management** - Focus trap for modals, accessibility enhancements
-- ✅ **Composables** - Reusable logic for shortcuts, filters, and focus
+### Progressive Web App (PWA)
+- 💾 **Offline Ready** - Service Worker with smart caching
+- 📲 **Installable** - Add to Home Screen on iOS/Android
+- ⚡ **Blazing Fast** - ~50 kB gzipped, 425ms build time
+- 🔄 **Auto-updates** - Cache-first for assets, network-first for data
 
-### ✅ Milestone 3 (Complete)
-- ✅ **Google Sheets Integration** - Live data from Google Sheets API v4 with Norwegian sheet support ("Ark 1")
-- ✅ **Guide Modal System** - Markdown-formatted tool guides with close-on-backdrop functionality
-- ✅ **Material Symbols Icons** - Lightweight, scalable icons for guide/play buttons
-- ✅ **PWA Features** - Service Worker, offline support, installable
-- ✅ **iOS Install Prompt** - Smart installation guide for iOS 26 users
-- ✅ **Performance Optimization** - Code splitting, lazy loading, CSS splitting
-- ✅ **Production Deployment** - GitHub Actions workflow for automated deployment
-
-### ✅ Recent UI/UX Improvements
-- ✅ **Tool Card Layout** - Consistent footer positioning with auto-spacing
-- ✅ **Typography** - Uppercase labels, reduced font sizes for metadata
-- ✅ **Alpha-3 Country Codes** - Compact language display (NOR, USA, GBR, etc.)
-- ✅ **Updated Cost Values** - GRATIS, KOSTNAD, GRATISH in uppercase
-- ✅ **Icon Improvements** - Material Symbols (book_2, play_arrow) with weight 100
-- ✅ **Vertical Alignment** - Star rating aligned with VANSKELIGHETSGRAD label
-- ✅ **Reduced Spacing** - Tighter metadata rows for cleaner appearance
+### Developer Experience
+- 🛡️ **Type Safe** - Strict TypeScript with union types
+- ♿ **Accessible** - WCAG 2.1 AA compliant
+- 🎯 **Zero Tracking** - No analytics, no cookies
+- 🚀 **Modern WebKit CSS** - Anchor positioning, scroll animations, text-wrap: pretty
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- **Node.js** 22.20.0 or higher (LTS recommended)
-- **npm** 10+ or yarn 4+
+
+- Node.js 22.20.0 or higher
+- npm 10+ or yarn 4+
 
 ### Installation
 
-1. **Clone the repository** (or navigate to the project directory):
 ```bash
-cd /Users/lene/dev/sporjeger\ web_parent/sporjeger2
-```
+# Clone the repository
+git clone https://github.com/elzacka/sporjeger.git
+cd sporjeger
 
-2. **Install dependencies**:
-```bash
+# Install dependencies
 npm install
-```
 
-3. **Create environment file** (for future Google Sheets integration):
-```bash
+# Create environment file
 cp .env.example .env.local
-```
 
-4. **Start the development server**:
-```bash
+# Add your Google Sheets credentials to .env.local
+# VITE_GOOGLE_SHEET_ID=your_sheet_id
+# VITE_GOOGLE_API_KEY=your_api_key
+
+# Start development server
 npm run dev
 ```
 
-The application will be available at [http://localhost:5173/](http://localhost:5173/)
+The application will be available at `http://localhost:5173/`
+
+### Available Scripts
+
+```bash
+npm run dev           # Start dev server with HMR
+npm run build         # Build for production
+npm run preview       # Preview production build
+npm run lint          # Run ESLint
+npm run type-check    # TypeScript validation
+npm run generate-icons # Regenerate PWA icons
+```
 
 ---
 
-## Available Scripts
+## Google Sheets Setup
 
-```bash
-npm run dev          # Start development server with HMR
-npm run build        # Build for production (TypeScript + Vite)
-npm run preview      # Preview production build locally
-npm run lint         # Run ESLint for code quality
-npm run format       # Run Prettier for code formatting
-npm run type-check   # TypeScript type checking only
-```
+The app reads data from a Google Sheet with this structure:
+
+| Column | Header | Type | Example |
+|--------|--------|------|---------|
+| A | Kategori | string | "Social Media" |
+| B | Navn | string | "Twitter Search" |
+| C | URL | string | "https://twitter.com/search" |
+| D | Beskrivelse | string | "Search tweets..." |
+| E | Kostnad | GRATIS \| KOSTNAD \| GRATISH | "GRATIS" |
+| F | Språk | string (Alpha-3) | "NOR" |
+| G | Krever registrering | Ja \| Delvis \| Nei | "Nei" |
+| H | Designkvalitet | 1 \| 2 \| 3 | "3" |
+| I | Vanskelighetsgrad | 1-5 | "2" |
+| J | Veiledning | string (Markdown) | "# Guide..." |
+| K | Endre eller slette | string | "Nei" |
+
+### Configuration Steps
+
+1. Create a Google Sheet with the structure above
+2. Enable **Google Sheets API v4** in [Google Cloud Console](https://console.cloud.google.com/)
+3. Create an API key with HTTP referrer restrictions:
+   - **Development**: `http://localhost:5173/*`
+   - **Production**: `https://yourdomain.com/*`
+4. Make your sheet **publicly readable** (Share → Anyone with link can view)
+5. Add credentials to `.env.local`:
+   ```env
+   VITE_GOOGLE_SHEET_ID=your_sheet_id_from_url
+   VITE_GOOGLE_API_KEY=your_api_key
+   ```
+
+**Sheet Name**: The app expects a tab named **"Ark 1"** (Norwegian for "Sheet 1"). Update `src/services/googleSheetsService.ts` line 28 if using a different name.
 
 ---
 
 ## Project Structure
 
 ```
-sporjeger2/
-├── src/
-│   ├── components/          # Vue components
-│   │   ├── layout/              # AppHeader, HamburgerMenu, MainLayout
-│   │   ├── tools/               # ToolCard, ToolGrid
-│   │   ├── search/              # SearchBar, CommandPalette
-│   │   ├── filters/             # CategoryFilter
-│   │   ├── ui/                  # MatrixLogo, LoadingSpinner, StarRating, BaseModal
-│   │   └── pwa/                 # IOSInstallPrompt
-│   ├── composables/         # Vue composables
-│   │   ├── useKeyboardShortcuts.ts  # Global keyboard shortcuts
-│   │   ├── useFocusTrap.ts          # Modal focus management
-│   │   └── useToolFilters.ts        # Search and filter logic
-│   ├── stores/              # Pinia state management
-│   │   ├── toolsStore.ts        # Tools data and Google Sheets integration
-│   │   └── uiStore.ts           # UI state (modals, menus)
-│   ├── services/            # External service integrations
-│   │   └── googleSheetsService.ts   # Google Sheets API v4 client
-│   ├── types/               # TypeScript type definitions
-│   │   ├── osintTool.ts         # OSINTTool interface and types
-│   │   ├── api.ts               # API response types
-│   │   └── index.ts             # Exported types
-│   ├── utils/               # Utility functions
-│   │   └── validateEnv.ts       # Environment variable validation
-│   ├── constants/           # Application constants
-│   ├── styles/              # Global styles
-│   │   ├── main.css             # Main stylesheet
-│   │   ├── variables.css        # CSS custom properties
-│   │   ├── animations.css       # Animations (cursor, scanlines)
-│   │   └── responsive.css       # Responsive breakpoints
-│   ├── data/                # Dummy data (replaced in Milestone 3)
-│   ├── views/               # Vue views/pages
-│   ├── router/              # Vue Router configuration
-│   ├── App.vue              # Root application component
-│   └── main.ts              # Application entry point
-├── public/                  # Static assets
-│   └── favicon.svg              # Hexagon favicon with "S"
-├── spec.md                  # Technical specification (SOURCE OF TRUTH)
-├── CLAUDE.md                # AI assistant context and guidelines
-├── todo.md                  # Milestone 1 implementation checklist
-└── README.md                # This file
+src/
+├── components/
+│   ├── layout/          # AppHeader, HamburgerMenu, MainLayout
+│   ├── tools/           # ToolCard, ToolGrid
+│   ├── search/          # SearchBar, CommandPalette
+│   ├── filters/         # CategoryFilter
+│   ├── ui/              # MatrixLogo, StarRating, BaseModal, LoadingSpinner
+│   ├── guide/           # GuideModal
+│   └── pwa/             # IOSInstallPrompt
+├── composables/         # useKeyboardShortcuts, useFocusTrap, useToolFilters
+├── stores/              # toolsStore (Pinia), uiStore
+├── services/            # googleSheetsService (API v4 client)
+├── types/               # TypeScript interfaces and union types
+├── utils/               # validateEnv, helper functions
+├── constants/           # Application constants
+├── styles/              # Global CSS (variables, animations, responsive)
+├── router/              # Vue Router configuration
+├── App.vue              # Root component
+└── main.ts              # Entry point
 ```
-
----
-
-## Design System - Matrix Terminal Theme
-
-### Color Palette
-```css
---background: #0a0e0a;           /* Dark background */
---matrix-bright: #00FF41;         /* Primary matrix green */
---matrix-medium: #00CC33;         /* Medium green */
---matrix-dim: #008F11;            /* Dimmed green */
---matrix-green-bright: #39FF14;   /* Bright accent green */
-```
-
-### Typography
-- **Font**: JetBrains Mono (monospace terminal font)
-- **Fallbacks**: Fira Code, IBM Plex Mono, Courier New, monospace
-- **Loaded from**: Google Fonts (preloaded in `index.html`)
-
-### Key Design Principles
-- **Sharp Corners**: No border-radius (enforced globally)
-- **Terminal Aesthetic**: Blinking cursor, scanline CRT effects
-- **Green Phosphor Glow**: Interactive elements have green box-shadow on hover
-- **Mobile-First**: Responsive design starting at 390px (iPhone 14 Pro)
 
 ---
 
 ## Data Model
 
 ### TypeScript Types
+
 ```typescript
 // Strict union types for compile-time validation
 export type Kostnad = 'GRATIS' | 'KOSTNAD' | 'GRATISH';
@@ -209,7 +171,7 @@ export interface OSINTTool {
   url: string;
   beskrivelse: string;
   kostnad: Kostnad;
-  språk?: string; // Alpha-3 country codes (NOR, USA, GBR, etc.)
+  språk?: string;                      // Alpha-3 codes (NOR, USA, GBR)
   kreverRegistrering?: RegistreringKrav;
   vanskelighetsgrad?: Vanskelighetsgrad;
   veiledning?: string;
@@ -217,179 +179,143 @@ export interface OSINTTool {
 }
 ```
 
-**Current**: Using dummy data (9 sample tools in [src/data/dummyTools.ts](src/data/dummyTools.ts))
-**Milestone 3**: Will integrate with Google Sheets API v4
-
 ---
 
-## Development
+## Deployment
 
-### TypeScript Configuration
-- **Strict Mode**: Enabled for maximum type safety
-- **Path Aliases**: `@/` maps to `src/`
-- **Additional Checks**: `noUncheckedIndexedAccess`, `noUnusedLocals`, `noUnusedParameters`
+### GitHub Pages (Automated)
 
-### Code Quality
-- **ESLint**: Configured for Vue 3 + TypeScript
-- **Prettier**: Consistent code formatting
-- **No `any` Types**: Enforced via ESLint rule
+The project includes a GitHub Actions workflow for automated deployment:
 
-### Browser Support
-- **Target**: ES2019 (for iOS Safari compatibility)
-- **Primary Focus**: iOS Safari 26.0.1 (critical requirement)
-- **Secondary**: Chrome 120+, Firefox 120+, Edge 120+
+1. Push to `main` branch
+2. Add GitHub Secrets:
+   - `VITE_GOOGLE_SHEET_ID`
+   - `VITE_GOOGLE_API_KEY`
+3. Enable **GitHub Pages** → Source: **GitHub Actions**
+4. Workflow runs automatically on push
 
----
+### Manual Deployment
 
-## Milestones
-
-### ✅ Milestone 1: Core Setup and Mobile UI (COMPLETE)
-- Project initialization with Vite + Vue 3 + TypeScript
-- State management (Pinia) and routing (Vue Router)
-- Matrix terminal theme CSS
-- Responsive layout with dummy data
-- Basic components (ToolCard, ToolGrid, Header, Logo)
-
-### ✅ Milestone 2: WebKit Optimization and Interactivity (COMPLETE)
-- WebKit 26.0 CSS features (anchor positioning, scroll animations, text-wrap: pretty)
-- Search and filtering functionality with real-time updates
-- Command palette (CMD+K) with keyboard navigation
-- Keyboard shortcuts system (composable pattern)
-- Accessibility enhancements (focus trap, ARIA labels)
-
-### ✅ Milestone 3: Backend Integration and Full Feature Set (COMPLETE)
-- Google Sheets API v4 integration with graceful fallback
-- Service Worker with smart caching strategies
-- PWA features (manifest, offline support, installable)
-- iOS install prompt with localStorage dismissal
-- Performance optimizations (code splitting, lazy loading, CSS splitting)
-- Production deployment (GitHub Actions workflow)
-
----
-
-## Build Results
-
-**Latest Production Build (Post-Milestone 3 with UI Improvements)**:
+```bash
+npm run build       # Builds to dist/
+npm run preview     # Test production build locally
 ```
-dist/index.html                       1.58 kB │ gzip:  0.66 kB
-dist/assets/HomeView-*.css            2.00 kB │ gzip:  0.55 kB
-dist/assets/index-*.css               3.26 kB │ gzip:  1.29 kB
-dist/assets/components-*.css         19.40 kB │ gzip:  3.07 kB
-dist/assets/vendor-*.js               0.00 kB │ gzip:  0.02 kB
-dist/assets/index-*.js                3.40 kB │ gzip:  1.74 kB
-dist/assets/HomeView-*.js             5.85 kB │ gzip:  2.47 kB
-dist/assets/components-*.js          13.85 kB │ gzip:  4.94 kB
-dist/assets/vue-vendor-*.js          95.86 kB │ gzip: 37.49 kB
----------------------------------------------------
-Total initial load: ~50 kB gzipped ✅
+
+Deploy the `dist/` folder to your hosting provider.
+
+---
+
+## Design System
+
+### Matrix Terminal Theme
+
+**Colors:**
+```css
+--background: #0a0e0a           /* Dark background */
+--matrix-bright: #00ff41        /* Primary green */
+--matrix-medium: #00cc33        /* Medium green */
+--matrix-dim: #008f11           /* Dim green */
+```
+
+**Typography:**
+- Font: JetBrains Mono (monospace)
+- Sharp corners (no border-radius)
+- Terminal aesthetic with phosphor glow effects
+
+**Icons:**
+- Material Symbols (weight 100)
+- Guide: `book_2` (22px)
+- Play: `play_arrow` (44px)
+- Favicon/PWA: `>_` symbol (terminal prompt)
+
+---
+
+## Accessibility
+
+- ✅ **WCAG 2.1 AA** compliant
+- ✅ **Keyboard navigation** - Full app accessible via keyboard
+- ✅ **Focus management** - Focus trap in modals
+- ✅ **ARIA labels** - All interactive elements labeled
+- ✅ **Color contrast** - 4.5:1 minimum ratio
+- ✅ **Touch targets** - 48px minimum for mobile
+
+### Keyboard Shortcuts
+
+- `Cmd/Ctrl + K` - Open command palette
+- `ESC` - Close modals/menus
+- `Enter` - Select from command palette
+- `Arrow Up/Down` - Navigate results
+- `Tab/Shift+Tab` - Navigate elements
+
+---
+
+## Performance
+
+**Bundle Size (Production):**
+```
+Total gzipped: ~50 kB ✅
 Build time: ~425ms ⚡
-Code splitting: 4 chunks (vue-vendor, components, HomeView, index)
+Code splitting: 4 chunks
 ```
 
-**Performance Improvements**:
-- Optimized code splitting with separate chunks for components
-- CSS code splitting enabled
-- Lazy loading for all route components
-- Material Symbols icons loaded from Google Fonts CDN
-- Total bundle size reduced from M1 (~99 kB) to current (~50 kB) ⬇️ 49% reduction!
+**Optimizations:**
+- Code splitting (vue-vendor, components, views)
+- CSS splitting enabled
+- Lazy loading for route components
+- Material Symbols loaded from Google Fonts CDN
+- Service Worker with cache-first strategy
 
 ---
 
-## Documentation
+## Browser Support
 
-- **[spec.md](spec.md)** - Complete technical specification (SOURCE OF TRUTH)
-- **[CLAUDE.md](CLAUDE.md)** - AI assistant context, architecture decisions, patterns
-- **[todo.md](todo.md)** - Milestone 1 implementation checklist (completed)
-- **[Instructions for Claude Code.md](Instructions%20for%20Claude%20Code.md)** - Original project requirements
+| Browser | Version | Status |
+|---------|---------|--------|
+| iOS Safari | 26.0+ | ✅ Optimized |
+| Chrome | 120+ | ✅ Full support |
+| Firefox | 120+ | ✅ Full support |
+| Edge | 120+ | ✅ Full support |
+| Safari | 17+ | ✅ Full support |
 
 ---
 
 ## Contributing
 
-This is a learning project for a Product Manager becoming more technical. Code contributions should:
+Contributions are welcome! Please ensure:
 
-1. Follow Vue 3 Composition API with `<script setup>`
-2. Use TypeScript strict mode (no `any` types)
-3. Maintain WCAG 2.1 AA accessibility
-4. Follow Matrix terminal theme design system
-5. Keep Norwegian UI text, English code/comments
+1. Vue 3 Composition API with `<script setup>`
+2. TypeScript strict mode (no `any` types)
+3. WCAG 2.1 AA accessibility compliance
+4. Matrix terminal theme consistency
+5. Norwegian UI text, English code/comments
 
 ---
 
 ## License
 
-This project is open source and available under the MIT License.
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
 ## Acknowledgments
 
-- **Original Sporjeger 1.0**: React 19.2 version (identified iOS 26.0.1 issues)
-- **Bellingcat's OSINT Toolkit**: Inspiration for OSINT tool directory
-- **Vue 3**: Excellent framework with great TypeScript support
-- **Vite**: Lightning-fast development experience
+- **Bellingcat's OSINT Toolkit** - Inspiration for tool directory
+- **Vue 3** - Excellent framework with TypeScript support
+- **Vite** - Lightning-fast development experience
 
 ---
 
-## Deployment
+## Important Notice
 
-### Google Sheets Configuration
+**This application is designed for educational and research purposes.** OSINT activities must be conducted ethically and in compliance with applicable laws and regulations. Users are responsible for ensuring their activities respect:
 
-To enable live data from Google Sheets:
+- **Privacy rights** - Respect individuals' right to privacy
+- **Data protection laws** - Comply with GDPR, CCPA, and local regulations
+- **Terms of service** - Follow platform rules and guidelines
+- **Professional ethics** - Maintain journalistic and research integrity
 
-1. Create a `.env.local` file in the project root:
-```bash
-VITE_GOOGLE_SHEET_ID=your_sheet_id_here
-VITE_GOOGLE_API_KEY=your_api_key_here
-```
-
-2. Get your Google Sheets ID from the URL:
-```
-https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit
-```
-
-3. Create a Google API Key with Sheets API v4 enabled
-   - **Important**: Configure HTTP referrer restrictions to include `http://localhost:5173/*` for development
-   - For production, add your deployed domain (e.g., `https://yourdomain.com/*`)
-
-4. Make your Google Sheet publicly readable (Share > Anyone with the link can view)
-
-5. **Sheet Name**: The app expects a sheet tab named "Ark 1" (Norwegian for "Sheet 1")
-   - If using English UI in Google Sheets, rename the tab to "Ark 1"
-   - Or update `src/services/googleSheetsService.ts` line 28 to match your sheet name
-
-6. **Data Format**:
-   - Kostnad values must be: `GRATIS`, `KOSTNAD`, or `GRATISH`
-   - Språk values should be Alpha-3 country codes: `NOR`, `USA`, `GBR`, `RUS`, etc.
-
-Without these credentials, the app will use dummy data automatically.
-
-### GitHub Pages Deployment
-
-The project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) for automated deployment:
-
-1. Push code to `main` branch
-2. Add Google Sheets credentials as GitHub Secrets:
-   - `VITE_GOOGLE_SHEET_ID`
-   - `VITE_GOOGLE_API_KEY`
-3. Enable GitHub Pages in repository settings (deploy from GitHub Actions)
-4. The workflow will build and deploy automatically
-
-### Manual Deployment
-
-```bash
-# Build for production
-npm run build
-
-# Preview locally
-npm run preview
-
-# Deploy the dist/ folder to your hosting provider
-```
+Always verify information from multiple sources and consider the ethical implications of your research activities.
 
 ---
 
-**Status**: All Milestones Complete ✅ - Production Ready 🚀
-**Built with**: Vue 3.5 + TypeScript 5.9 + Vite 7.1
-**Bundle Size**: ~48 kB gzipped
-**Build Time**: ~405ms
+**Built with Vue 3.5 + TypeScript 5.9 + Vite 7.1**
