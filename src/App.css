@@ -2,22 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --matrix-green: #00ff41;
-  --matrix-green-bright: #39ff14;
-  --matrix-green-dark: #008f11;
-  --matrix-cyan: #00ffff;
-  --matrix-lime: #9dff00;
+  --matrix-green: #00FF41;
+  --matrix-green-bright: #39FF14;
+  --matrix-green-dark: #008F11;
+  --matrix-cyan: #00FFFF;
+  --matrix-lime: #9DFF00;
 
   --primary: var(--matrix-green);
   --background: #0a0e0a;
   --surface: #0d120d;
   --surface-hover: #121812;
   --border: rgba(0, 255, 65, 0.2);
-  --text: #00ff41;
-  --text-secondary: #00cc33;
-  --text-muted: #008f11;
+  --text: #00FF41;
+  --text-secondary: #00CC33;
+  --text-muted: #008F11;
   --success: var(--matrix-green-bright);
-  --error: #ff1744;
+  --error: #FF1744;
   --warning: var(--matrix-lime);
 
   --shadow-md: 0 4px 6px -1px rgb(0 255 65 / 0.3), 0 2px 4px -2px rgb(0 255 65 / 0.2);
@@ -26,22 +26,22 @@
 }
 
 :root.dark {
-  --matrix-green: #00ff41;
-  --matrix-green-bright: #39ff14;
-  --matrix-green-dark: #008f11;
-  --matrix-cyan: #00ffff;
-  --matrix-lime: #9dff00;
+  --matrix-green: #00FF41;
+  --matrix-green-bright: #39FF14;
+  --matrix-green-dark: #008F11;
+  --matrix-cyan: #00FFFF;
+  --matrix-lime: #9DFF00;
 
   --primary: var(--matrix-green);
   --background: #0a0e0a;
   --surface: #0d120d;
   --surface-hover: #121812;
   --border: rgba(0, 255, 65, 0.2);
-  --text: #00ff41;
-  --text-secondary: #00cc33;
-  --text-muted: #008f11;
+  --text: #00FF41;
+  --text-secondary: #00CC33;
+  --text-muted: #008F11;
   --success: var(--matrix-green-bright);
-  --error: #ff1744;
+  --error: #FF1744;
   --warning: var(--matrix-lime);
 
   --shadow-md: 0 4px 6px -1px rgb(0 255 65 / 0.3), 0 2px 4px -2px rgb(0 255 65 / 0.2);

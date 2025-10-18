@@ -47,7 +47,7 @@ window.addEventListener('error', (event) => {
   const root = document.getElementById('root')
   if (root && !root.innerHTML) {
     root.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: #0a0e0a; color: #00ff41; font-family: monospace;">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: #0a0e0a; color: #00FF41; font-family: monospace;">
         <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">⚠️ JavaScript Error</h1>
         <p style="margin-bottom: 0.5rem;"><strong>Message:</strong> ${event.message}</p>
         <p style="margin-bottom: 0.5rem;"><strong>File:</strong> ${event.filename}</p>
@@ -67,7 +67,7 @@ window.addEventListener('unhandledrejection', (event) => {
     const errorMessage = event.reason instanceof Error ? event.reason.message : String(event.reason)
     const errorStack = event.reason instanceof Error ? event.reason.stack : ''
     root.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: #0a0e0a; color: #00ff41; font-family: monospace;">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: #0a0e0a; color: #00FF41; font-family: monospace;">
         <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Promise Rejection</h1>
         <p style="margin-bottom: 0.5rem;"><strong>Message:</strong> ${errorMessage}</p>
         <pre style="margin-top: 1rem; opacity: 0.7; font-size: 0.75rem; max-width: 100%; overflow-x: auto;">${errorStack}</pre>
@@ -128,11 +128,11 @@ try {
   const root = document.getElementById('root')
   if (root) {
     root.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: #0a0e0a; color: #00ff41; font-family: monospace; text-align: center;">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: #0a0e0a; color: #00FF41; font-family: monospace; text-align: center;">
         <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Failed to Initialize App</h1>
         <p style="margin-bottom: 1rem;">Error: ${error instanceof Error ? error.message : String(error)}</p>
         <p style="opacity: 0.7; font-size: 0.875rem;">Check Safari Web Inspector console for details</p>
-        <button onclick="location.reload()" style="margin-top: 2rem; padding: 0.75rem 1.5rem; background: #00ff41; color: #0a0e0a; border: none; border-radius: 4px; font-family: monospace; cursor: pointer;">
+        <button onclick="location.reload()" style="margin-top: 2rem; padding: 0.75rem 1.5rem; background: #00FF41; color: #0a0e0a; border: none; border-radius: 4px; font-family: monospace; cursor: pointer;">
           Reload Page
         </button>
       </div>
