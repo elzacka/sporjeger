@@ -1,0 +1,45 @@
+:root {
+  /* Background Colors */
+  --background: #0a0e0a;
+  --bg-primary: #0d0208;
+  --bg-secondary: #001400;
+  --bg-card: rgba(0, 20, 0, 0.6);
+
+  /* Matrix Green Palette */
+  --matrix-bright: #00ff41;
+  --matrix-medium: #00cc33;
+  --matrix-dim: #008f11;
+  --matrix-green-bright: #39ff14;
+
+  /* Functional Colors */
+  --text-primary: var(--matrix-bright);
+  --text-secondary: var(--matrix-medium);
+  --text-dim: var(--matrix-dim);
+  --border-color: var(--matrix-dim);
+  --focus-color: var(--matrix-green-bright);
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+
+  /* Z-index Layers */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 100;
+  --z-modal-backdrop: 1000;
+  --z-modal: 1001;
+  --z-toast: 2000;
+}

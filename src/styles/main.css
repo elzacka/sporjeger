@@ -1,0 +1,112 @@
+@import './variables.css';
+@import './animations.css';
+@import './responsive.css';
+
+/* Global Resets */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Enforce sharp corners globally */
+* {
+  border-radius: 0 !important;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', 'Courier New', monospace;
+  background-color: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* iOS Safe Area Support */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--matrix-bright);
+}
+
+a {
+  color: var(--matrix-medium);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--matrix-green-bright);
+}
+
+/* Focus Styles (Accessibility) */
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* Remove default button styles */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Green glow effect for interactive elements */
+.glow-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 20px var(--matrix-green-bright);
+}
+
+/* WebKit 26.0: Pretty text wrapping for better readability */
+.text-wrap-pretty {
+  text-wrap: pretty;
+}
+
+/* Fallback for browsers without text-wrap: pretty */
+@supports not (text-wrap: pretty) {
+  .text-wrap-pretty {
+    text-wrap: balance;
+  }
+}
+
+/* WebKit 26.0: Anchor positioning utilities */
+.anchor-element {
+  anchor-name: --anchor;
+}
+
+.anchored {
+  position: absolute;
+}
+
+/* Progressive enhancement: Only use anchor positioning if supported */
+@supports (anchor-name: --anchor) {
+  .anchored {
+    position-anchor: --anchor;
+  }
+}

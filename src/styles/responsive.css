@@ -1,0 +1,36 @@
+/* Mobile First Approach */
+
+/* Base styles (mobile, 390px+) */
+.container {
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+/* Desktop (1400px+) */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+    padding: 0 var(--spacing-xl);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

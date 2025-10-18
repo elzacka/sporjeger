@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Full bleed background for maskable icon (covers entire 512x512) -->
+  <rect width="512" height="512" fill="#0a0e0a"/>
+
+  <!-- Safe zone guide (40% padding from edges = 204.8 ~ 205px safe area starts at 153.6 ~ 154px) -->
+  <!-- Content must stay within 154px to 358px on all sides for maskable icons -->
+
+  <!-- Terminal prompt symbol >_ perfectly centered both horizontally and vertically -->
+  <text
+    x="256"
+    y="256"
+    font-family="'JetBrains Mono', 'Courier New', monospace"
+    font-size="180"
+    font-weight="700"
+    fill="#00ff41"
+    text-anchor="middle"
+    alignment-baseline="central"
+    dominant-baseline="central"
+    letter-spacing="0"
+  >&gt;_</text>
+
+  <!-- Optional: Subtle border for depth (October 2025 trend: minimal depth cues) -->
+  <rect
+    x="1"
+    y="1"
+    width="510"
+    height="510"
+    fill="none"
+    stroke="#00ff41"
+    stroke-width="2"
+    opacity="0.15"
+    rx="0"
+  />
+</svg>

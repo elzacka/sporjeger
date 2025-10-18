@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" fill="#0a0e0a"/>
+
+  <!-- Terminal prompt symbol >_ perfectly centered -->
+  <text
+    x="16"
+    y="16"
+    font-family="'JetBrains Mono', 'Courier New', monospace"
+    font-size="16"
+    font-weight="700"
+    fill="#00ff41"
+    text-anchor="middle"
+    alignment-baseline="central"
+    dominant-baseline="central"
+  >&gt;_</text>
+</svg>
