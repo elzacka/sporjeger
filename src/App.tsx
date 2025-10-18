@@ -87,15 +87,9 @@ function App() {
 
           <div className="app-title">
             <h1 className="app-name">
-              <div className="neural-icon">
-                <img
-                  src="/sporjeger/Sporjeger symbol.svg"
-                  alt="Sporjeger neural network icon"
-                  width="48"
-                  height="48"
-                />
-              </div>
+              <span className="terminal-prompt" aria-hidden="true">&gt;_</span>
               <span>SPORJEGER</span>
+              <span className="terminal-cursor" aria-hidden="true">_</span>
             </h1>
             <p className="app-tagline">Verktøykasse for digital skattejakt</p>
           </div>
@@ -108,15 +102,21 @@ function App() {
         </div>
 
         <div className="header-search">
+          <div className="loading-bar" aria-hidden="true">
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+          </div>
           <button
-            className="search-bar"
+            className="search-bar terminal-search"
             onClick={() => setIsCommandPaletteOpen(true)}
             title="Søk etter verktøy (⌘K)"
           >
-            <span className="material-symbols-outlined">search</span>
-            <span className="search-placeholder">Søk etter verktøy...</span>
-            <kbd className="search-kbd">⌘K</kbd>
+            <span className="search-prompt" aria-hidden="true">&gt;</span>
+            <span className="search-placeholder">SØKE_FUNKSJON: _</span>
+            <kbd className="search-kbd">ESC</kbd>
           </button>
+          <div className="initialize-text" aria-hidden="true">
+            ░░░░░░░░░░░░░░░░░░ INITIALIZE ░░░░░░░░░░░░░░░░░░░░
+          </div>
         </div>
       </header>
 
