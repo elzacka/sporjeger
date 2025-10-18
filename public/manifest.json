@@ -2,26 +2,32 @@
   "name": "Sporjeger - OSINT Verktøy",
   "short_name": "Sporjeger",
   "description": "En kuratert katalog over OSINT-verktøy for digitale etterforskere, forskere og journalister",
-  "start_url": "/",
+  "start_url": "/sporjeger/",
+  "scope": "/sporjeger/",
   "display": "standalone",
   "background_color": "#0a0e0a",
   "theme_color": "#0a0e0a",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/sporjeger/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/sporjeger/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/sporjeger/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/sporjeger/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
@@ -32,7 +38,7 @@
       "name": "Søk verktøy",
       "short_name": "Søk",
       "description": "Søk etter OSINT-verktøy",
-      "url": "/?action=search",
+      "url": "/sporjeger/?action=search",
       "icons": []
     }
   ]
