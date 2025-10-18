@@ -102,21 +102,15 @@ function App() {
         </div>
 
         <div className="header-search">
-          <div className="loading-bar" aria-hidden="true">
-            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-          </div>
           <button
             className="search-bar terminal-search"
             onClick={() => setIsCommandPaletteOpen(true)}
             title="Søk etter verktøy (⌘K)"
           >
             <span className="search-prompt" aria-hidden="true">&gt;</span>
-            <span className="search-placeholder">SØKE_FUNKSJON: _</span>
+            <span className="search-placeholder">SØK: _</span>
             <kbd className="search-kbd">ESC</kbd>
           </button>
-          <div className="initialize-text" aria-hidden="true">
-            ░░░░░░░░░░░░░░░░░░ INITIALIZE ░░░░░░░░░░░░░░░░░░░░
-          </div>
         </div>
       </header>
 
