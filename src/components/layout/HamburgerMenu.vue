@@ -40,13 +40,13 @@ function closeInfoModal() {
       </button>
 
       <a
-        href="https://github.com/bellingcat/toolkit"
+        href="https://www.bellingcat.com"
         target="_blank"
         rel="noopener noreferrer"
         class="hamburger-menu__item"
         @click="closeMenu"
       >
-        <span class="hamburger-menu__item-text">Bellingcat OSINT Toolkit</span>
+        <span class="hamburger-menu__item-text">Bellingcat</span>
       </a>
     </div>
 
@@ -54,35 +54,32 @@ function closeInfoModal() {
     <BaseModal :is-open="isInfoModalOpen" title="Om Sporjeger" @close="closeInfoModal">
       <div class="info-content">
         <p class="info-content__paragraph">
-          <strong>Sporjeger</strong> (Tracker) er en kuratert katalog over OSINT-verktøy designet
-          for digitale etterforskere, forskere og journalister.
+          <strong>Sporjeger</strong> er en OSINT-verktøykasse for å finne materiale i åpne kilder på internett og jobbe med materialet underveis. OSINT står for "open source intelligence".
         </p>
 
-        <h3 class="info-content__heading">Versjon</h3>
-        <p class="info-content__paragraph">2.0 (Vue 3 Rebuild)</p>
+        <h3 class="info-content__heading">Hva kan du bruke det til?</h3>
+        <p class="info-content__paragraph">Tenk på det som en mer presis GPS som viser vei til det du leter etter. Den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge.
+</p>
+<p class="info-content__paragraph">
+Men husk: Bruk for å lære. Hold deg innenfor hva som er lov og etisk forsvarlig.</p>
 
-        <h3 class="info-content__heading">Teknologi</h3>
+        <h3 class="info-content__heading">Veiledning</h3>
         <ul class="info-content__list">
-          <li>Vue 3.5 + TypeScript 5.9</li>
-          <li>Vite 7.1 Build Tool</li>
-          <li>Pinia State Management</li>
-          <li>WebKit 26.0 CSS Features</li>
+          <li>Én stjerne = Enklest å bruke</li>
+          <li>Gratish = Du må betale for noe av innholdet</li>
+          <li>NOR, USA, RUS osv = Hvilket land verktøyet kommer fra</li>
+          <li>Trykk på boka: Se hvordan du kan bruke verktøyet</li>
+	  <li>Trykk play: Åpne verktøyet</li>
         </ul>
 
-        <h3 class="info-content__heading">Datakilde</h3>
+        <h3 class="info-content__heading">Datakilder</h3>
         <p class="info-content__paragraph">
-          Verktøydata kommer fra Google Sheets API. Milestone 1 bruker dummy data for testing.
+          De fleste verktøyene er hentet fra "Bellingcat’s Online Open Source Investigation Toolkit". Andre har jeg funnet og brukt selv.
         </p>
 
         <h3 class="info-content__heading">Personvern</h3>
         <p class="info-content__paragraph">
-          Sporjeger samler ingen brukerdata, har ingen sporingskode, og bruker ingen cookies. Alt
-          lagres lokalt på enheten din.
-        </p>
-
-        <h3 class="info-content__heading">Tilgjengelighet</h3>
-        <p class="info-content__paragraph">
-          Appen er bygget med WCAG 2.1 AA standarder og støtter full tastaturnavigasjon.
+          Sporjeger samler ingen brukerdata, har ingen sporingskode, og bruker ingen cookies.
         </p>
       </div>
     </BaseModal>
@@ -172,8 +169,13 @@ function closeInfoModal() {
 }
 
 /* Info Modal Content Styling */
+.info-content {
+  padding-top: var(--spacing-md);
+}
+
 .info-content__paragraph {
   color: var(--text-secondary);
+  font-size: var(--font-size-base);
   line-height: 1.6;
   margin-bottom: var(--spacing-lg);
 }
@@ -187,6 +189,7 @@ function closeInfoModal() {
 
 .info-content__list {
   color: var(--text-secondary);
+  font-size: var(--font-size-base);
   padding-left: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
 }

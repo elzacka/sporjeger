@@ -133,22 +133,18 @@ const countryCode = computed(() => {
 
 .tool-card__cost {
   color: var(--text-dim);
-  font-size: var(--font-size-xs);
 }
 
 .tool-card__separator {
   color: var(--text-dim);
-  font-size: var(--font-size-xs);
 }
 
 .tool-card__country {
   color: var(--text-dim);
-  font-size: var(--font-size-xs);
 }
 
 .meta-label {
   color: var(--text-dim);
-  font-size: var(--font-size-xs);
 }
 
 .meta-value {
@@ -175,7 +171,6 @@ const countryCode = computed(() => {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  font-size: var(--font-size-xl);
   transition: all 0.2s ease;
   cursor: pointer;
   display: flex;
@@ -185,8 +180,8 @@ const countryCode = computed(() => {
 }
 
 .tool-card__button .material-symbols-outlined {
-  font-size: 22px;
-  font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 22;
+  font-size: var(--font-size-xl);
+  font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 20;
 }
 
 .tool-card__button:hover {
@@ -204,7 +199,6 @@ const countryCode = computed(() => {
 .tool-card__link {
   color: var(--matrix-medium);
   font-weight: 600;
-  font-size: var(--font-size-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -218,7 +212,7 @@ const countryCode = computed(() => {
 }
 
 .tool-card__link .material-symbols-outlined {
-  font-size: 44px;
+  font-size: var(--font-size-3xl);
   font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 48;
 }
 
