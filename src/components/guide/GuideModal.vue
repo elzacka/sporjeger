@@ -6,6 +6,7 @@ interface Props {
   isOpen: boolean;
   toolName: string;
   guideContent?: string;
+  toolUrl?: string;
 }
 
 interface Emits {
@@ -14,6 +15,14 @@ interface Emits {
 
 const props = defineProps<Props>();
 defineEmits<Emits>();
+
+// Check if content contains URLs (links in guide content)
+const hasLinksInContent = computed(() => {
+  if (!props.guideContent) return false;
+  // Check for markdown links or raw URLs
+  return /\[([^\]]+)\]\(([^)]+)\)/.test(props.guideContent) ||
+         /https?:\/\//.test(props.guideContent);
+});
 
 // Simple markdown to HTML conversion
 const formattedContent = computed(() => {
@@ -64,14 +73,26 @@ const formattedContent = computed(() => {
 
 <template>
   <BaseModal :is-open="isOpen" :title="`Veiledning: ${toolName}`" @close="$emit('close')">
+    <template v-if="hasLinksInContent" #header>
+      <h2 class="guide-header">Klikk lenken for å se guide</h2>
+    </template>
     <div class="guide-content" v-html="formattedContent"></div>
   </BaseModal>
 </template>
 
 <style scoped>
+.guide-header {
+  color: var(--matrix-bright);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
 .guide-content {
   color: var(--text-secondary);
   line-height: 1.8;
+  padding-top: 0;
   /* Ensure long URLs and text wrap properly */
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -80,8 +101,10 @@ const formattedContent = computed(() => {
 .guide-content :deep(h1) {
   font-size: var(--font-size-2xl);
   color: var(--matrix-bright);
+  font-weight: 700;
   margin-bottom: var(--spacing-md);
   margin-top: var(--spacing-xl);
+  line-height: 1.2;
 }
 
 .guide-content :deep(h1:first-child) {
@@ -91,8 +114,10 @@ const formattedContent = computed(() => {
 .guide-content :deep(h2) {
   font-size: var(--font-size-xl);
   color: var(--matrix-bright);
-  margin-bottom: var(--spacing-sm);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
   margin-top: var(--spacing-lg);
+  line-height: 1.2;
 }
 
 .guide-content :deep(h2:first-child) {
@@ -101,9 +126,11 @@ const formattedContent = computed(() => {
 
 .guide-content :deep(h3) {
   font-size: var(--font-size-lg);
-  color: var(--matrix-medium);
-  margin-bottom: var(--spacing-sm);
-  margin-top: var(--spacing-md);
+  color: var(--matrix-bright);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  line-height: 1.2;
 }
 
 .guide-content :deep(h3:first-child) {

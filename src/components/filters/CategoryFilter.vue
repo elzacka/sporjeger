@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 interface Props {
   categories: string[];
-  modelValue: string;
+  modelValue: string[];
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: string): void;
+  (e: 'update:modelValue', value: string[]): void;
 }
 
 const props = defineProps<Props>();
@@ -15,37 +15,66 @@ const emit = defineEmits<Emits>();
 
 const isOpen = ref(false);
 const buttonRef = ref<HTMLButtonElement | null>(null);
+const dropdownRef = ref<HTMLDivElement | null>(null);
 
 const displayText = computed(() => {
-  return props.modelValue || 'Alle kategorier';
+  if (!props.modelValue || props.modelValue.length === 0) {
+    return 'Alle kategorier';
+  }
+  if (props.modelValue.length === 1) {
+    return props.modelValue[0];
+  }
+  return `${props.modelValue.length} kategorier valgt`;
 });
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
 }
 
-function selectCategory(category: string) {
-  emit('update:modelValue', category);
-  isOpen.value = false;
+function toggleCategory(category: string) {
+  const currentValues = [...props.modelValue];
+  const index = currentValues.indexOf(category);
+
+  if (index > -1) {
+    // Remove category if already selected
+    currentValues.splice(index, 1);
+  } else {
+    // Add category if not selected
+    currentValues.push(category);
+  }
+
+  emit('update:modelValue', currentValues);
+  // Keep dropdown open after selecting
 }
 
 function clearFilter() {
-  emit('update:modelValue', '');
-  isOpen.value = false;
+  emit('update:modelValue', []);
+  // Keep dropdown open after clearing
+}
+
+function isCategorySelected(category: string): boolean {
+  return props.modelValue.includes(category);
 }
 
 // Close dropdown when clicking outside
 function handleClickOutside(event: MouseEvent) {
   const target = event.target as Node;
-  if (buttonRef.value && !buttonRef.value.contains(target)) {
+  const clickedButton = buttonRef.value && buttonRef.value.contains(target);
+  const clickedDropdown = dropdownRef.value && dropdownRef.value.contains(target);
+
+  if (!clickedButton && !clickedDropdown) {
     isOpen.value = false;
   }
 }
 
-// Listen for outside clicks
-if (typeof window !== 'undefined') {
+// Add event listener on mount, clean up on unmount
+onMounted(() => {
   document.addEventListener('click', handleClickOutside);
-}
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <template>
@@ -63,27 +92,43 @@ if (typeof window !== 'undefined') {
       </span>
     </button>
 
-    <div v-if="isOpen" class="category-filter__dropdown slide-down" role="listbox">
+    <div v-if="isOpen" ref="dropdownRef" class="category-filter__dropdown slide-down" role="listbox">
+      <!-- Mobile close button -->
+      <div class="category-filter__dropdown-header">
+        <span class="category-filter__dropdown-title">Velg kategorier</span>
+        <button
+          class="category-filter__close"
+          aria-label="Lukk"
+          @click="isOpen = false"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="category-filter__options">
+        <button
+          v-for="category in categories"
+          :key="category"
+          class="category-filter__option"
+          :class="{ 'category-filter__option--active': isCategorySelected(category) }"
+          role="option"
+          :aria-selected="isCategorySelected(category)"
+          @click="toggleCategory(category)"
+        >
+          <span class="category-filter__checkbox">
+            <span v-if="isCategorySelected(category)" class="category-filter__checkmark">✓</span>
+          </span>
+          <span class="category-filter__option-text">{{ category }}</span>
+        </button>
+      </div>
+
+      <!-- Reset filter button - always visible at bottom -->
       <button
-        class="category-filter__option"
-        :class="{ 'category-filter__option--active': !modelValue }"
-        role="option"
-        :aria-selected="!modelValue"
+        v-if="modelValue && modelValue.length > 0"
+        class="category-filter__reset"
         @click="clearFilter"
       >
-        Alle kategorier
-      </button>
-
-      <button
-        v-for="category in categories"
-        :key="category"
-        class="category-filter__option"
-        :class="{ 'category-filter__option--active': modelValue === category }"
-        role="option"
-        :aria-selected="modelValue === category"
-        @click="selectCategory(category)"
-      >
-        {{ category }}
+        Tilbakestill filter ({{ modelValue.length }})
       </button>
     </div>
   </div>
@@ -141,8 +186,51 @@ if (typeof window !== 'undefined') {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   max-height: min(400px, 60vh);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   z-index: var(--z-dropdown);
+}
+
+.category-filter__dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  /* Hidden on desktop, shown on mobile */
+  display: none;
+}
+
+.category-filter__dropdown-title {
+  color: var(--matrix-bright);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+}
+
+.category-filter__close {
+  color: var(--matrix-medium);
+  font-size: var(--font-size-2xl);
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.category-filter__close:hover {
+  color: var(--matrix-bright);
+}
+
+.category-filter__options {
+  flex: 1;
+  overflow-y: auto;
 }
 
 /* WebKit 26.0: Use anchor positioning if supported */
@@ -162,6 +250,7 @@ if (typeof window !== 'undefined') {
 .category-filter__option {
   display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
   width: 100%;
   padding: var(--spacing-md) var(--spacing-md);
   min-height: 48px;
@@ -173,6 +262,28 @@ if (typeof window !== 'undefined') {
   font-size: var(--font-size-base);
   transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
+}
+
+.category-filter__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--matrix-dim);
+  background-color: var(--bg-primary);
+  flex-shrink: 0;
+}
+
+.category-filter__checkmark {
+  color: var(--matrix-bright);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.category-filter__option-text {
+  flex: 1;
 }
 
 .category-filter__option:hover {
@@ -191,6 +302,35 @@ if (typeof window !== 'undefined') {
   background-color: rgba(0, 255, 65, 0.15);
 }
 
+.category-filter__reset {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md);
+  min-height: 48px;
+  text-align: center;
+  background-color: var(--matrix-dim);
+  border: none;
+  border-top: 2px solid var(--border-color);
+  color: var(--bg-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.category-filter__reset:hover {
+  background-color: var(--matrix-medium);
+  color: var(--bg-primary);
+}
+
+.category-filter__reset:focus-visible {
+  outline: none;
+  background-color: var(--matrix-bright);
+  color: var(--bg-primary);
+}
+
 @media (max-width: 767px) {
   .category-filter__button {
     min-width: 150px;
@@ -198,15 +338,39 @@ if (typeof window !== 'undefined') {
   }
 }
 
+@media (max-width: 767px) {
+  .category-filter__dropdown-header {
+    display: flex;
+  }
+
+  .category-filter__dropdown {
+    /* On mobile, make dropdown more prominent */
+    position: fixed;
+    top: auto;
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    bottom: var(--spacing-md);
+    max-height: 70vh;
+    border: 2px solid var(--matrix-bright);
+    box-shadow: 0 0 20px var(--matrix-green-bright);
+  }
+
+  .category-filter__close {
+    min-width: 48px;
+    min-height: 48px;
+    font-size: calc(var(--font-size-2xl) * 1.2);
+  }
+}
+
 @media (max-width: 390px) {
   .category-filter__dropdown {
-    max-height: 50vh;
-    left: -8px;
-    right: -8px;
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    bottom: var(--spacing-sm);
   }
 
   .category-filter__option {
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-md);
   }
 }
 </style>

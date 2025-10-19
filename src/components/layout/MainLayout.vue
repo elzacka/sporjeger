@@ -4,19 +4,19 @@ import AppHeader from './AppHeader.vue';
 interface Props {
   searchQuery?: string;
   categories?: string[];
-  selectedCategory?: string;
+  selectedCategory?: string[];
 }
 
 interface Emits {
   (e: 'update:searchQuery', value: string): void;
-  (e: 'update:selectedCategory', value: string): void;
+  (e: 'update:selectedCategory', value: string[]): void;
   (e: 'openCommandPalette'): void;
 }
 
 withDefaults(defineProps<Props>(), {
   searchQuery: '',
   categories: () => [],
-  selectedCategory: '',
+  selectedCategory: () => [],
 });
 
 const emit = defineEmits<Emits>();
@@ -25,7 +25,7 @@ function updateSearch(value: string) {
   emit('update:searchQuery', value);
 }
 
-function updateCategory(value: string) {
+function updateCategory(value: string[]) {
   emit('update:selectedCategory', value);
 }
 

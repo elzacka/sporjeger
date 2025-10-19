@@ -31,7 +31,14 @@ useFocusTrap(modalRef);
         :aria-label="title"
         @click.stop
       >
-        <button class="base-modal__close" aria-label="Lukk" @click="emit('close')">✕</button>
+        <!-- Header row with optional header slot and close button -->
+        <div v-if="$slots.header" class="base-modal__header">
+          <div class="base-modal__header-content">
+            <slot name="header" />
+          </div>
+          <button class="base-modal__close" aria-label="Lukk" @click="emit('close')">✕</button>
+        </div>
+        <button v-else class="base-modal__close base-modal__close--standalone" aria-label="Lukk" @click="emit('close')">✕</button>
 
         <div class="base-modal__content">
           <slot />
@@ -74,16 +81,27 @@ useFocusTrap(modalRef);
   position: relative;
 }
 
+.base-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg) var(--spacing-lg) 0 var(--spacing-lg);
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.base-modal__header-content {
+  flex: 1;
+  min-width: 0;
+  /* The header inside should have no margins - spacing is controlled by padding */
+}
+
 .base-modal__close {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
   color: var(--matrix-medium);
   font-size: var(--font-size-2xl);
   line-height: 1;
   transition: color 0.2s ease;
   padding: var(--spacing-xs);
-  z-index: 1;
   background: none;
   border: none;
   cursor: pointer;
@@ -92,6 +110,14 @@ useFocusTrap(modalRef);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.base-modal__close--standalone {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 1;
 }
 
 .base-modal__close:hover {
@@ -107,11 +133,16 @@ useFocusTrap(modalRef);
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-lg);
-  /* Add extra padding-top to prevent content from overlapping close button */
-  padding-top: calc(var(--spacing-lg) + var(--spacing-xl));
+  /* When header slot is used, gap should match h3 margin-bottom (--spacing-md) */
+  padding-top: var(--spacing-md);
   /* Ensure long URLs and text wrap properly */
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+/* When there's no header slot, add extra padding for standalone close button */
+.base-modal:has(.base-modal__close--standalone) .base-modal__content {
+  padding-top: calc(var(--spacing-lg) + var(--spacing-xl));
 }
 
 /* Mobile optimization - reduce padding to prevent content overflow */
@@ -154,28 +185,55 @@ useFocusTrap(modalRef);
 }
 
 @media (max-width: 767px) {
+  .base-modal-backdrop {
+    /* Ensure equal padding on all sides for visible borders */
+    padding: var(--spacing-lg);
+  }
+
   .base-modal {
     max-width: 100%;
-    max-height: 95vh;
+    max-height: calc(100vh - calc(var(--spacing-lg) * 2));
+  }
+
+  .base-modal__header {
+    padding: var(--spacing-md) var(--spacing-md) 0 var(--spacing-md);
   }
 
   .base-modal__content {
     padding: var(--spacing-md);
+    /* Keep same gap as desktop - h3 margin-bottom */
+    padding-top: var(--spacing-md);
+  }
+
+  /* When standalone close button on mobile, add padding for it */
+  .base-modal:has(.base-modal__close--standalone) .base-modal__content {
+    padding-top: calc(var(--spacing-md) + 48px + var(--spacing-sm));
   }
 
   .base-modal__close {
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
     min-width: 48px;
     min-height: 48px;
     font-size: calc(var(--font-size-2xl) * 1.2);
   }
+
+  .base-modal__close--standalone {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    /* Add background to prevent overlap with content */
+    background-color: var(--bg-primary);
+    border: 1px solid var(--matrix-dim);
+  }
 }
 
 @media (max-width: 390px) {
+  .base-modal-backdrop {
+    /* Ensure equal padding on all sides */
+    padding: var(--spacing-md);
+  }
+
   .base-modal {
-    max-width: 95vw;
-    max-height: 90vh;
+    max-width: 100%;
+    max-height: calc(100vh - calc(var(--spacing-md) * 2));
   }
 }
 </style>

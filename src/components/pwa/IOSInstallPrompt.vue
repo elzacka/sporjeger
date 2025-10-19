@@ -50,17 +50,17 @@ onMounted(() => {
         ✕
       </button>
 
-      <h3 class="ios-install-prompt__title">Installer Sporjeger</h3>
+      <h3 class="ios-install-prompt__title">Bruk Sporjeger som app</h3>
 
       <p class="ios-install-prompt__text">
         Legg til Sporjeger på hjem-skjerm for rask tilgang og offline bruk.
       </p>
 
       <ol class="ios-install-prompt__steps">
-        <li>Trykk på Del-knappen nederst</li>
-        <li>Rull ned og velg "Legg til på Hjem-skjerm"</li>
-	<li>Sjekk at "Åpne som nettapp" er skrudd på</li>
-        <li>Trykk "Legg til" øverst til høyre</li>
+        <li>Trykk på de tre prikkene nederst til høyre.</li>
+        <li>Klikk "Del", skyv opp så du se alle valgene, trykk "Legg til på Hjem-skjerm".</li>
+	<li>Sørg for at "Åpne som nettapp" er skrudd på.</li>
+        <li>Trykk "Legg til" øverst til høyre. Du vil se et nytt ikon sammen med de andre appene dine.</li>
       </ol>
 
       <button

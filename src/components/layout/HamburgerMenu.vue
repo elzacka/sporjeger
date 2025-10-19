@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import BaseModal from '@/components/ui/BaseModal.vue';
 
 const isMenuOpen = ref(false);
 const isInfoModalOpen = ref(false);
+const menuRef = ref<HTMLElement | null>(null);
+const buttonRef = ref<HTMLElement | null>(null);
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
@@ -21,20 +23,41 @@ function openInfoModal() {
 function closeInfoModal() {
   isInfoModalOpen.value = false;
 }
+
+// Close menu when clicking outside
+function handleClickOutside(event: MouseEvent) {
+  const target = event.target as Node;
+  const clickedButton = buttonRef.value && buttonRef.value.contains(target);
+  const clickedMenu = menuRef.value && menuRef.value.contains(target);
+
+  if (!clickedButton && !clickedMenu && isMenuOpen.value) {
+    closeMenu();
+  }
+}
+
+// Add event listener on mount, clean up on unmount
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <template>
   <div class="hamburger-menu">
     <button
+      ref="buttonRef"
       class="hamburger-menu__button anchor-element"
       aria-label="Meny"
       :aria-expanded="isMenuOpen"
-      @click="toggleMenu"
+      @click.stop="toggleMenu"
     >
       <span class="hamburger-menu__icon">☰</span>
     </button>
 
-    <div v-if="isMenuOpen" class="hamburger-menu__dropdown slide-down">
+    <div v-if="isMenuOpen" ref="menuRef" class="hamburger-menu__dropdown slide-down">
       <button class="hamburger-menu__item" @click="openInfoModal">
         <span class="hamburger-menu__item-text">Om Sporjeger</span>
       </button>
@@ -52,6 +75,9 @@ function closeInfoModal() {
 
     <!-- Info Modal -->
     <BaseModal :is-open="isInfoModalOpen" title="Om Sporjeger" @close="closeInfoModal">
+      <template #header>
+        <h2 class="info-header">Om</h2>
+      </template>
       <div class="info-content">
         <p class="info-content__paragraph">
           <strong>Sporjeger</strong> er en OSINT-verktøykasse for å finne og jobbe med materiale fra åpne kilder på internett. OSINT står for "open source intelligence".
@@ -167,9 +193,18 @@ Men husk: Bruk for å lære og finne, innenfor hva som er lov og etisk forsvarli
   color: var(--matrix-bright);
 }
 
+/* Info Modal Header Styling - matches h3 headings exactly */
+.info-header {
+  color: var(--matrix-bright);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
 /* Info Modal Content Styling */
 .info-content {
-  padding-top: var(--spacing-md);
+  padding-top: 0;
 }
 
 .info-content__paragraph {
@@ -182,8 +217,10 @@ Men husk: Bruk for å lære og finne, innenfor hva som er lov og etisk forsvarli
 .info-content__heading {
   color: var(--matrix-bright);
   font-size: var(--font-size-lg);
+  font-weight: 700;
   margin-top: var(--spacing-lg);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
 }
 
 .info-content__list {

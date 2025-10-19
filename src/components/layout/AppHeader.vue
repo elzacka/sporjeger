@@ -7,18 +7,18 @@ import HamburgerMenu from '@/components/layout/HamburgerMenu.vue';
 interface Props {
   searchQuery?: string;
   categories?: string[];
-  selectedCategory?: string;
+  selectedCategory?: string[];
 }
 
 interface Emits {
   (e: 'update:searchQuery', value: string): void;
-  (e: 'update:selectedCategory', value: string): void;
+  (e: 'update:selectedCategory', value: string[]): void;
   (e: 'openCommandPalette'): void;
 }
 
 withDefaults(defineProps<Props>(), {
   categories: () => [],
-  selectedCategory: '',
+  selectedCategory: () => [],
 });
 
 const emit = defineEmits<Emits>();
@@ -27,7 +27,7 @@ function updateSearch(value: string) {
   emit('update:searchQuery', value);
 }
 
-function updateCategory(value: string) {
+function updateCategory(value: string[]) {
   emit('update:selectedCategory', value);
 }
 
@@ -52,11 +52,20 @@ function openCommandPalette() {
       <div class="header-right">
         <CategoryFilter
           v-if="categories && categories.length > 0"
-          :model-value="selectedCategory || ''"
+          :model-value="selectedCategory || []"
+          :categories="categories"
+          @update:model-value="updateCategory"
+          class="category-filter-desktop"
+        />
+        <HamburgerMenu />
+      </div>
+      <!-- Category filter for mobile - below search bar -->
+      <div v-if="categories && categories.length > 0" class="header-filter-mobile">
+        <CategoryFilter
+          :model-value="selectedCategory || []"
           :categories="categories"
           @update:model-value="updateCategory"
         />
-        <HamburgerMenu />
       </div>
     </div>
   </header>
@@ -97,15 +106,56 @@ function openCommandPalette() {
   gap: var(--spacing-md);
 }
 
+/* Hide mobile filter on desktop */
+.header-filter-mobile {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .header-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
     gap: var(--spacing-sm);
   }
 
-  .header-center,
+  .header-left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
   .header-right {
-    justify-self: start;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    gap: 0;
+  }
+
+  .header-center {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  /* Make search bar full width on mobile */
+  .header-center :deep(.search-bar) {
+    max-width: 100%;
+  }
+
+  /* Hide desktop category filter on mobile */
+  .category-filter-desktop {
+    display: none;
+  }
+
+  /* Show mobile category filter below search */
+  .header-filter-mobile {
+    display: block;
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: 100%;
+  }
+
+  .header-filter-mobile :deep(.category-filter__button) {
+    width: 100%;
   }
 }
 </style>

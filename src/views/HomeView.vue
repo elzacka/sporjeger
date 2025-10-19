@@ -67,7 +67,7 @@ function closeGuide() {
       <LoadingSpinner v-if="isLoading" size="large" />
       <div v-else-if="filteredTools.length === 0" class="home-empty">
         <p>Ingen verktøy funnet for gjeldende filter.</p>
-        <button class="home-empty__button" @click="selectedCategory = ''; searchQuery = ''">
+        <button class="home-empty__button" @click="selectedCategory = []; searchQuery = ''">
           Tilbakestill filter
         </button>
       </div>
@@ -88,6 +88,7 @@ function closeGuide() {
       :is-open="isGuideModalOpen"
       :tool-name="selectedTool.navn"
       :guide-content="selectedTool.veiledning"
+      :tool-url="selectedTool.url"
       @close="closeGuide"
     />
   </MainLayout>
