@@ -100,7 +100,7 @@ Men husk: Bruk for å lære og finne, innenfor hva som er lov og etisk forsvarli
 
         <h3 class="info-content__heading">Datakilder og personvern</h3>
         <p class="info-content__paragraph">
-          De fleste verktøyene hentes fra "Bellingcat’s Online Open Source Investigation Toolkit". Andre har jeg funnet og brukt selv.
+          De fleste verktøyene hentes fra <a href="https://bellingcat.gitbook.io/toolkit" target="_blank" rel="noopener noreferrer" class="info-content__link">Bellingcat's Online Open Source Investigation Toolkit</a>. Andre har jeg funnet og brukt selv.
         </p>
 
         <p class="info-content__paragraph">
@@ -232,5 +232,25 @@ Men husk: Bruk for å lære og finne, innenfor hva som er lov og etisk forsvarli
 
 .info-content__list li {
   margin-bottom: var(--spacing-xs);
+}
+
+.info-content__link {
+  color: var(--matrix-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--matrix-medium);
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  cursor: pointer;
+}
+
+.info-content__link:hover {
+  color: var(--matrix-green-bright);
+  text-decoration-color: var(--matrix-green-bright);
+}
+
+.info-content__link:focus-visible {
+  outline: 2px solid var(--matrix-bright);
+  outline-offset: 2px;
+  color: var(--matrix-green-bright);
 }
 </style>

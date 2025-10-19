@@ -213,7 +213,34 @@ function handleKeydown(event: KeyboardEvent) {
 .command-palette__results {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--spacing-xs);
+}
+
+/* Custom scrollbar styling for Webkit browsers */
+.command-palette__results::-webkit-scrollbar {
+  width: 10px;
+}
+
+.command-palette__results::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--matrix-dim);
+}
+
+.command-palette__results::-webkit-scrollbar-thumb {
+  background: var(--matrix-medium);
+  border-radius: 0;
+  transition: background 0.2s ease;
+}
+
+.command-palette__results::-webkit-scrollbar-thumb:hover {
+  background: var(--matrix-bright);
+}
+
+/* Custom scrollbar for Firefox */
+.command-palette__results {
+  scrollbar-width: auto;
+  scrollbar-color: var(--matrix-medium) var(--bg-secondary);
 }
 
 .command-palette__empty {

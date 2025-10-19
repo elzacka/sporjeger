@@ -31,16 +31,15 @@ useFocusTrap(modalRef);
         :aria-label="title"
         @click.stop
       >
-        <!-- Header row with optional header slot and close button -->
-        <div v-if="$slots.header" class="base-modal__header">
-          <div class="base-modal__header-content">
-            <slot name="header" />
-          </div>
-          <button class="base-modal__close" aria-label="Lukk" @click="emit('close')">✕</button>
-        </div>
-        <button v-else class="base-modal__close base-modal__close--standalone" aria-label="Lukk" @click="emit('close')">✕</button>
+        <!-- Close button (always at top right) -->
+        <button class="base-modal__close" aria-label="Lukk" @click="emit('close')">✕</button>
 
         <div class="base-modal__content">
+          <!-- Optional header inside content area -->
+          <div v-if="$slots.header" class="base-modal__content-header">
+            <slot name="header" />
+          </div>
+
           <slot />
         </div>
 
@@ -81,22 +80,11 @@ useFocusTrap(modalRef);
   position: relative;
 }
 
-.base-modal__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-lg) var(--spacing-lg) 0 var(--spacing-lg);
-  gap: var(--spacing-md);
-  flex-shrink: 0;
-}
-
-.base-modal__header-content {
-  flex: 1;
-  min-width: 0;
-  /* The header inside should have no margins - spacing is controlled by padding */
-}
-
 .base-modal__close {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 2;
   color: var(--matrix-medium);
   font-size: var(--font-size-2xl);
   line-height: 1;
@@ -113,11 +101,9 @@ useFocusTrap(modalRef);
   flex-shrink: 0;
 }
 
-.base-modal__close--standalone {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  z-index: 1;
+.base-modal__content-header {
+  margin-bottom: var(--spacing-md);
+  padding-top: 0;
 }
 
 .base-modal__close:hover {
@@ -132,17 +118,13 @@ useFocusTrap(modalRef);
 .base-modal__content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--spacing-lg);
-  /* When header slot is used, gap should match h3 margin-bottom (--spacing-md) */
-  padding-top: var(--spacing-md);
+  /* Add padding-top for close button */
+  padding-top: calc(var(--spacing-md) + 40px + var(--spacing-xs));
   /* Ensure long URLs and text wrap properly */
   word-wrap: break-word;
   overflow-wrap: break-word;
-}
-
-/* When there's no header slot, add extra padding for standalone close button */
-.base-modal:has(.base-modal__close--standalone) .base-modal__content {
-  padding-top: calc(var(--spacing-lg) + var(--spacing-xl));
 }
 
 /* Mobile optimization - reduce padding to prevent content overflow */
@@ -155,7 +137,7 @@ useFocusTrap(modalRef);
 
 /* Custom scrollbar styling for Webkit browsers (Chrome, Safari, Edge) */
 .base-modal__content::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 .base-modal__content::-webkit-scrollbar-track {
@@ -164,18 +146,19 @@ useFocusTrap(modalRef);
 }
 
 .base-modal__content::-webkit-scrollbar-thumb {
-  background: var(--matrix-dim);
+  background: var(--matrix-medium);
+  border-radius: 0;
   transition: background 0.2s ease;
 }
 
 .base-modal__content::-webkit-scrollbar-thumb:hover {
-  background: var(--matrix-medium);
+  background: var(--matrix-bright);
 }
 
 /* Custom scrollbar for Firefox */
 .base-modal__content {
-  scrollbar-width: thin;
-  scrollbar-color: var(--matrix-dim) var(--bg-secondary);
+  scrollbar-width: auto;
+  scrollbar-color: var(--matrix-medium) var(--bg-secondary);
 }
 
 .base-modal__footer {
@@ -195,30 +178,17 @@ useFocusTrap(modalRef);
     max-height: calc(100vh - calc(var(--spacing-lg) * 2));
   }
 
-  .base-modal__header {
-    padding: var(--spacing-md) var(--spacing-md) 0 var(--spacing-md);
-  }
-
   .base-modal__content {
     padding: var(--spacing-md);
-    /* Keep same gap as desktop - h3 margin-bottom */
-    padding-top: var(--spacing-md);
-  }
-
-  /* When standalone close button on mobile, add padding for it */
-  .base-modal:has(.base-modal__close--standalone) .base-modal__content {
-    padding-top: calc(var(--spacing-md) + 48px + var(--spacing-sm));
+    padding-top: calc(var(--spacing-sm) + 48px + var(--spacing-xs));
   }
 
   .base-modal__close {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
     min-width: 48px;
     min-height: 48px;
     font-size: calc(var(--font-size-2xl) * 1.2);
-  }
-
-  .base-modal__close--standalone {
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
     /* Add background to prevent overlap with content */
     background-color: var(--bg-primary);
     border: 1px solid var(--matrix-dim);

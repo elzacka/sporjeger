@@ -32,6 +32,21 @@ const formattedContent = computed(() => {
 
   let html = props.guideContent;
 
+  // Convert inline code first (to protect URLs in code blocks from being linkified)
+  html = html.replace(/`([^`]+)`/g, '___CODE___$1___ENDCODE___');
+
+  // Convert markdown links [text](url) before raw URLs
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+  // Convert raw URLs to clickable links (simple approach that works everywhere)
+  html = html.replace(/(https?:\/\/[^\s<]+)/gi, (url) => {
+    // Don't linkify if it's already in an anchor tag's href
+    return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+  });
+
+  // Fix double-linkified URLs (from markdown links that had URLs in display text)
+  html = html.replace(/<a[^>]*href="([^"]+)"[^>]*><a[^>]*href="[^"]+"[^>]*>([^<]+)<\/a><\/a>/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>');
+
   // Convert headings (h1-h6)
   html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
   html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
@@ -45,11 +60,8 @@ const formattedContent = computed(() => {
   html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
   html = html.replace(/_(.+?)_/g, '<em>$1</em>');
 
-  // Convert links
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-
-  // Convert inline code
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Restore inline code (after markdown processing)
+  html = html.replace(/___CODE___([^_]+)___ENDCODE___/g, '<code>$1</code>');
 
   // Convert unordered lists
   html = html.replace(/^\* (.+)$/gim, '<li>$1</li>');
@@ -157,20 +169,25 @@ const formattedContent = computed(() => {
 }
 
 .guide-content :deep(a) {
-  color: var(--matrix-medium);
+  color: var(--matrix-bright);
   text-decoration: underline;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  cursor: pointer;
   /* Break long URLs */
   word-break: break-word;
   overflow-wrap: anywhere;
+  text-decoration-color: var(--matrix-medium);
+  text-underline-offset: 2px;
 }
 
 .guide-content :deep(a:hover) {
   color: var(--matrix-green-bright);
+  text-decoration-color: var(--matrix-green-bright);
 }
 
 .guide-content :deep(a:focus-visible) {
-  outline: none;
+  outline: 2px solid var(--matrix-bright);
+  outline-offset: 2px;
   color: var(--matrix-green-bright);
 }
 
