@@ -82,11 +82,16 @@ useFocusTrap(modalRef);
   font-size: var(--font-size-2xl);
   line-height: 1;
   transition: color 0.2s ease;
-  padding: 0 var(--spacing-xs);
+  padding: var(--spacing-xs);
   z-index: 1;
   background: none;
   border: none;
   cursor: pointer;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .base-modal__close:hover {
@@ -102,6 +107,44 @@ useFocusTrap(modalRef);
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-lg);
+  /* Add extra padding-top to prevent content from overlapping close button */
+  padding-top: calc(var(--spacing-lg) + var(--spacing-xl));
+  /* Ensure long URLs and text wrap properly */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Mobile optimization - reduce padding to prevent content overflow */
+@media (max-width: 390px) {
+  .base-modal__content {
+    padding: var(--spacing-md);
+    padding-top: calc(var(--spacing-md) + var(--spacing-xl));
+  }
+}
+
+/* Custom scrollbar styling for Webkit browsers (Chrome, Safari, Edge) */
+.base-modal__content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.base-modal__content::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--matrix-dim);
+}
+
+.base-modal__content::-webkit-scrollbar-thumb {
+  background: var(--matrix-dim);
+  transition: background 0.2s ease;
+}
+
+.base-modal__content::-webkit-scrollbar-thumb:hover {
+  background: var(--matrix-medium);
+}
+
+/* Custom scrollbar for Firefox */
+.base-modal__content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--matrix-dim) var(--bg-secondary);
 }
 
 .base-modal__footer {
@@ -123,6 +166,16 @@ useFocusTrap(modalRef);
   .base-modal__close {
     top: var(--spacing-sm);
     right: var(--spacing-sm);
+    min-width: 48px;
+    min-height: 48px;
+    font-size: calc(var(--font-size-2xl) * 1.2);
+  }
+}
+
+@media (max-width: 390px) {
+  .base-modal {
+    max-width: 95vw;
+    max-height: 90vh;
   }
 }
 </style>

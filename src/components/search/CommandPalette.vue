@@ -226,6 +226,7 @@ function handleKeydown(event: KeyboardEvent) {
   display: block;
   width: 100%;
   padding: var(--spacing-md);
+  min-height: 48px;
   text-align: left;
   background: none;
   border: 1px solid transparent;
@@ -302,6 +303,22 @@ function handleKeydown(event: KeyboardEvent) {
 
   .command-palette__hint {
     display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .command-palette-backdrop {
+    padding: var(--spacing-md);
+  }
+
+  .command-palette {
+    margin-top: max(3vh, env(safe-area-inset-top));
+    max-width: 100%;
+    max-height: 85vh;
+  }
+
+  .command-palette__item {
+    padding: var(--spacing-lg) var(--spacing-md);
   }
 }
 </style>

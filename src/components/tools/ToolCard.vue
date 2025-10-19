@@ -108,6 +108,9 @@ const countryCode = computed(() => {
   color: var(--text-secondary);
   font-size: var(--font-size-base);
   line-height: 1.6;
+  /* Ensure long text wraps properly */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .tool-card__meta {
@@ -227,5 +230,18 @@ const countryCode = computed(() => {
   color: var(--matrix-green-bright);
   border-color: var(--matrix-bright);
   box-shadow: 0 0 10px var(--matrix-green-bright);
+}
+
+/* Mobile optimizations - 48px touch targets */
+@media (max-width: 767px) {
+  .tool-card__button,
+  .tool-card__link {
+    width: 48px;
+    height: 48px;
+  }
+
+  .tool-card__button .material-symbols-outlined {
+    font-size: calc(var(--font-size-xl) * 1.1);
+  }
 }
 </style>

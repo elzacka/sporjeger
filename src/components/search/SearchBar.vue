@@ -13,7 +13,7 @@ interface Emits {
 }
 
 withDefaults(defineProps<Props>(), {
-  placeholder: 'SØK: _',
+  placeholder: 'SØK...',
   showCommandKHint: true,
 });
 
@@ -38,7 +38,6 @@ function openCommandPalette() {
 
 <template>
   <div class="search-bar">
-    <span class="search-bar__prompt">&gt;</span>
     <input
       ref="inputRef"
       type="text"
@@ -83,13 +82,6 @@ function openCommandPalette() {
 
 .search-bar:focus-within {
   border-color: var(--matrix-bright);
-}
-
-.search-bar__prompt {
-  color: var(--matrix-medium);
-  font-weight: 700;
-  font-size: var(--font-size-lg);
-  flex-shrink: 0;
 }
 
 .search-bar__input {

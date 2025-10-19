@@ -54,32 +54,31 @@ function closeInfoModal() {
     <BaseModal :is-open="isInfoModalOpen" title="Om Sporjeger" @close="closeInfoModal">
       <div class="info-content">
         <p class="info-content__paragraph">
-          <strong>Sporjeger</strong> er en OSINT-verktøykasse for å finne materiale i åpne kilder på internett og jobbe med materialet underveis. OSINT står for "open source intelligence".
+          <strong>Sporjeger</strong> er en OSINT-verktøykasse for å finne og jobbe med materiale fra åpne kilder på internett. OSINT står for "open source intelligence".
         </p>
 
-        <h3 class="info-content__heading">Hva kan du bruke det til?</h3>
-        <p class="info-content__paragraph">Tenk på det som en mer presis GPS som viser vei til det du leter etter. Den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge.
+        <h3 class="info-content__heading">Hva kan du bruke Sporjeger til?</h3>
+        <p class="info-content__paragraph">Tenk på en GPS som viser vei til det du leter etter. Den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge. Og mye mer.
 </p>
 <p class="info-content__paragraph">
-Men husk: Bruk for å lære. Hold deg innenfor hva som er lov og etisk forsvarlig.</p>
+Men husk: Bruk for å lære og finne, innenfor hva som er lov og etisk forsvarlig.
+</p>
 
-        <h3 class="info-content__heading">Veiledning</h3>
         <ul class="info-content__list">
-          <li>Én stjerne = Enklest å bruke</li>
-          <li>Gratish = Du må betale for noe av innholdet</li>
-          <li>NOR, USA, RUS osv = Hvilket land verktøyet kommer fra</li>
+          <li>Én stjerne: Enklest å bruke</li>
+          <li>Gratish: Du må betale for noe av innholdet</li>
+          <li>NOR, USA, RUS osv: Hvilket land verktøyet kommer fra</li>
           <li>Trykk på boka: Se hvordan du kan bruke verktøyet</li>
 	  <li>Trykk play: Åpne verktøyet</li>
         </ul>
 
-        <h3 class="info-content__heading">Datakilder</h3>
+        <h3 class="info-content__heading">Datakilder og personvern</h3>
         <p class="info-content__paragraph">
-          De fleste verktøyene er hentet fra "Bellingcat’s Online Open Source Investigation Toolkit". Andre har jeg funnet og brukt selv.
+          De fleste verktøyene hentes fra "Bellingcat’s Online Open Source Investigation Toolkit". Andre har jeg funnet og brukt selv.
         </p>
 
-        <h3 class="info-content__heading">Personvern</h3>
         <p class="info-content__paragraph">
-          Sporjeger samler ingen brukerdata, har ingen sporingskode, og bruker ingen cookies.
+          Sporjeger samler ingen brukerdata, har ingen sporingskode og bruker ingen cookies.
         </p>
       </div>
     </BaseModal>

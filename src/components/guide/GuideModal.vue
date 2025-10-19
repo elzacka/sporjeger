@@ -72,6 +72,9 @@ const formattedContent = computed(() => {
 .guide-content {
   color: var(--text-secondary);
   line-height: 1.8;
+  /* Ensure long URLs and text wrap properly */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .guide-content :deep(h1) {
@@ -130,6 +133,9 @@ const formattedContent = computed(() => {
   color: var(--matrix-medium);
   text-decoration: underline;
   transition: color 0.2s ease;
+  /* Break long URLs */
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .guide-content :deep(a:hover) {
@@ -158,5 +164,28 @@ const formattedContent = computed(() => {
   font-family: 'JetBrains Mono', monospace;
   font-size: var(--font-size-sm);
   color: var(--matrix-green-bright);
+  /* Allow code to wrap on small screens */
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+/* Mobile optimizations */
+@media (max-width: 390px) {
+  .guide-content :deep(h1) {
+    font-size: var(--font-size-xl);
+  }
+
+  .guide-content :deep(h2) {
+    font-size: var(--font-size-lg);
+  }
+
+  .guide-content :deep(h3) {
+    font-size: var(--font-size-base);
+  }
+
+  .guide-content :deep(code) {
+    font-size: var(--font-size-xs);
+    padding: 1px 4px;
+  }
 }
 </style>
