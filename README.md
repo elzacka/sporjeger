@@ -178,6 +178,10 @@ elzacka
 - Material Symbols
 - JetBrains Mono font
 
+## ❗️ Note
+
+This application is designed for educational and research purposes. Always ensure you comply with relevant laws and regulations when conducting OSINT activities.
+
 ---
 
 **Made with Vue 3 and TypeScript**
