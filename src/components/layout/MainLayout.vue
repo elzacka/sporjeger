@@ -2,21 +2,28 @@
 import AppHeader from './AppHeader.vue';
 
 interface Props {
+  searchQuery?: string;
   categories?: string[];
   selectedCategory?: string;
 }
 
 interface Emits {
+  (e: 'update:searchQuery', value: string): void;
   (e: 'update:selectedCategory', value: string): void;
   (e: 'openCommandPalette'): void;
 }
 
 withDefaults(defineProps<Props>(), {
+  searchQuery: '',
   categories: () => [],
   selectedCategory: '',
 });
 
 const emit = defineEmits<Emits>();
+
+function updateSearch(value: string) {
+  emit('update:searchQuery', value);
+}
 
 function updateCategory(value: string) {
   emit('update:selectedCategory', value);
@@ -30,8 +37,10 @@ function openCommandPalette() {
 <template>
   <div class="main-layout">
     <AppHeader
+      :search-query="searchQuery"
       :categories="categories"
       :selected-category="selectedCategory"
+      @update:search-query="updateSearch"
       @update:selected-category="updateCategory"
       @open-command-palette="openCommandPalette"
     />
