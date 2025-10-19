@@ -169,7 +169,7 @@ MIT License - See [LICENSE](LICENSE)
 
 ## 👥 Author
 
-**Lene** - Product Manager & Developer
+elzacka
 
 ## 🙏 Acknowledgments
 
