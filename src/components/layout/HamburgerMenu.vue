@@ -77,7 +77,7 @@ onUnmounted(() => {
     <BaseModal :is-open="isInfoModalOpen" title="Om Sporjeger" @close="closeInfoModal">
       <div class="info-content">
         <p class="info-content__paragraph">
-          <strong>Sporjeger</strong> er en OSINT-verktøykasse for å finne og jobbe med materiale fra åpne kilder på internett. OSINT står for "open source intelligence".
+          <strong>Sporjeger</strong> er en OSINT-verktøykasse. Open Source Intelligence. Det betyr: åpne kilder på internett som alle har tilgang til.
         </p>
 
         <h3 class="info-content__heading">Hva kan du bruke Sporjeger til?</h3>
