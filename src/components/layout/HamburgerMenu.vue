@@ -91,18 +91,18 @@ Bruk hodet. Bruk det etisk. Bruk det innenfor lovens grenser.
         <ul class="info-content__list">
           <li>Én stjerne: Enklest å bruke</li>
           <li>Gratish: Du må betale for noe av innholdet</li>
-          <li>NOR, USA, RUS osv: Hvilket land verktøyet kommer fra</li>
-          <li>Trykk på boka: Se hvordan du kan bruke verktøyet</li>
-	  <li>Trykk play: Åpne verktøyet</li>
+          <li>NOR, USA, RUS osv: Landet verktøyet kommer fra</li>
+          <li>Bok-knapp: Se hvordan du bruker verktøyet</li>
+	  	  <li>Play-knapp: Åpne verktøyet</li>
         </ul>
 
         <h3 class="info-content__heading">Datakilder og personvern</h3>
         <p class="info-content__paragraph">
-          De fleste verktøyene hentes fra <a href="https://bellingcat.gitbook.io/toolkit" target="_blank" rel="noopener noreferrer" class="info-content__link">Bellingcat's Online Open Source Investigation Toolkit</a>. Andre har jeg funnet og brukt selv.
+          Mesteparten kommer fra <a href="https://bellingcat.gitbook.io/toolkit" target="_blank" rel="noopener noreferrer" class="info-content__link">Bellingcat's Online Open Source Investigation Toolkit</a>. Resten har jeg funnet selv.
         </p>
 
         <p class="info-content__paragraph">
-          Sporjeger samler ingen brukerdata, har ingen sporingskode og bruker ingen cookies.
+          Sporjeger samler null brukerdata. Ingen sporingskode. Ingen cookies. Ingenting.
         </p>
       </div>
     </BaseModal>
