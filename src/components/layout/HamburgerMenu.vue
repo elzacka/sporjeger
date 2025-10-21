@@ -81,10 +81,11 @@ onUnmounted(() => {
         </p>
 
         <h3 class="info-content__heading">Hva kan du bruke Sporjeger til?</h3>
-        <p class="info-content__paragraph">Tenk på en GPS som viser vei til det du leter etter. Den gamle avisartikkelen, kildene du trenger til skolearbeidet eller svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge. Og mye mer.
+        <p class="info-content__paragraph">Du trenger informasjon. Den ligger der ute, spredt. Den gamle avisartikkelen. Kildene til skolearbeidet. Svar på hva som faktisk er de vanligste digitale sårbarhetene i Norge.
+Sporjeger er verktøykassa. Ikke en snarvei til å bryte loven, men et verktøy for å lære og finne det som faktisk er åpent og tilgjengelig.
 </p>
 <p class="info-content__paragraph">
-Men husk: Bruk for å lære og finne, innenfor hva som er lov og etisk forsvarlig.
+Bruk hodet. Bruk det etisk. Bruk det innenfor lovens grenser.
 </p>
 
         <ul class="info-content__list">
