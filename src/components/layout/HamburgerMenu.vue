@@ -61,16 +61,6 @@ onUnmounted(() => {
       <button class="hamburger-menu__item" @click="openInfoModal">
         <span class="hamburger-menu__item-text">Om Sporjeger</span>
       </button>
-
-      <a
-        href="https://www.bellingcat.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hamburger-menu__item"
-        @click="closeMenu"
-      >
-        <span class="hamburger-menu__item-text">Bellingcat</span>
-      </a>
     </div>
 
     <!-- Info Modal -->

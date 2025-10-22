@@ -1,0 +1,205 @@
+Kategori,Navn,URL,Beskrivelse,Kostnad,Språk,Krever Registrering,Designkvalitet,Vanskelighetsgrad,Veiledning,Endre eller slette,Tool Type,Platform,Tags,Category Path,Last Verified,Alternatives
+Username,Sherlock,https://github.com/sherlock-project/sherlock,"Søk etter brukernavn på over 300 sosiale medier automatisk",GRATIS,USA,Nei,2,3,"# Sherlock - Username Search
+
+## Installation
+```bash
+pip install sherlock-project
+```
+
+## Basic Usage
+```bash
+sherlock username_to_search
+```
+
+## Advanced Options
+- `--timeout` - Set request timeout
+- `--print-found` - Only show found accounts
+- `--csv` - Export results to CSV",,terminal,all,"username, social media, python, cli, osint","Username, Social Media",2025-01-22,"WhatsMyName, Namechk, Namecheckup"
+Email Address,Have I Been Pwned,https://haveibeenpwned.com,"Sjekk om e-postadressen din er kompromittert i kjente datainnbrudd",GRATIS,GBR,Nei,3,1,"# Have I Been Pwned
+
+## How to Use
+1. Enter email address
+2. Check against database of known breaches
+3. Review compromised accounts
+4. Enable notifications for future breaches
+
+## API Available
+Yes, with rate limits",,web,web,"email, breach, security, passwords, data leak","Email Address, Breach Check",2025-01-22,"DeHashed, LeakCheck, Snusbase"
+Email Address,Hunter.io,https://hunter.io,"Finn e-postadresser knyttet til et domene eller selskap",GRATISH,USA,Ja,3,2,"# Hunter.io Email Finder
+
+## Features
+- Find email addresses by domain
+- Verify email addresses
+- Email pattern detection
+
+## Free Tier
+- 25 searches per month
+- 50 verifications per month",,web,web,"email, finder, business, contacts, verification","Email Address, Email Hunter",2025-01-22,"Voila Norbert, Snov.io, RocketReach"
+Domain Name,Domain Dossier,https://centralops.net/co/,"Komplett domene-analyse med whois, DNS, traceroute, og mer",GRATIS,USA,Nei,2,1,,,web,web,"whois, dns, domain, network, traceroute","Domain Name, Whois",2025-01-22,"DomainTools, who.is, WhoisXML API"
+Domain Name,SecurityTrails,https://securitytrails.com,"DNS-historikk, subdomener, og sikkerhetsanalyse for domener",GRATISH,USA,Ja,3,3,"# SecurityTrails
+
+## Features
+- Historical DNS data
+- Subdomain discovery
+- SSL certificate search
+- API access
+
+## Free Account
+- Limited queries per month
+- Basic DNS history",,web,web,"dns, subdomain, security, ssl, certificates","Domain Name, Subdomain Search",2025-01-22,"Sublist3r, Amass, DNSdumpster"
+IP Address,Shodan,https://shodan.io,"Søkemotor for IoT-enheter og internett-tilkoblede systemer",GRATISH,USA,Ja,2,4,"# Shodan Search
+
+## Search Examples
+- `product:MySQL` - Find MySQL servers
+- `country:NO` - Find devices in Norway
+- `port:22` - Find SSH servers
+- `org:""University""` - Find university systems
+
+## Advanced
+- API available for automation
+- Monitor specific IPs
+- Create custom alerts",,web,web,"iot, security, devices, network scanning, ports","Search Engines, IoT Devices",2025-01-22,"Censys, ZoomEye, BinaryEdge"
+IP Address,IPinfo.io,https://ipinfo.io,"IP geolokalisering, ASN lookup, og nettverksinformasjon",GRATISH,USA,Nei,3,1,,,web,web,"ip, geolocation, asn, network, tracking","IP Address, Geolocation",2025-01-22,"MaxMind, IP2Location, ipapi"
+Phone Numbers,TrueCaller,https://truecaller.com,"Reverse phone lookup og spam-identifikasjon",GRATISH,SWE,Ja,3,1,,,web,mobile,"phone, reverse lookup, spam, caller id, mobile","Phone Numbers, Reverse Lookup",2025-01-22,"WhitePages, Spokeo, NumLookup"
+Social Media,Twitter Advanced Search,https://twitter.com/search-advanced,"Avansert søk på Twitter med filtre for dato, språk, brukere, og mer",GRATIS,GBR,Delvis,2,2,"# Twitter Advanced Search
+
+## Search Operators
+- `from:username` - Tweets from user
+- `to:username` - Tweets to user
+- `since:2024-01-01` - Date range start
+- `until:2024-12-31` - Date range end
+- `min_retweets:10` - Minimum retweets
+- `min_likes:50` - Minimum likes
+- `filter:media` - Only with images/videos
+- `lang:no` - Language filter
+
+## Combine Operators
+`from:username since:2024-01-01 filter:media`",,web,web,"twitter, x, social, search operators, advanced","Social Media, Twitter",2025-01-22,"TweetDeck, Nitter, Twitter API"
+Social Media,LinkedIn Sales Navigator,https://linkedin.com/sales/,"Avansert LinkedIn-søk for personer og selskaper",KOSTNAD,USA,Ja,3,2,,,web,web,"linkedin, business, professional, networking, b2b","Social Media, LinkedIn",2025-01-22,"Apollo.io, ZoomInfo, Lusha"
+Images,TinEye,https://tineye.com,"Omvendt bildesøk for å finne kilder, varianter og manipulasjon",GRATISH,GBR,Nei,2,2,"# TinEye Reverse Image Search
+
+## How It Works
+1. Upload image or paste URL
+2. TinEye searches its database
+3. Find sources and variations
+4. Check image manipulation
+
+## Pro Features
+- More results
+- Faster searches
+- API access
+- Alerts for new matches",,web,web,"reverse image, search, verification, forensics, fake","Images, Reverse Search",2025-01-22,"Google Images, Yandex Images, Bing Images"
+Images,ExifTool,https://exiftool.org,"Ekstraher og analyser metadata fra bilder, videoer, og dokumenter",GRATIS,CAN,Nei,1,3,"# ExifTool Usage
+
+## Installation
+Download from official site or use package manager
+
+## Basic Commands
+```bash
+exiftool image.jpg
+exiftool -gps* image.jpg
+exiftool -all= image.jpg  # Remove all metadata
+```
+
+## What It Finds
+- GPS coordinates
+- Camera model
+- Software used
+- Creation date
+- Author information",,terminal,all,"exif, metadata, images, forensics, privacy","Images, Metadata Extraction",2025-01-22,"ExifPurge, ImageMagick, Phil Harvey tools"
+Geolocation,Google Maps,https://maps.google.com,"Kartverktøy for geografisk søk, Street View, og koordinater",GRATIS,NOR,Nei,3,1,"# Google Maps Tips
+
+## Coordinate Search
+Use format: `59.9139, 10.7522`
+
+## Street View
+- Yellow pegman icon
+- Historical imagery available
+- Indoor views for some locations
+
+## Download Offline Maps
+- Search area
+- Click profile
+- Offline maps
+- Select area",,web,all,"maps, geolocation, street view, coordinates, navigation","Geolocation, Maps",2025-01-22,"OpenStreetMap, Bing Maps, Yandex Maps"
+Geolocation,FlightRadar24,https://flightradar24.com,"Sanntids flysporing verden over",GRATISH,SWE,Delvis,3,1,,,web,mobile,"flight, tracking, aviation, aircraft, realtime","Geolocation, Flight Tracking",2025-01-22,"FlightAware, ADS-B Exchange, Plane Finder"
+Geolocation,MarineTraffic,https://marinetraffic.com,"Sanntids skipssporing og marineinformasjon",GRATISH,GRC,Delvis,3,1,,,web,web,"marine, ship, tracking, ais, vessel, ocean","Geolocation, Marine Tracking",2025-01-22,"VesselFinder, ShipFinder, MyShipTracking"
+Search Engines,Google Dorks,https://google.com,"Avanserte søkeoperatorer for Google-søk",GRATIS,USA,Nei,2,3,"# Google Dork Examples
+
+## File Type Search
+`filetype:pdf site:example.com`
+
+## Site-Specific Search
+`site:linkedin.com ""CEO"" ""Oslo""`
+
+## URL Search
+`inurl:admin`
+`inurl:login`
+
+## Title Search
+`intitle:""index of"" password`
+
+## Cache
+`cache:example.com`
+
+## Related Sites
+`related:nytimes.com`
+
+## Security Research
+**Use responsibly and legally**",,dork,web,"google, dorks, search, operators, hacking, security","Search Engines, General",2025-01-22,"Bing, DuckDuckGo, Yandex"
+Search Engines,GitHub Code Search,https://github.com/search,"Søk i millioner av kodelagre på GitHub",GRATIS,USA,Delvis,3,2,"# GitHub Search Operators
+
+## Basic Search
+`language:python api key`
+
+## User/Org Search
+`user:username filename:config`
+
+## Repository Search
+`repo:owner/repo password`
+
+## File Search
+`filename:.env`
+
+## Size Filter
+`size:>1000 password`
+
+## Date Range
+`created:>2024-01-01`",,web,web,"github, code, search, repositories, developers","Search Engines, Code Search",2025-01-22,"GitLab Search, Sourcegraph, grep.app"
+People Search,Pipl,https://pipl.com,"Avansert personsøk med deep web-resultater",GRATISH,USA,Ja,2,2,,,web,web,"people, search, deep web, identity, verification","People Search, General",2025-01-22,"Spokeo, BeenVerified, Intelius"
+Documents,PDF Metadata Viewer,https://products.groupdocs.app/metadata/pdf,"Online verktøy for å se og redigere PDF metadata",GRATIS,USA,Nei,2,1,,,web,web,"pdf, metadata, documents, forensics, privacy","Documents, PDF Analysis",2025-01-22,"ExifTool, Adobe Acrobat, PDFtk"
+Public Records,Brønnøysundregistrene,https://brreg.no,"Norske firmaopplysninger og offentlige registre",GRATIS,NOR,Nei,2,1,"# Brønnøysundregistrene
+
+## Søk på:
+- Organisasjonsnummer
+- Foretaksnavn
+- Personer (styremedlemmer, daglig leder)
+- Adresse
+
+## Tilgjengelige Registre:
+- Enhetsregisteret
+- Foretaksregisteret
+- Regnskapsregisteret
+- Merkeregisteret",,web,web,"norway, business, company, registry, public records, brønnøysund","Business Records, Company Info",2025-01-22,"Proff.no, Ravninfo, Bisnode"
+Dark Web,OnionScan,https://github.com/s-rah/onionscan,"Scanner for Tor onion-tjenester og sikkerhetsanalyse",GRATIS,USA,Nei,1,5,"# OnionScan
+
+## Installation
+```bash
+go get github.com/s-rah/onionscan
+```
+
+## Usage
+```bash
+onionscan --verbose http://example.onion
+```
+
+## What It Scans
+- Web servers
+- SSH
+- FTP
+- SMTP
+- Bitcoin
+- MongoDB
+- Open directories
+
+**Warning: Use only for authorized research**",,terminal,linux,"darkweb, tor, onion, security, scanning, privacy","Dark Web",2025-01-22,"Ahmia, torch, not evil"

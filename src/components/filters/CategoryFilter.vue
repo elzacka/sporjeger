@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import type { CategoryNode } from '@/types/category';
 
 interface Props {
   categories: string[];
   modelValue: string[];
+  categoryCounts?: Record<string, number>;
+  categoryTree?: Map<string, CategoryNode>; // Hierarchical structure
 }
 
 interface Emits {
@@ -12,6 +15,26 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+
+// Track expanded categories
+const expandedCategories = ref<Set<string>>(new Set());
+
+// Get count for a category, default to 0
+function getCategoryCount(category: string): number {
+  return props.categoryCounts?.[category] || 0;
+}
+
+function toggleExpanded(categoryName: string) {
+  if (expandedCategories.value.has(categoryName)) {
+    expandedCategories.value.delete(categoryName);
+  } else {
+    expandedCategories.value.add(categoryName);
+  }
+}
+
+function isExpanded(categoryName: string): boolean {
+  return expandedCategories.value.has(categoryName);
+}
 
 const isOpen = ref(false);
 const buttonRef = ref<HTMLButtonElement | null>(null);
@@ -106,20 +129,65 @@ onUnmounted(() => {
       </div>
 
       <div class="category-filter__options">
-        <button
-          v-for="category in categories"
-          :key="category"
-          class="category-filter__option"
-          :class="{ 'category-filter__option--active': isCategorySelected(category) }"
-          role="option"
-          :aria-selected="isCategorySelected(category)"
-          @click="toggleCategory(category)"
-        >
-          <span class="category-filter__checkbox">
-            <span v-if="isCategorySelected(category)" class="category-filter__checkmark">✓</span>
-          </span>
-          <span class="category-filter__option-text">{{ category }}</span>
-        </button>
+        <!-- Use hierarchical tree if available, otherwise fall back to flat list -->
+        <template v-if="categoryTree && categoryTree.size > 0">
+          <template v-for="[categoryName, node] in categoryTree" :key="categoryName">
+            <!-- Main category -->
+            <button
+              class="category-filter__option"
+              :class="{ 'category-filter__option--active': isCategorySelected(categoryName) }"
+              @click="toggleCategory(categoryName)"
+            >
+              <div class="category-filter__option-content">
+                <span
+                  v-if="node.children.size > 0"
+                  class="category-filter__expand-icon"
+                  @click.stop="toggleExpanded(categoryName)"
+                >
+                  {{ isExpanded(categoryName) ? '▼' : '▶' }}
+                </span>
+                <span class="category-filter__option-text">{{ categoryName }}</span>
+              </div>
+              <span class="category-filter__count">
+                {{ getCategoryCount(categoryName) }}
+              </span>
+            </button>
+
+            <!-- Subcategories (shown when expanded) -->
+            <template v-if="isExpanded(categoryName) && node.children.size > 0">
+              <button
+                v-for="[subName, subNode] in node.children"
+                :key="`${categoryName}-${subName}`"
+                class="category-filter__option category-filter__option--sub"
+                :class="{ 'category-filter__option--active': isCategorySelected(subName) }"
+                @click="toggleCategory(subName)"
+              >
+                <span class="category-filter__option-text category-filter__option-text--sub">
+                  {{ subName }}
+                </span>
+                <span class="category-filter__count">
+                  {{ subNode.count }}
+                </span>
+              </button>
+            </template>
+          </template>
+        </template>
+
+        <!-- Fallback to flat list -->
+        <template v-else>
+          <button
+            v-for="category in categories"
+            :key="category"
+            class="category-filter__option"
+            :class="{ 'category-filter__option--active': isCategorySelected(category) }"
+            @click="toggleCategory(category)"
+          >
+            <span class="category-filter__option-text">{{ category }}</span>
+            <span class="category-filter__count">
+              {{ getCategoryCount(category) }}
+            </span>
+          </button>
+        </template>
       </div>
 
       <!-- Reset filter button - always visible at bottom -->
@@ -150,7 +218,8 @@ onUnmounted(() => {
   font-family: 'JetBrains Mono', monospace;
   font-size: var(--font-size-base);
   transition: border-color 0.2s ease;
-  min-width: 200px;
+  min-width: 250px;
+  max-width: 400px;
 }
 
 .category-filter__button:hover {
@@ -181,14 +250,16 @@ onUnmounted(() => {
 .category-filter__dropdown {
   position: absolute;
   top: calc(100% + var(--spacing-xs));
-  left: 0;
   right: 0;
+  min-width: 350px;
+  max-width: min(500px, 90vw);
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  max-height: min(400px, 60vh);
+  max-height: min(500px, 70vh);
   display: flex;
   flex-direction: column;
   z-index: var(--z-dropdown);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .category-filter__dropdown-header {
@@ -250,56 +321,100 @@ onUnmounted(() => {
 .category-filter__option {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  justify-content: space-between;
+  gap: var(--spacing-md);
   width: 100%;
-  padding: var(--spacing-md) var(--spacing-md);
-  min-height: 48px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 44px;
   text-align: left;
   background: none;
   border: none;
+  border-left: 3px solid transparent;
   color: var(--text-secondary);
   font-family: 'JetBrains Mono', monospace;
-  font-size: var(--font-size-base);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: var(--font-size-sm);
+  transition: all 0.2s ease;
   cursor: pointer;
+  position: relative;
 }
 
-.category-filter__checkbox {
+.category-filter__option--sub {
+  padding-left: calc(var(--spacing-md) + var(--spacing-lg));
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: calc(var(--font-size-sm) * 0.95);
+}
+
+.category-filter__option-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+  overflow: hidden;
+}
+
+.category-filter__expand-icon {
+  font-size: 10px;
+  color: var(--matrix-dim);
+  width: 16px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--matrix-dim);
-  background-color: var(--bg-primary);
-  flex-shrink: 0;
+  transition: color 0.2s ease;
 }
 
-.category-filter__checkmark {
+.category-filter__expand-icon:hover {
   color: var(--matrix-bright);
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  line-height: 1;
 }
 
 .category-filter__option-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   flex: 1;
 }
 
-.category-filter__option:hover {
-  background-color: rgba(0, 255, 65, 0.1);
+.category-filter__option-text--sub {
+  font-style: italic;
+}
+
+.category-filter__count {
+  color: var(--text-dim);
+  font-size: var(--font-size-xs);
+  padding: 2px 6px;
+  min-width: 24px;
+  text-align: center;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.category-filter__option:hover .category-filter__count,
+.category-filter__option--active .category-filter__count {
   color: var(--matrix-bright);
+}
+
+.category-filter__option:hover {
+  background-color: rgba(0, 255, 65, 0.05);
+  color: var(--matrix-bright);
+  border-left-color: var(--matrix-dim);
 }
 
 .category-filter__option:focus-visible {
   outline: none;
-  background-color: rgba(0, 255, 65, 0.1);
+  background-color: rgba(0, 255, 65, 0.05);
   color: var(--matrix-bright);
+  border-left-color: var(--matrix-dim);
 }
 
 .category-filter__option--active {
   color: var(--matrix-bright);
-  background-color: rgba(0, 255, 65, 0.15);
+  background-color: rgba(0, 255, 65, 0.1);
+  border-left-color: var(--matrix-bright);
+  font-weight: 600;
+}
+
+.category-filter__option--active .category-filter__count {
+  font-weight: 700;
 }
 
 .category-filter__reset {

@@ -24,8 +24,13 @@ export async function fetchToolsFromGoogleSheets(): Promise<OSINTTool[]> {
     );
   }
 
-  // Sheet range (all columns A-K)
-  const range = 'Ark 1!A2:K'; // Skip header row (Norwegian sheet name)
+  // Sheet range (extended to include new fields: A-Q)
+  // A: Kategori, B: Navn, C: URL, D: Beskrivelse, E: Kostnad
+  // F: Språk, G: Krever registrering, H: Designkvalitet, I: Vanskelighetsgrad
+  // J: Veiledning, K: Endre eller slette
+  // L: Tool Type, M: Platform, N: Tags (comma-separated), O: Category Path (comma-separated)
+  // P: Last Verified, Q: Alternatives (comma-separated)
+  const range = 'Ark 1!A2:Q'; // Skip header row (Norwegian sheet name)
 
   // Construct API URL
   const url = `${SHEETS_API_BASE}/${SHEET_ID}/values/${range}?key=${API_KEY}`;
@@ -80,7 +85,9 @@ export async function fetchToolsFromGoogleSheets(): Promise<OSINTTool[]> {
 
 /**
  * Transforms a Google Sheets row to an OSINTTool object
- * Row format: [Kategori, Navn, URL, Beskrivelse, Kostnad, Språk, Krever registrering, Designkvalitet, Vanskelighetsgrad, Veiledning, Endre eller slette]
+ * Row format: [Kategori, Navn, URL, Beskrivelse, Kostnad, Språk, Krever registrering,
+ *              Designkvalitet, Vanskelighetsgrad, Veiledning, Endre eller slette,
+ *              Tool Type, Platform, Tags, Category Path, Last Verified, Alternatives]
  */
 function transformRowToTool(row: string[]): OSINTTool | null {
   // Validate required fields (A-E: Kategori, Navn, URL, Beskrivelse, Kostnad)
@@ -120,6 +127,29 @@ function transformRowToTool(row: string[]): OSINTTool | null {
     console.warn(`Invalid Vanskelighetsgrad value "${vanskelighetsgrad}" in row:`, row);
   }
 
+  // Validate Tool Type if present
+  const toolType = row[11]?.trim().toLowerCase();
+  const validToolTypes = ['web', 'terminal', 'dork', 'browser-extension', 'api', 'mobile'];
+  if (toolType && !validToolTypes.includes(toolType)) {
+    console.warn(`Invalid ToolType value "${toolType}" in row:`, row);
+  }
+
+  // Validate Platform if present
+  const platform = row[12]?.trim().toLowerCase();
+  const validPlatforms = ['web', 'windows', 'mac', 'linux', 'mobile', 'all'];
+  if (platform && !validPlatforms.includes(platform)) {
+    console.warn(`Invalid Platform value "${platform}" in row:`, row);
+  }
+
+  // Parse comma-separated fields
+  const parseCsvField = (value: string | undefined): string[] | undefined => {
+    if (!value?.trim()) return undefined;
+    return value
+      .split(',')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+  };
+
   return {
     kategori: row[0]?.trim() || '',
     navn: row[1]?.trim() || '',
@@ -134,6 +164,15 @@ function transformRowToTool(row: string[]): OSINTTool | null {
       (vanskelighetsgrad as '1' | '2' | '3' | '4' | '5' | undefined) || undefined,
     veiledning: row[9]?.trim() || undefined,
     enderEllerSlette: row[10]?.trim() || undefined,
+    toolType:
+      (toolType as 'web' | 'terminal' | 'dork' | 'browser-extension' | 'api' | 'mobile' | undefined) ||
+      undefined,
+    platform:
+      (platform as 'web' | 'windows' | 'mac' | 'linux' | 'mobile' | 'all' | undefined) || undefined,
+    tags: parseCsvField(row[13]),
+    categoryPath: parseCsvField(row[14]),
+    lastVerified: row[15]?.trim() || undefined,
+    alternatives: parseCsvField(row[16]),
   };
 }
 

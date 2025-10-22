@@ -23,16 +23,79 @@ const countryCode = computed(() => {
   if (!props.tool.språk) return null;
   return props.tool.språk;
 });
+
+// Tool type badge display (inspired by OSINT Framework)
+const toolTypeBadge = computed(() => {
+  const typeMap = {
+    web: 'W',
+    terminal: 'T',
+    dork: 'D',
+    'browser-extension': 'E',
+    api: 'A',
+    mobile: 'M',
+  };
+  return props.tool.toolType ? typeMap[props.tool.toolType] : null;
+});
+
+const toolTypeLabel = computed(() => {
+  const labelMap = {
+    web: 'Web',
+    terminal: 'Terminal',
+    dork: 'Google Dork',
+    'browser-extension': 'Browser Extension',
+    api: 'API',
+    mobile: 'Mobile',
+  };
+  return props.tool.toolType ? labelMap[props.tool.toolType] : '';
+});
+
+// Filter tags to avoid duplicates with category name and categoryPath
+const filteredTags = computed(() => {
+  if (!props.tool.tags) return [];
+
+  const categoryLower = props.tool.kategori.toLowerCase();
+  const pathItems = props.tool.categoryPath?.map(p => p.toLowerCase()) || [];
+
+  return props.tool.tags.filter(tag => {
+    const tagLower = tag.toLowerCase();
+    // Remove tag if it's the same as category or in the category path
+    return tagLower !== categoryLower && !pathItems.includes(tagLower);
+  });
+});
 </script>
 
 <template>
   <article class="tool-card glow-hover scroll-animate">
     <header class="tool-card__header">
       <h3 class="tool-card__title">{{ tool.navn }}</h3>
-      <span class="tool-card__category">{{ tool.kategori }}</span>
+      <div class="tool-card__badges">
+        <span class="tool-card__category">{{ tool.kategori }}</span>
+        <span
+          v-if="toolTypeBadge"
+          class="tool-card__type-badge"
+          :title="toolTypeLabel"
+          :aria-label="`Type: ${toolTypeLabel}`"
+        >
+          ({{ toolTypeBadge }})
+        </span>
+        <span
+          v-if="tool.kreverRegistrering === 'Ja'"
+          class="tool-card__type-badge"
+          title="Krever registrering"
+          aria-label="Krever registrering"
+        >
+          (R)
+        </span>
+      </div>
     </header>
 
     <p class="tool-card__description text-wrap-pretty">{{ tool.beskrivelse }}</p>
+
+    <!-- Category Path (Hierarchy) - Show only if it has subcategories -->
+    <div v-if="tool.categoryPath && tool.categoryPath.length > 1" class="tool-card__hierarchy">
+      <span class="tool-card__hierarchy-icon material-symbols-outlined">folder_open</span>
+      <span class="tool-card__hierarchy-path">{{ tool.categoryPath.join(' › ') }}</span>
+    </div>
 
     <footer class="tool-card__footer">
       <div class="tool-card__meta">
@@ -47,6 +110,22 @@ const countryCode = computed(() => {
             <span class="tool-card__separator">•</span>
             <span class="tool-card__country">{{ countryCode }}</span>
           </template>
+          <template v-if="tool.platform">
+            <span class="tool-card__separator">•</span>
+            <span class="tool-card__platform">{{ tool.platform }}</span>
+          </template>
+          <template v-if="tool.lastVerified">
+            <span class="tool-card__separator">•</span>
+            <span class="tool-card__verified" :title="`Sist verifisert: ${tool.lastVerified}`">
+              ✓ {{ tool.lastVerified }}
+            </span>
+          </template>
+        </div>
+
+        <!-- Alternatives -->
+        <div v-if="tool.alternatives && tool.alternatives.length > 0" class="tool-card__alternatives">
+          <span class="tool-card__alternatives-label">Alternativer:</span>
+          <span class="tool-card__alternatives-list">{{ tool.alternatives.join(', ') }}</span>
         </div>
       </div>
 
@@ -97,11 +176,30 @@ const countryCode = computed(() => {
   color: var(--matrix-bright);
 }
 
+.tool-card__badges {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
 .tool-card__category {
   font-size: var(--font-size-sm);
   color: var(--matrix-medium);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.tool-card__type-badge {
+  font-size: var(--font-size-xs);
+  color: var(--matrix-dim);
+  font-weight: 600;
+  cursor: help;
+  transition: color 0.2s ease;
+}
+
+.tool-card__type-badge:hover {
+  color: var(--matrix-medium);
 }
 
 .tool-card__description {
@@ -144,6 +242,51 @@ const countryCode = computed(() => {
 
 .tool-card__country {
   color: var(--text-dim);
+}
+
+.tool-card__platform {
+  color: var(--text-dim);
+  text-transform: capitalize;
+}
+
+.tool-card__verified {
+  color: var(--matrix-dim);
+  font-size: var(--font-size-xs);
+}
+
+.tool-card__hierarchy {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-dim);
+}
+
+.tool-card__hierarchy-icon {
+  font-size: 14px;
+  color: var(--matrix-dim);
+}
+
+.tool-card__hierarchy-path {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.tool-card__alternatives {
+  display: flex;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.tool-card__alternatives-label {
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.tool-card__alternatives-list {
+  color: var(--matrix-medium);
 }
 
 .meta-label {

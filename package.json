@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "npm run fetch-tools && vue-tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "format": "prettier --write src/",
     "type-check": "vue-tsc --noEmit",
-    "generate-icons": "node scripts/generate-icons.js"
+    "generate-icons": "node scripts/generate-icons.js",
+    "fetch-tools": "node scripts/fetch-tools.js"
   },
   "dependencies": {
     "pinia": "^3.0.3",
@@ -23,6 +24,7 @@
     "@typescript-eslint/parser": "^8.46.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.5.1",

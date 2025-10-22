@@ -3,10 +3,13 @@ import MatrixLogo from '@/components/ui/MatrixLogo.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 import CategoryFilter from '@/components/filters/CategoryFilter.vue';
 import HamburgerMenu from '@/components/layout/HamburgerMenu.vue';
+import type { CategoryNode } from '@/types/category';
 
 interface Props {
   searchQuery?: string;
   categories?: string[];
+  categoryCounts?: Record<string, number>;
+  categoryTree?: Map<string, CategoryNode>;
   selectedCategory?: string[];
 }
 
@@ -18,6 +21,8 @@ interface Emits {
 
 withDefaults(defineProps<Props>(), {
   categories: () => [],
+  categoryCounts: () => ({}),
+  categoryTree: () => new Map(),
   selectedCategory: () => [],
 });
 
@@ -54,6 +59,8 @@ function openCommandPalette() {
           v-if="categories && categories.length > 0"
           :model-value="selectedCategory || []"
           :categories="categories"
+          :category-counts="categoryCounts"
+          :category-tree="categoryTree"
           @update:model-value="updateCategory"
           class="category-filter-desktop"
         />
@@ -64,6 +71,8 @@ function openCommandPalette() {
         <CategoryFilter
           :model-value="selectedCategory || []"
           :categories="categories"
+          :category-counts="categoryCounts"
+          :category-tree="categoryTree"
           @update:model-value="updateCategory"
         />
       </div>

@@ -6,6 +6,7 @@ export interface KeyboardShortcutCallbacks {
   onArrowUp?: () => void;
   onArrowDown?: () => void;
   onEnter?: () => void;
+  onQuestionMark?: () => void;
 }
 
 export function useKeyboardShortcuts(callbacks: KeyboardShortcutCallbacks) {
@@ -50,6 +51,12 @@ export function useKeyboardShortcuts(callbacks: KeyboardShortcutCallbacks) {
     if (event.key === 'Enter') {
       event.preventDefault();
       callbacks.onEnter?.();
+    }
+
+    // ?: Show keyboard shortcuts
+    if (event.key === '?' && event.shiftKey) {
+      event.preventDefault();
+      callbacks.onQuestionMark?.();
     }
   }
 

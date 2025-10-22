@@ -1,16 +1,26 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+// Type definitions for iOS-specific properties
+interface WindowWithMSStream extends Window {
+  MSStream?: unknown;
+}
+
+interface NavigatorStandalone extends Navigator {
+  standalone?: boolean;
+}
+
 const isVisible = ref(false);
 const DISMISS_KEY = 'sporjeger-ios-prompt-dismissed';
 const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 function isIOSDevice(): boolean {
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+    !(window as WindowWithMSStream).MSStream;
 }
 
 function isInStandaloneMode(): boolean {
-  return (window.navigator as any).standalone === true;
+  return (window.navigator as NavigatorStandalone).standalone === true;
 }
 
 function isDismissed(): boolean {

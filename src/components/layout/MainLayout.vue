@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import AppHeader from './AppHeader.vue';
+import type { CategoryNode } from '@/types/category';
 
 interface Props {
   searchQuery?: string;
   categories?: string[];
+  categoryCounts?: Record<string, number>;
+  categoryTree?: Map<string, CategoryNode>;
   selectedCategory?: string[];
 }
 
@@ -16,6 +19,8 @@ interface Emits {
 withDefaults(defineProps<Props>(), {
   searchQuery: '',
   categories: () => [],
+  categoryCounts: () => ({}),
+  categoryTree: () => new Map(),
   selectedCategory: () => [],
 });
 
@@ -39,6 +44,8 @@ function openCommandPalette() {
     <AppHeader
       :search-query="searchQuery"
       :categories="categories"
+      :category-counts="categoryCounts"
+      :category-tree="categoryTree"
       :selected-category="selectedCategory"
       @update:search-query="updateSearch"
       @update:selected-category="updateCategory"
