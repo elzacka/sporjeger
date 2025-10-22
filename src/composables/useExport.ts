@@ -74,10 +74,11 @@ export function useExport() {
     // Group by category
     const byCategory = tools.reduce(
       (acc, tool) => {
-        if (!acc[tool.kategori]) {
-          acc[tool.kategori] = [];
+        const category = tool.kategori;
+        if (!acc[category]) {
+          acc[category] = [];
         }
-        acc[tool.kategori].push(tool);
+        acc[category]!.push(tool); // Non-null assertion since we just initialized it
         return acc;
       },
       {} as Record<string, OSINTTool[]>
@@ -90,7 +91,10 @@ export function useExport() {
     sortedCategories.forEach((category) => {
       markdown += `## ${category}\n\n`;
 
-      byCategory[category].forEach((tool) => {
+      const categoryTools = byCategory[category];
+      if (!categoryTools) return;
+
+      categoryTools.forEach((tool) => {
         markdown += `### ${tool.navn}\n\n`;
         markdown += `- **URL:** [${tool.url}](${tool.url})\n`;
         markdown += `- **Beskrivelse:** ${tool.beskrivelse}\n`;

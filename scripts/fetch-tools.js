@@ -113,8 +113,9 @@ async function main() {
   const tools = await fetchTools();
 
   if (!tools) {
-    console.log('ℹ️  No tools to write, exiting');
-    process.exit(1);
+    console.log('ℹ️  No fresh data from API - using existing tools.json');
+    console.log('✨ Build will continue with cached data');
+    process.exit(0); // Exit successfully to allow build to continue
   }
 
   // Write to src/data/tools.json

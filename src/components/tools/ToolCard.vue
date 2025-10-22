@@ -48,20 +48,6 @@ const toolTypeLabel = computed(() => {
   };
   return props.tool.toolType ? labelMap[props.tool.toolType] : '';
 });
-
-// Filter tags to avoid duplicates with category name and categoryPath
-const filteredTags = computed(() => {
-  if (!props.tool.tags) return [];
-
-  const categoryLower = props.tool.kategori.toLowerCase();
-  const pathItems = props.tool.categoryPath?.map(p => p.toLowerCase()) || [];
-
-  return props.tool.tags.filter(tag => {
-    const tagLower = tag.toLowerCase();
-    // Remove tag if it's the same as category or in the category path
-    return tagLower !== categoryLower && !pathItems.includes(tagLower);
-  });
-});
 </script>
 
 <template>
