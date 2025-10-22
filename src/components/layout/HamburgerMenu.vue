@@ -83,6 +83,7 @@ onUnmounted(() => {
         <h3 class="info-content__heading">Hva kan du bruke Sporjeger til?</h3>
         <p class="info-content__paragraph">Du trenger informasjon. Den ligger der ute, spredt som brødsmuler i en digital skog. Den gamle avisartikkelen, kildene til skolearbeidet, hvilke digitale sårbarheter vi fortsatt slurver med.
 Hummer og kanari som mennesker har strødd ut og åpnet døra til siden internettets fødsel, og som venter på deg med kosmisk tålmodighet.
+		</p>
 <p class="info-content__paragraph">
 Bruk hodet. Bruk det etisk. Bruk det innenfor lovens grenser.
 </p>
