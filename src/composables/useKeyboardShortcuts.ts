@@ -9,7 +9,21 @@ export interface KeyboardShortcutCallbacks {
   onQuestionMark?: () => void;
 }
 
+/**
+ * Detect if device is mobile/touch-based
+ * Mobile devices don't have reliable keyboard access
+ */
+function isMobileDevice(): boolean {
+  const userAgent = navigator.userAgent.toLowerCase();
+  const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+  return mobileRegex.test(userAgent) || ('ontouchstart' in window && window.innerWidth < 768);
+}
+
 export function useKeyboardShortcuts(callbacks: KeyboardShortcutCallbacks) {
+  // Skip keyboard shortcuts on mobile devices
+  if (isMobileDevice()) {
+    return;
+  }
   function handleKeydown(event: KeyboardEvent) {
     // Ignore if user is typing in an input field (except for Escape)
     const target = event.target as HTMLElement;

@@ -32,7 +32,7 @@ async function fetchTools() {
     return null;
   }
 
-  const range = 'Ark 1!A1:K'; // Get current data with headers
+  const range = 'Ark 1!A2:Q'; // Skip header row, get all columns (A-Q)
   const url = `${SHEETS_API_BASE}/${SHEET_ID}/values/${range}?key=${API_KEY}`;
 
   try {
