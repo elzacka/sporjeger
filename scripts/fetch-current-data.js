@@ -1,8 +1,16 @@
 /**
  * Fetch current Google Sheets data to analyze structure
+ *
+ * Usage: SHEET_ID=your_sheet_id node scripts/fetch-current-data.js
  */
 
-const SHEET_ID = '1HOxZklC4NPdyDV7GSaRBWdY_MXCDvVN6Qw5DpnVohmI';
+const SHEET_ID = process.env.SHEET_ID || process.env.VITE_GOOGLE_SHEET_ID;
+
+if (!SHEET_ID) {
+  console.error('❌ Missing SHEET_ID environment variable');
+  console.log('ℹ️  Usage: SHEET_ID=your_sheet_id node scripts/fetch-current-data.js');
+  process.exit(1);
+}
 
 // Try public CSV export URL
 const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;

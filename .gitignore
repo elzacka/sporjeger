@@ -12,6 +12,21 @@ dist
 dist-ssr
 *.local
 
+# Environment files with credentials
+.env
+.env.local
+.env.*.local
+
+# Sensitive/test files
+test-api.html
+test-*.html
+*-test.html
+
+# Temporary files and folders
+temp/
+temp/*
+*.tmp
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,4 +37,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-temp/*
