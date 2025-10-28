@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia';
 import { useToolsStore } from '@/stores/toolsStore';
 import { useToolFilters } from '@/composables/useToolFilters';
 import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts';
-import { useDeviceDetection } from '@/composables/useDeviceDetection';
 import MainLayout from '@/components/layout/MainLayout.vue';
 import ToolGrid from '@/components/tools/ToolGrid.vue';
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue';
@@ -14,14 +13,11 @@ import ExportMenu from '@/components/tools/ExportMenu.vue';
 import KeyboardShortcutsModal from '@/components/ui/KeyboardShortcutsModal.vue';
 import type { OSINTTool } from '@/types';
 
-// Device detection
-const { isMobile } = useDeviceDetection();
-
 const toolsStore = useToolsStore();
 const { tools, isLoading, categories, categoryCounts, categoryTree } = storeToRefs(toolsStore);
 
 // Use filter composable (now includes searchQuery)
-const { searchQuery, selectedCategory, filteredTools, hasActiveFilters } = useToolFilters(tools);
+const { searchQuery, selectedCategory, filteredTools } = useToolFilters(tools);
 
 // Command palette state
 const isCommandPaletteOpen = ref(false);
@@ -85,18 +81,6 @@ function closeGuide() {
       </div>
 
       <LoadingSpinner v-if="isLoading" size="large" />
-      <div v-else-if="!hasActiveFilters" class="home-empty">
-        <span class="material-symbols-outlined home-empty__icon">search</span>
-        <h2 class="home-empty__title">{{ tools.length }} OSINT-verktøy lastet</h2>
-        <p class="home-empty__message">
-          Bruk søkefeltet eller velg kategorier for å utforske verktøyene.
-        </p>
-        <div v-if="!isMobile" class="home-empty__shortcuts">
-          <kbd>⌘K</kbd> åpne kommandopallett
-          <span class="home-empty__divider">·</span>
-          <kbd>?</kbd> vis snarveier
-        </div>
-      </div>
       <div v-else-if="filteredTools.length === 0" class="home-empty">
         <span class="material-symbols-outlined home-empty__icon">search_off</span>
         <p class="home-empty__message">Ingen verktøy funnet for gjeldende filter.</p>
