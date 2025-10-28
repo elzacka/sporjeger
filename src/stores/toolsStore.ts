@@ -50,7 +50,7 @@ export const useToolsStore = defineStore('tools', () => {
         const path = tool.categoryPath;
         let current = root;
 
-        path.forEach((categoryName, index) => {
+        path.forEach((categoryName) => {
           if (!current.has(categoryName)) {
             current.set(categoryName, {
               name: categoryName,
@@ -61,10 +61,9 @@ export const useToolsStore = defineStore('tools', () => {
 
           const node = current.get(categoryName)!;
 
-          // Increment count at leaf level only
-          if (index === path.length - 1) {
-            node.count++;
-          }
+          // Increment count at ALL levels (parent and leaf)
+          // This shows total tools in parent categories including all descendants
+          node.count++;
 
           current = node.children;
         });
