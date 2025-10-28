@@ -85,9 +85,9 @@ export function useToolFilters(tools: Ref<OSINTTool[]>) {
 
   // Filter tools based on search query and category
   const filteredTools = computed(() => {
-    // Hide all tools by default if no filters active (performance optimization for 1200+ tools)
+    // Show all tools if no filters active
     if (!hasActiveFilters.value) {
-      return [];
+      return tools.value;
     }
 
     let result = tools.value;
