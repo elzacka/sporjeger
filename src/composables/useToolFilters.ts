@@ -93,8 +93,19 @@ export function useToolFilters(tools: Ref<OSINTTool[]>) {
     let result = tools.value;
 
     // Filter by categories (multiselect)
+    // Check both kategori field and categoryPath array to support hierarchical filtering
     if (selectedCategory.value && selectedCategory.value.length > 0) {
-      result = result.filter((tool) => selectedCategory.value.includes(tool.kategori));
+      result = result.filter((tool) => {
+        // Check if the tool's main category matches
+        if (selectedCategory.value.includes(tool.kategori)) {
+          return true;
+        }
+        // Check if any selected category is in the tool's category path (parent categories)
+        if (tool.categoryPath) {
+          return tool.categoryPath.some((cat) => selectedCategory.value.includes(cat));
+        }
+        return false;
+      });
     }
 
     // Filter by search query with operators and fuzzy matching
