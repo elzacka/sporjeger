@@ -148,7 +148,8 @@ onUnmounted(() => {
                 </span>
                 <span class="category-filter__option-text">{{ categoryName }}</span>
               </div>
-              <span class="category-filter__count">
+              <!-- Count only shown for parent categories without children (leaf categories at root level) -->
+              <span v-if="node.children.size === 0" class="category-filter__count">
                 {{ getCategoryCount(categoryName) }}
               </span>
             </button>
