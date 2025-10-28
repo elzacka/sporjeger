@@ -39,12 +39,12 @@ const toolTypeBadge = computed(() => {
 
 const toolTypeLabel = computed(() => {
   const labelMap = {
-    web: 'Web',
-    terminal: 'Terminal',
-    dork: 'Google Dork',
-    'browser-extension': 'Browser Extension',
-    api: 'API',
-    mobile: 'Mobile',
+    web: 'web',
+    terminal: 'terminal',
+    dork: 'dork',
+    'browser-extension': 'browser extension',
+    api: 'api',
+    mobile: 'mobile',
   };
   return props.tool.toolType ? labelMap[props.tool.toolType] : '';
 });
@@ -96,9 +96,9 @@ const toolTypeLabel = computed(() => {
             <span class="tool-card__separator">•</span>
             <span class="tool-card__country">{{ countryCode }}</span>
           </template>
-          <template v-if="tool.platform">
+          <template v-if="toolTypeLabel">
             <span class="tool-card__separator">•</span>
-            <span class="tool-card__platform">{{ tool.platform }}</span>
+            <span class="tool-card__tool-type">{{ toolTypeLabel }}</span>
           </template>
           <template v-if="tool.lastVerified">
             <span class="tool-card__separator">•</span>
@@ -230,9 +230,8 @@ const toolTypeLabel = computed(() => {
   color: var(--text-dim);
 }
 
-.tool-card__platform {
+.tool-card__tool-type {
   color: var(--text-dim);
-  text-transform: capitalize;
 }
 
 .tool-card__verified {
