@@ -24,27 +24,15 @@ const countryCode = computed(() => {
   return props.tool.språk;
 });
 
-// Tool type badge display (inspired by OSINT Framework)
-const toolTypeBadge = computed(() => {
-  const typeMap = {
-    web: 'W',
-    terminal: 'T',
-    dork: 'D',
-    'browser-extension': 'E',
-    api: 'A',
-    mobile: 'M',
-  };
-  return props.tool.toolType ? typeMap[props.tool.toolType] : null;
-});
-
+// Tool type label display
 const toolTypeLabel = computed(() => {
   const labelMap = {
-    web: 'web',
-    terminal: 'terminal',
-    dork: 'dork',
-    'browser-extension': 'browser extension',
-    api: 'api',
-    mobile: 'mobile',
+    web: 'WEB',
+    terminal: 'TERMINAL',
+    dork: 'DORK',
+    'browser-extension': 'BROWSER EXTENSION',
+    api: 'API',
+    mobile: 'MOBILE',
   };
   return props.tool.toolType ? labelMap[props.tool.toolType] : '';
 });
@@ -54,25 +42,6 @@ const toolTypeLabel = computed(() => {
   <article class="tool-card glow-hover scroll-animate">
     <header class="tool-card__header">
       <h3 class="tool-card__title">{{ tool.navn }}</h3>
-      <div class="tool-card__badges">
-        <span class="tool-card__category">{{ tool.kategori }}</span>
-        <span
-          v-if="toolTypeBadge"
-          class="tool-card__type-badge"
-          :title="toolTypeLabel"
-          :aria-label="`Type: ${toolTypeLabel}`"
-        >
-          ({{ toolTypeBadge }})
-        </span>
-        <span
-          v-if="tool.kreverRegistrering === 'Ja'"
-          class="tool-card__type-badge"
-          title="Krever registrering"
-          aria-label="Krever registrering"
-        >
-          (R)
-        </span>
-      </div>
     </header>
 
     <p class="tool-card__description text-wrap-pretty">{{ tool.beskrivelse }}</p>
@@ -152,40 +121,13 @@ const toolTypeLabel = computed(() => {
 }
 
 .tool-card__header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
 }
 
 .tool-card__title {
   font-size: var(--font-size-xl);
   color: var(--matrix-bright);
-}
-
-.tool-card__badges {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  flex-wrap: wrap;
-}
-
-.tool-card__category {
-  font-size: var(--font-size-sm);
-  color: var(--matrix-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.tool-card__type-badge {
-  font-size: var(--font-size-xs);
-  color: var(--matrix-dim);
-  font-weight: 600;
-  cursor: help;
-  transition: color 0.2s ease;
-}
-
-.tool-card__type-badge:hover {
-  color: var(--matrix-medium);
+  margin: 0;
 }
 
 .tool-card__description {

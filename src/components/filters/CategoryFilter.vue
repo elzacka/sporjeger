@@ -79,6 +79,27 @@ function isCategorySelected(category: string): boolean {
   return props.modelValue.includes(category);
 }
 
+// Sort category tree alphabetically (parent and children)
+const sortedCategoryTree = computed(() => {
+  if (!props.categoryTree) return null;
+
+  // Convert Map to array, sort, and return as array of entries
+  const sortedEntries = Array.from(props.categoryTree.entries()).sort((a, b) =>
+    a[0].localeCompare(b[0], 'nb-NO')
+  );
+
+  // Also sort children within each category
+  return sortedEntries.map(([name, node]) => {
+    const sortedChildren = node.children.size > 0
+      ? Array.from(node.children.entries()).sort((a, b) =>
+          a[0].localeCompare(b[0], 'nb-NO')
+        )
+      : [];
+
+    return [name, { ...node, sortedChildren }] as const;
+  });
+});
+
 // Close dropdown when clicking outside
 function handleClickOutside(event: MouseEvent) {
   const target = event.target as Node;
@@ -130,8 +151,8 @@ onUnmounted(() => {
 
       <div class="category-filter__options">
         <!-- Use hierarchical tree if available, otherwise fall back to flat list -->
-        <template v-if="categoryTree && categoryTree.size > 0">
-          <template v-for="[categoryName, node] in categoryTree" :key="categoryName">
+        <template v-if="sortedCategoryTree && sortedCategoryTree.length > 0">
+          <template v-for="[categoryName, node] in sortedCategoryTree" :key="categoryName">
             <!-- Main category -->
             <button
               class="category-filter__option"
@@ -155,9 +176,9 @@ onUnmounted(() => {
             </button>
 
             <!-- Subcategories (shown when expanded) -->
-            <template v-if="isExpanded(categoryName) && node.children.size > 0">
+            <template v-if="isExpanded(categoryName) && node.sortedChildren && node.sortedChildren.length > 0">
               <button
-                v-for="[subName, subNode] in node.children"
+                v-for="[subName, subNode] in node.sortedChildren"
                 :key="`${categoryName}-${subName}`"
                 class="category-filter__option category-filter__option--sub"
                 :class="{ 'category-filter__option--active': isCategorySelected(subName) }"
