@@ -69,6 +69,12 @@ export async function fetchToolsFromGoogleSheets(): Promise<OSINTTool[]> {
     // Transform rows to OSINTTool objects
     const tools = data.values.map((row) => transformRowToTool(row)).filter(Boolean) as OSINTTool[];
 
+    console.log(`📊 Google Sheets data: ${data.values.length} rows fetched, ${tools.length} tools after validation`);
+    const rejectedCount = data.values.length - tools.length;
+    if (rejectedCount > 0) {
+      console.warn(`⚠️ ${rejectedCount} rows rejected due to validation failures (check console for details)`);
+    }
+
     return tools;
   } catch (error) {
     if (error instanceof Error) {
@@ -96,10 +102,18 @@ function transformRowToTool(row: string[]): OSINTTool | null {
     return null;
   }
 
-  // Validate Kostnad type
-  const kostnad = row[4]?.trim();
-  if (kostnad !== 'GRATIS' && kostnad !== 'KOSTNAD' && kostnad !== 'GRATISH') {
-    console.warn(`Invalid Kostnad value "${kostnad}" in row:`, row);
+  // Validate Kostnad type (case-insensitive, with normalization)
+  const kostnadRaw = row[4]?.trim().toUpperCase();
+  let kostnad: 'GRATIS' | 'KOSTNAD' | 'GRATISH';
+
+  if (kostnadRaw === 'GRATIS' || kostnadRaw === 'FREE') {
+    kostnad = 'GRATIS';
+  } else if (kostnadRaw === 'KOSTNAD' || kostnadRaw === 'BETALT' || kostnadRaw === 'PAID') {
+    kostnad = 'KOSTNAD';
+  } else if (kostnadRaw === 'GRATISH' || kostnadRaw === 'GRATIS MED KJØP' || kostnadRaw === 'FREEMIUM') {
+    kostnad = 'GRATISH';
+  } else {
+    console.warn(`Invalid Kostnad value "${row[4]}" in row - skipping:`, row[1]);
     return null;
   }
 
