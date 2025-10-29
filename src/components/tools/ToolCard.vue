@@ -42,15 +42,14 @@ const toolTypeLabel = computed(() => {
   <article class="tool-card glow-hover scroll-animate">
     <header class="tool-card__header">
       <h3 class="tool-card__title">{{ tool.navn }}</h3>
+      <!-- Category Path (Hierarchy) - Show only if it has subcategories -->
+      <div v-if="tool.categoryPath && tool.categoryPath.length > 1" class="tool-card__hierarchy">
+        <span class="tool-card__hierarchy-icon material-symbols-outlined">folder_open</span>
+        <span class="tool-card__hierarchy-path">{{ tool.categoryPath.join(' › ') }}</span>
+      </div>
     </header>
 
     <p class="tool-card__description text-wrap-pretty">{{ tool.beskrivelse }}</p>
-
-    <!-- Category Path (Hierarchy) - Show only if it has subcategories -->
-    <div v-if="tool.categoryPath && tool.categoryPath.length > 1" class="tool-card__hierarchy">
-      <span class="tool-card__hierarchy-icon material-symbols-outlined">folder_open</span>
-      <span class="tool-card__hierarchy-path">{{ tool.categoryPath.join(' › ') }}</span>
-    </div>
 
     <footer class="tool-card__footer">
       <div class="tool-card__meta">
@@ -121,7 +120,10 @@ const toolTypeLabel = computed(() => {
 }
 
 .tool-card__header {
-  margin-bottom: var(--spacing-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
 }
 
 .tool-card__title {
