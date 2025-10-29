@@ -75,9 +75,12 @@ function closeGuide() {
     @open-command-palette="isCommandPaletteOpen = true"
   >
     <div class="home-view">
-      <!-- Export Menu - shown when tools are available -->
+      <!-- Export Menu and tool count - shown when tools are available -->
       <div v-if="!isLoading && filteredTools.length > 0" class="home-view__header">
-        <ExportMenu :tools="filteredTools" />
+        <div class="home-view__info">
+          <ExportMenu :tools="filteredTools" />
+          <p class="home-view__count">Viser {{ filteredTools.length }} verktøy</p>
+        </div>
       </div>
 
       <LoadingSpinner v-if="isLoading" size="large" />
@@ -125,6 +128,20 @@ function closeGuide() {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.home-view__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+}
+
+.home-view__count {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .home-empty {
